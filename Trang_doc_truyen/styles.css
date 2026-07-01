@@ -57,11 +57,11 @@ main {
 
     background-color: #2b2b2b;
 
-    padding: 15px 20px;
+    padding: 8px 20px;
 
     border-radius: 12px;
     width: 100%;
-    max-width: 950px;
+    max-width: 900px;
     margin: auto;
 
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -365,4 +365,80 @@ main {
 .chapter-list::-webkit-scrollbar-thumb {
     background: #666;
     border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+    @media (max-width: 768px) {
+        .div_main {
+            gap: 6px;
+            padding: 6px 10px;
+            flex-wrap: nowrap;
+            border-radius: 8px;
+            overflow: visible;
+            /* đổi dòng này */
+        }
+
+        .navigation--main {
+            gap: 6px;
+            flex-wrap: nowrap;
+        }
+    }
+
+    .home,
+    .menus,
+    .love,
+    .check__line {
+        min-width: 35px;
+        height: 35px;
+        padding: 0 10px;
+        font-size: 14px;
+    }
+
+    .arrow-box {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+
+    .nav_inline {
+        padding: 4px 8px;
+        gap: 5px;
+    }
+
+    .fixed-top,
+    .fixed-bottom {
+        width: 100%;
+        max-width: 100%;
+        left: 0;
+        transform: none;
+        border-radius: 0;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .home,
+    .menus,
+    .arrow-box {
+        width: 30px;
+        height: 30px;
+        min-width: 30px;
+        font-size: 10px;
+    }
+
+
+    .love,
+    .check__line {
+        width: 80px;
+        height: 40px;
+        min-width: 40px;
+        font-size: 12px;
+    }
+
+    .div_main {
+        padding: 4px 2px;
+        gap: 1px;
+        margin: 0%;
+        justify-content: space-between;
+    }
 }
