@@ -1,3 +1,4 @@
+//Nút Cuộn Lên Đầu Trang
 const nutQuayLai = document.querySelector(".quaylai");
 window.addEventListener("scroll", function () {
   if (window.scrollY > 300) {
@@ -6,14 +7,13 @@ window.addEventListener("scroll", function () {
     nutQuayLai.style.display = "none";
   }
 });
-
 nutQuayLai.addEventListener("click", function () {
   window.scrollTo({
     top: 0,
     behavior: "smooth",
   });
 });
-
+//Tìm Kiếm Truyện
 const search = document.getElementById("inputsearch");
 const khungKetQua = document.getElementById("khungKetQua");
 const ketquatimkiem = document.getElementById("ketquatimkiem");
@@ -40,18 +40,16 @@ search.addEventListener("input", function () {
   theloai.style.display = "none";
   phobien.style.display = "none";
   moiramat.style.display = "none";
-
   const danhsach = document.querySelectorAll("#decu .khungtruyenrieng");
-  const daThem = [];
+  const danhsachtimkiem = [];
   danhsach.forEach(function (truyen) {
     const ten = truyen.querySelector("h3").textContent.trim();
-    if (ten.toLowerCase().includes(tukhoa) && !daThem.includes(ten)) {
-      daThem.push(ten);
+    if (ten.toLowerCase().includes(tukhoa) && !danhsachtimkiem.includes(ten)) {
+      danhsachtimkiem.push(ten);
       const clone = truyen.cloneNode(true);
       khungKetQua.appendChild(clone);
     }
   });
-
   if (khungKetQua.children.length === 0) {
     khungKetQua.innerHTML = `
       <p style="
@@ -66,7 +64,7 @@ search.addEventListener("input", function () {
     `;
   }
 });
-
+//Nút Xem Thêm
 const btnXemThem = document.getElementById("btnXemThem");
 const khungDeCu = document.querySelector(".khungtruyen_decu");
 let moRong = false;
@@ -76,12 +74,12 @@ btnXemThem.addEventListener("click", function () {
     btnXemThem.textContent = "Thu Gọn";
     moRong = true;
   } else {
-    khungDeCu.style.maxHeight = "920px";
+    khungDeCu.style.maxHeight = "950px";
     btnXemThem.textContent = "Xem Thêm";
     moRong = false;
   }
 });
-
+//Hiệu Ứng Khi Cuộn Xuống
 const cards = document.querySelectorAll(".khungtruyenrieng");
 const sections = document.querySelectorAll(".hidden");
 function hienNoiDung() {
@@ -94,7 +92,7 @@ function hienNoiDung() {
 }
 window.addEventListener("scroll", hienNoiDung);
 hienNoiDung();
-
+//Nút Khám Phá
 const btnKhamPha = document.querySelector(".content_background button");
 btnKhamPha.addEventListener("click", function () {
   window.scrollTo({
@@ -102,7 +100,7 @@ btnKhamPha.addEventListener("click", function () {
     behavior: "smooth",
   });
 });
-
+//Hiệu Ứng Chuyển Đổi Nền
 const background = document.getElementById("background");
 const images = ["img/bg1.png", "img/bg2.jpg", "img/bg3.jpg"];
 let index = 0;
@@ -114,7 +112,7 @@ setInterval(() => {
   background.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
      url('${images[index]}')`;
 }, 5000);
-
+//Nút Menu
 const menuToggle = document.querySelector(".menu-toggle");
 const menu = document.querySelector(".menu");
 menuToggle.addEventListener("click", function () {
