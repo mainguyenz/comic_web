@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng Ký - Comic_Web</title>
+    <link rel="stylesheet" href="register.css" />
+    <link rel="shortcut icon" href="/img/logo.png" type="image/x-icon" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+  </head>
+
+  <body>
+    <div class="register-container">
+      <div class="register-card">
+        <!-- Nút đóng (X) quay về trang chủ -->
+        <a href="/index.html" class="close-btn" title="Quay về trang chủ">
+          <i class="bi bi-x-lg"></i>
+        </a>
+
+        <div class="register-header">
+          <img src="/img/logo.png" alt="Comic_Web Logo" class="logo-register" />
+          <h2>Đăng ký</h2>
+          <p>Tạo tài khoản mới để trải nghiệm đầy đủ tính năng</p>
+        </div>
+
+        <form id="registerForm" novalidate>
+          <div class="input-group">
+            <label for="fullname">
+              <i class="bi bi-person"></i> Họ và tên
+            </label>
+            <input
+              type="text"
+              id="fullname"
+              placeholder="Nguyễn Văn A"
+              required
+            />
+            <span class="error-msg" id="fullnameError"></span>
+          </div>
+
+          <div class="input-group">
+            <label for="email">
+              <i class="bi bi-envelope"></i> Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              placeholder="example@email.com"
+              required
+            />
+            <span class="error-msg" id="emailError"></span>
+          </div>
+
+          <div class="input-group">
+            <label for="password">
+              <i class="bi bi-lock"></i> Mật khẩu
+            </label>
+            <div class="password-wrapper">
+              <input
+                type="password"
+                id="password"
+                placeholder="Tối thiểu 6 ký tự"
+                required
+              />
+              <button
+                type="button"
+                class="toggle-password"
+                id="togglePassword"
+                aria-label="Hiển thị mật khẩu"
+              >
+                <i class="bi bi-eye"></i>
+              </button>
+            </div>
+            <span class="error-msg" id="passwordError"></span>
+          </div>
+
+          <div class="input-group">
+            <label for="confirm-password">
+              <i class="bi bi-check-circle"></i> Xác nhận mật khẩu
+            </label>
+            <div class="password-wrapper">
+              <input
+                type="password"
+                id="confirm-password"
+                placeholder="Nhập lại mật khẩu"
+                required
+              />
+              <button
+                type="button"
+                class="toggle-password"
+                id="toggleConfirmPassword"
+                aria-label="Hiển thị mật khẩu"
+              >
+                <i class="bi bi-eye"></i>
+              </button>
+            </div>
+            <span class="error-msg" id="confirmError"></span>
+          </div>
+
+          <div class="form-agreement">
+            <label class="agree-check">
+              <input type="checkbox" id="agree" required />
+              <span>
+                Tôi đồng ý với
+                <a href="/dieukhoan.html">Điều khoản sử dụng</a>
+                và
+                <a href="/chinhsach.html">Chính sách bảo mật</a>
+              </span>
+            </label>
+            <span class="error-msg" id="agreeError"></span>
+          </div>
+
+          <button type="submit" class="btn-register">Đăng ký</button>
+        </form>
+
+        <div class="login-link">
+          Đã có tài khoản? <a href="login.html">Đăng nhập ngay</a>
+        </div>
+      </div>
+    </div>
+
+    <script src="register.js"></script>
+  </body>
+</html>
