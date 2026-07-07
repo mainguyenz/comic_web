@@ -1,8 +1,8 @@
-const cacTieuChi = [
-  { key: "luotXem", nhan: "👁 Lượt Xem", icon: "👁" },
-  { key: "luotTheo", nhan: "❤ Lượt Theo Dõi", icon: "❤" },
-  { key: "diemDanhGia", nhan: "★ Điểm Đánh Giá", icon: "★" },
-];
+const iconTieuChi = {
+  luotXem: "👁",
+  luotTheo: "❤",
+  diemDanhGia: "★",
+};
 
 const SO_MUC_HIEN = 10;
 let tieuChiHienTai = "luotXem";
@@ -27,27 +27,21 @@ function xepHangTruyen(tieuChi) {
 }
 
 function dinhDangChiSo(truyen, tieuChi) {
-  const tc = cacTieuChi.find((t) => t.key === tieuChi);
-  const giaTri = truyen[tieuChi];
-  return `${tc.icon} ${giaTri}`;
+  return `${iconTieuChi[tieuChi]} ${truyen[tieuChi]}`;
 }
+function ganSuKienTab() {
+  const cacNut = document.querySelectorAll(".xh-tab-nut");
 
-function renderTabChon() {
-  const el = document.getElementById("xhTabChon");
-
-  el.innerHTML = cacTieuChi
-    .map(
-      (tc) => `
-    <button
-      class="xh-tab-nut ${tc.key === tieuChiHienTai ? "active" : ""}"
-      onclick="doiTieuChi('${tc.key}')">
-      ${tc.nhan}
-    </button>
-  `,
-    )
-    .join("");
+  cacNut.forEach((nut) => {
+    nut.addEventListener("click", function () {
+      cacNut.forEach((n) => n.classList.remove("active"));
+      this.classList.add("active");
+      tieuChiHienTai = this.dataset.key;
+      danhSachMoRong = false;
+      renderTrangXepHang();
+    });
+  });
 }
-
 function renderTop3(dsXepHang) {
   const el = document.getElementById("xhTop3");
   const top3 = dsXepHang.slice(0, 3);
@@ -104,15 +98,8 @@ function renderDanhSach(dsXepHang) {
 
 function renderTrangXepHang() {
   const dsXepHang = xepHangTruyen(tieuChiHienTai);
-  renderTabChon();
   renderTop3(dsXepHang);
   renderDanhSach(dsXepHang);
-}
-
-function doiTieuChi(tieuChiMoi) {
-  tieuChiHienTai = tieuChiMoi;
-  danhSachMoRong = false;
-  renderTrangXepHang();
 }
 
 function toggleDanhSachXepHang() {
@@ -150,6 +137,7 @@ function ganMenuToggle() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  ganSuKienTab();
   renderTrangXepHang();
   ganNutQuayLai();
   ganMenuToggle();

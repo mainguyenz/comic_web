@@ -1,18 +1,54 @@
+/* 
+   BIẾN CSS DÙNG CHUNG CHO TOÀN FILE
+    */
+:root {
+  --tim-chinh: rgb(134, 98, 242);
+  --tim-dam: rgb(110, 75, 210);
+  --tim-nhat-15: rgba(134, 98, 242, 0.15);
+  --tim-nhat-2: rgba(134, 98, 242, 0.2);
+  --tim-nhat-3: rgba(134, 98, 242, 0.3);
+  --tim-nhat-4: rgba(134, 98, 242, 0.4);
+  --tim-sang: rgb(196, 181, 253);
+
+  --nen-toi: #1d1d1d;
+  --nen-mo-05: rgba(255, 255, 255, 0.05);
+  --nen-mo-06: rgba(255, 255, 255, 0.06);
+  --nen-mo-08: rgba(255, 255, 255, 0.08);
+  --nen-mo-1: rgba(255, 255, 255, 0.1);
+
+  --vien-mo-15: rgba(255, 255, 255, 0.15);
+
+  --chu-trang: #fff;
+  --chu-mo: #aaa;
+  --chu-mo-2: #888;
+  --chu-tram: rgba(248, 248, 248, 0.9);
+
+  --xanh-la: rgba(11, 242, 69, 0.9);
+  --xanh-la-nhat: rgba(62, 207, 142, 0.15);
+  --xanh-la-vien: #3ecf8e;
+
+  --vang: rgb(250, 204, 21);
+  --vang-nhat: rgba(250, 204, 21, 0.15);
+}
+
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
+
 .breadcrumb {
   display: flex;
   gap: 8px;
   align-items: center;
   font-size: 14px;
-  color: white;
+  color: var(--chu-trang);
   padding: 10px 6%;
 }
+
 /* Bố cục chính truyện*/
 .chitiet-hero {
   padding-top: 20px;
 }
+
 /*Chia 2 cột */
 .chitiet-container {
   display: grid;
@@ -20,20 +56,23 @@ body {
   gap: 40px;
   align-items: start;
 }
+
 /* Khu vực cột 1*/
 .chitiet-cover-col {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
+
 .chitiet-cover {
   width: 100%;
   aspect-ratio: 2 / 3;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
-  border: 2px solid rgba(134, 98, 242, 0.4);
+  border: 2px solid var(--tim-nhat-4);
 }
+
 .chitiet-cover img {
   width: 100%;
   height: 100%;
@@ -41,19 +80,22 @@ body {
   display: block;
   transition: transform 0.3s;
 }
+
 .chitiet-cover img:hover {
   transform: scale(1.03);
 }
+
 /*tên khác*/
 .chitiet-alias {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--nen-mo-1);
   border-radius: 12px;
   padding: 12px 15px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid var(--vien-mo-15);
   font-size: 13px;
-  color: rgb(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.7);
   line-height: 1.6;
 }
+
 .chitiet-alias strong {
   color: rgb(79, 57, 143);
 }
@@ -63,6 +105,7 @@ body {
   flex-direction: column;
   gap: 10px;
 }
+
 .btn-doc {
   display: block;
   padding: 13px 20px;
@@ -75,70 +118,84 @@ body {
   text-align: center;
   transition: all 0.3s;
 }
+
 .btn-doc-primary {
-  background: rgb(134, 98, 242);
-  color: white;
+  background: var(--tim-chinh);
+  color: var(--chu-trang);
 }
+
 .btn-doc-primary:hover {
-  background: rgb(110, 75, 210);
+  background: var(--tim-dam);
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(134, 98, 242, 0.4);
+  box-shadow: 0 5px 15px var(--tim-nhat-4);
 }
+
 .btn-doc-secondary {
   background: rgb(202, 199, 199);
   color: rgb(58, 58, 80);
 }
-.btn-doc-secondary:hover {
-  background: rgb(134, 98, 242);
-  color: white;
+
+.btn-doc-secondary:hover,
+.btn-doc-outline:hover {
+  background: var(--tim-chinh);
+  color: var(--chu-trang);
   transform: translateY(-2px);
 }
+
 .btn-doc-outline {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
+  background: var(--nen-mo-1);
+  color: var(--chu-trang);
   border: 1.5px solid rgba(255, 255, 255, 0.3);
 }
+
 .btn-doc-outline:hover {
-  background: rgba(134, 98, 242, 0.3);
-  border-color: rgb(134, 98, 242);
+  border-color: var(--tim-chinh);
 }
+
 .btn-doc-outline.dang-theo-doi {
-  background: rgba(134, 98, 242, 0.2);
-  border-color: rgb(134, 98, 242);
-  color: rgb(255, 255, 255);
+  background: var(--tim-nhat-2);
+  border-color: var(--tim-chinh);
+  color: var(--chu-trang);
 }
+
 /*Khu vục cột 2*/
 .chitiet-info-col {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
+
 .chitiet-title {
   font-size: 2.2rem;
   font-weight: 900;
-  color: white;
+  color: var(--chu-trang);
   line-height: 1.2;
 }
+
 .chitiet-rating {
   display: flex;
   align-items: center;
   gap: 10px;
 }
+
 .chitiet-stars {
   color: gold;
   font-size: 20px;
   letter-spacing: 2px;
 }
+
 .chitiet-diem {
   font-size: 20px;
   font-weight: 700;
   color: gold;
 }
+
 .chitiet-meta {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
+
 .chitiet-meta-dong {
   display: flex;
   gap: 10px;
@@ -164,9 +221,9 @@ body {
 }
 
 .tag {
-  background: rgba(134, 98, 242, 0.2);
-  border: 1px solid rgba(134, 98, 242, 0.4);
-  color: rgb(196, 181, 253, 0.9);
+  background: var(--tim-nhat-2);
+  border: 1px solid var(--tim-nhat-4);
+  color: var(--tim-sang);
   padding: 4px 12px;
   border-radius: 20px;
   font-size: 13px;
@@ -175,10 +232,11 @@ body {
 }
 
 .tag:hover {
-  background: rgb(134, 98, 242);
-  color: white;
+  background: var(--tim-chinh);
+  color: var(--chu-trang);
 }
 
+/* Badge tình trạng - 3 trạng thái dùng chung khung, khác màu */
 .tinh-trang-badge {
   display: inline-block;
   padding: 4px 14px;
@@ -188,20 +246,21 @@ body {
 }
 
 .tinh-trang-badge.dang-ra {
-  background: rgba(62, 207, 142, 0.15);
-  color: rgba(11, 242, 69, 0.9);
-  border: 1px solid #3ecf8e;
+  background: var(--xanh-la-nhat);
+  color: var(--xanh-la);
+  border: 1px solid var(--xanh-la-vien);
 }
 
 .tinh-trang-badge.hoan-thanh {
-  background: rgba(134, 98, 242, 0.15);
-  color: rgb(182, 169, 241);
-  border: 1px solid rgb(196, 181, 253);
+  background: var(--tim-nhat-15);
+  color: var(--tim-sang);
+  border: 1px solid var(--tim-sang);
 }
+
 .tinh-trang-badge.sap-ra-mat {
-  background: rgba(250, 204, 21, 0.15);
-  color: rgb(250, 204, 21);
-  border: 1px solid rgb(250, 204, 21);
+  background: var(--vang-nhat);
+  color: var(--vang);
+  border: 1px solid var(--vang);
 }
 
 .chitiet-stats {
@@ -215,7 +274,7 @@ body {
   align-items: center;
   gap: 6px;
   font-size: 14px;
-  color: rgba(248, 248, 248, 0.9);
+  color: var(--chu-tram);
 }
 
 .chitiet-mota {
@@ -224,6 +283,7 @@ body {
   line-height: 1.8;
   text-align: justify;
 }
+
 .synopsis-hidden {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -232,7 +292,7 @@ body {
 }
 
 .danh-gia-box {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--nen-mo-06);
   border-radius: 12px;
   padding: 15px;
   display: flex;
@@ -243,7 +303,7 @@ body {
 
 .danh-gia-label {
   font-size: 14px;
-  color: #aaa;
+  color: var(--chu-mo);
 }
 
 .star-pick {
@@ -261,9 +321,10 @@ body {
 .star-pick:hover {
   transform: scale(1.2);
 }
+
 /* Khu vực chap*/
 .chapter-section {
-  background: #1d1d1d;
+  background: var(--nen-toi);
   border-radius: 10px;
   padding: 20px;
   margin-top: 20px;
@@ -280,38 +341,40 @@ body {
 
 .chapter-header h2 {
   font-size: 1.4rem;
-  color: white;
+  color: var(--chu-trang);
 }
 
 .chapter-dem {
   font-size: 14px;
-  color: #aaa;
+  color: var(--chu-mo);
   font-weight: 400;
   margin-left: 8px;
 }
 
-.chapter-filter {
+.chapter-sort {
   display: flex;
   gap: 8px;
 }
 
-.filter-btn {
+.chapter-sort button {
   padding: 6px 16px;
   border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--vien-mo-15);
   background: transparent;
-  color: #aaa;
+  color: var(--chu-mo);
   font-size: 13px;
   cursor: pointer;
   transition: 0.3s;
 }
 
-.filter-btn.active,
-.filter-btn:hover {
-  background: rgb(134, 98, 242);
-  color: white;
-  border-color: rgb(134, 98, 242);
+.chapter-sort button.active,
+.chapter-sort button:hover {
+  background: var(--tim-chinh);
+  color: var(--chu-trang);
+  border-color: var(--tim-chinh);
 }
+
+/* Danh sách chapter */
 .chapter-grid {
   display: flex;
   flex-direction: column;
@@ -326,32 +389,33 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 12px 15px;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--nen-mo-05);
   border-radius: 10px;
   cursor: pointer;
   transition: 0.2s;
   border: 1px solid rgba(255, 255, 255, 0.06);
+  text-decoration: none;
 }
 
 .chapter-item:hover {
-  background: rgba(134, 98, 242, 0.2);
-  border-color: rgba(134, 98, 242, 0.4);
+  background: var(--tim-nhat-2);
+  border-color: var(--tim-nhat-4);
 }
 
 .chapter-so {
   font-size: 13px;
   font-weight: 700;
-  color: rgb(134, 98, 242);
+  color: var(--tim-chinh);
 }
 
 .chapter-ngay {
   font-size: 12px;
-  color: #888;
+  color: var(--chu-mo-2);
   flex-shrink: 0;
 }
 
 .chapter-moi-badge {
-  background: rgba(134, 98, 242, 0.3);
+  background: var(--tim-nhat-3);
   color: #c4b5fd;
   border: 1px solid rgba(134, 98, 242, 0.5);
   font-size: 10px;
@@ -361,36 +425,37 @@ body {
   margin-left: 6px;
 }
 
-.chapter-xemthem {
+#chapterXemThem {
   text-align: center;
   margin-top: 16px;
 }
 
-.chapter-xemthem button {
+#chapterXemThem button {
   padding: 10px 30px;
   border: none;
   border-radius: 30px;
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
+  background: var(--nen-mo-1);
+  color: var(--chu-trang);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: 0.3s;
 }
 
-.chapter-xemthem button:hover {
-  background: rgb(134, 98, 242);
+#chapterXemThem button:hover {
+  background: var(--tim-chinh);
 }
-/* khu vực truyện LQ*/
+
+/* Khu vực truyện liên quan */
 #sectionLQuan {
   border-radius: 20px;
   padding: 25px;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--nen-mo-05);
 }
 
 #sectionLQuan h2 {
   font-size: 1.4rem;
-  color: white;
+  color: var(--chu-trang);
   margin-bottom: 20px;
 }
 
@@ -451,21 +516,22 @@ body {
   font-size: 12px;
   color: #555;
 }
-/*Khu bình luận*/
-#binh-luan-section {
+
+/* Khu vực bình luận */
+#sectionBLuan {
   border-radius: 20px;
   padding: 25px;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--nen-mo-05);
 }
 
-#binh-luan-section h2 {
+#sectionBLuan h2 {
   font-size: 1.4rem;
-  color: white;
+  color: var(--chu-trang);
   margin-bottom: 20px;
 }
 
 .bl-form {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--nen-mo-06);
   border-radius: 14px;
   padding: 20px;
   margin-bottom: 25px;
@@ -476,10 +542,10 @@ body {
 
 .bl-form input,
 .bl-form textarea {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: var(--nen-mo-08);
+  border: 1px solid var(--vien-mo-15);
   border-radius: 8px;
-  color: white;
+  color: var(--chu-trang);
   font-size: 14px;
   font-family: inherit;
   padding: 10px 14px;
@@ -495,7 +561,7 @@ body {
 
 .bl-form input:focus,
 .bl-form textarea:focus {
-  border-color: rgb(134, 98, 242);
+  border-color: var(--tim-chinh);
 }
 
 .bl-form textarea {
@@ -515,8 +581,8 @@ body {
   padding: 10px 25px;
   border: none;
   border-radius: 30px;
-  background: rgb(134, 98, 242);
-  color: white;
+  background: var(--tim-chinh);
+  color: var(--chu-trang);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -524,7 +590,7 @@ body {
 }
 
 .bl-gui-btn:hover {
-  background: rgb(110, 75, 210);
+  background: var(--tim-dam);
   transform: translateY(-2px);
 }
 
@@ -543,7 +609,7 @@ body {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: rgba(134, 98, 242, 0.3);
+  background: var(--tim-nhat-3);
   border: 2px solid rgba(134, 98, 242, 0.5);
   display: flex;
   align-items: center;
@@ -567,7 +633,7 @@ body {
 }
 
 .bl-meta strong {
-  color: white;
+  color: var(--chu-trang);
   font-size: 14px;
 }
 
@@ -578,7 +644,7 @@ body {
 
 .bl-time {
   font-size: 12px;
-  color: #888;
+  color: var(--chu-mo-2);
 }
 
 .bl-noidung p {
@@ -591,7 +657,7 @@ body {
   text-align: center;
   padding: 20px;
   color: #cbd5e1;
-  border-top: 1px solid rgba(134, 98, 242, 0.3);
+  border-top: 1px solid var(--tim-nhat-4);
   font-size: 14px;
 }
 
@@ -628,13 +694,16 @@ body {
     gap: 15px;
     padding: 10px 18px;
   }
+
   .logo {
     margin-right: 10px;
   }
+
   .logo img {
     width: 55px;
     height: 55px;
   }
+
   .menu {
     flex-wrap: wrap;
     justify-content: center;
@@ -676,8 +745,8 @@ body {
   }
 
   .chapter-section,
-  #sectionLienQuan,
-  #binh-luan-section {
+  #sectionLQuan,
+  #sectionBLuan {
     padding: 15px;
   }
 

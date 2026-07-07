@@ -1,10 +1,10 @@
 function layThamSoURL(tenThamSo) {
-  const chuoiTruyVan = window.location.search.substring(1);
-  if (!chuoiTruyVan) return null;
+  const chuoi = window.location.search.substring(1);
+  if (!chuoi) return null;
 
-  const cacCapKeyValue = chuoiTruyVan.split("&");
-  for (let i = 0; i < cacCapKeyValue.length; i++) {
-    const cap = cacCapKeyValue[i].split("=");
+  const danhSach = chuoi.split("&");
+  for (let i = 0; i < danhSach.length; i++) {
+    const cap = danhSach[i].split("=");
     if (decodeURIComponent(cap[0]) === tenThamSo) {
       return cap[1] ? decodeURIComponent(cap[1]) : "";
     }
@@ -16,9 +16,10 @@ let dangTheoDoi = false;
 let synopsisMoRong = false;
 let thuTuChapter = "desc";
 let chapterMoRong = false;
-
+let saoDangChon = 0;
 const idTruyen = parseInt(layThamSoURL("id")) || 1;
 const truyen = layTruyenTheoId(idTruyen);
+
 if (!truyen) {
   document.body.innerHTML =
     "<h1 style='color:white;text-align:center;margin-top:100px'>Không tìm thấy truyện</h1>";
@@ -32,250 +33,116 @@ function layClassTinhTrang(tinhTrang) {
 }
 
 function renderHero() {
-  const hero = document.getElementById("chitiet-hero");
   const coChapter = truyen.danhSachChapter.length > 0;
-  const soChapterMoiNhat = coChapter
-    ? Math.max(...truyen.danhSachChapter.map((c) => c.so))
-    : null;
 
-  hero.innerHTML = `
-    <div class="chitiet-container">
+  let soChapterMoiNhat = null;
+  if (coChapter) {
+    soChapterMoiNhat = Math.max(...truyen.danhSachChapter.map((ch) => ch.so));
+  }
 
-      <div class="chitiet-cover-col">
-        <div class="chitiet-cover">
-          <img src="${truyen.anhBia}" alt="${truyen.ten}">
-        </div>
-        <div class="chitiet-alias">
-          <strong>Tên khác:</strong><br>
-          ${truyen.tenKhac.join("<br>")}
-        </div>
-        <div class="chitiet-btns">
+  document.getElementById("anhBia").src = truyen.anhBia;
+  document.getElementById("anhBia").alt = truyen.ten;
+  document.getElementById("tenTruyen").textContent = truyen.ten;
+  document.getElementById("tenKhac").innerHTML = truyen.tenKhac.join("<br>");
+  document.getElementById("soSao").textContent = "★".repeat(
+    Math.round(truyen.diemDanhGia),
+  );
+  document.getElementById("diemDanhGia").textContent = truyen.diemDanhGia;
+  document.getElementById("tacGia").textContent = truyen.tacGia;
+  const tinhTrang = document.getElementById("tinhTrang");
+  tinhTrang.textContent = truyen.tinhTrang;
+  tinhTrang.classList.add(layClassTinhTrang(truyen.tinhTrang));
+  document.getElementById("theLoai").innerHTML = truyen.theLoai
+    .map((t) => `<span class="tag">${t}</span>`)
+    .join("");
+  document.getElementById("luotXem").textContent = `👁 ${truyen.luotXem}`;
+  document.getElementById("luotTheo").textContent = `❤ ${truyen.luotTheo}`;
+  document.getElementById("synopsisText").innerHTML = truyen.moTa;
 
-          ${
-            coChapter
-              ? `
-            <a
-              class="btn-doc btn-doc-primary"
-              href="./trangdoc.html?id=${truyen.id}&chapter=${truyen.danhSachChapter[0].so}">
-              📖 Đọc từ đầu
-            </a>
+  const btnDocDau = document.getElementById("btnDocDau");
+  const btnDocMoi = document.getElementById("btnDocMoi");
+  if (coChapter) {
+    btnDocDau.href = `./trangdoc.html?id=${truyen.id}&chapter=${truyen.danhSachChapter[0].so}`;
+    btnDocMoi.href = `./trangdoc.html?id=${truyen.id}&chapter=${soChapterMoiNhat}`;
+  } else {
+    btnDocDau.removeAttribute("href");
+    btnDocDau.textContent = "⏳ Sắp ra mắt";
+    btnDocMoi.style.display = "none";
+  }
+  document
+    .getElementById("btnSynopsis")
+    .addEventListener("click", toggleSynopsis);
 
-            <a
-              class="btn-doc btn-doc-secondary"
-              href="./trangdoc.html?id=${truyen.id}&chapter=${soChapterMoiNhat}">
-              ⚡ Đọc chap mới
-            </a>
-          `
-              : `
-            <span class="btn-doc btn-doc-secondary" style="opacity:.5; cursor:not-allowed;">
-              ⏳ Sắp ra mắt
-            </span>
-          `
-          }
-
-          <button id="btnTheodoi" class="btn-doc btn-doc-outline">
-            🔔 Theo Dõi
-          </button>
-        </div>
-      </div>
-
-      <div class="chitiet-info-col">
-        <h1 class="chitiet-title">${truyen.ten}</h1>
-        <div class="chitiet-rating">
-          <span class="chitiet-stars">
-            ${"★".repeat(Math.round(truyen.diemDanhGia))}
-          </span>
-          <span class="chitiet-diem">${truyen.diemDanhGia}</span>
-        </div>
-
-        <div class="chitiet-meta">
-          <div class="chitiet-meta-dong">
-            <span class="meta-label">Tác giả</span>
-            <span class="meta-value">${truyen.tacGia}</span>
-          </div>
-
-          <div class="chitiet-meta-dong">
-            <span class="meta-label">Tình trạng</span>
-            <span class="meta-value">
-              <span class="tinh-trang-badge ${layClassTinhTrang(truyen.tinhTrang)}">
-                ${truyen.tinhTrang}
-              </span>
-            </span>
-          </div>
-        </div>
-
-        <div class="tag-list">
-          ${truyen.theLoai.map((t) => `<span class="tag">${t}</span>`).join("")}
-        </div>
-
-        <div class="chitiet-stats">
-          <div class="stat-item">👁 ${truyen.luotXem}</div>
-          <div class="stat-item">❤ ${truyen.luotTheo}</div>
-        </div>
-
-        <div class="chitiet-mota">
-          <div id="synopsisText" class="${synopsisMoRong ? "" : "synopsis-hidden"}">
-            ${truyen.moTa}
-          </div>
-          <br>
-          <button id="btnSynopsis" class="btn-doc btn-doc-outline" onclick="toggleSynopsis()">
-            ${synopsisMoRong ? "▲ Thu gọn" : "▼ Xem thêm"}
-          </button>
-        </div>
-
-      </div>
-
-    </div>
-  `;
   ganNutTheoDoi();
 }
 
 function renderChapter() {
-  const section = document.getElementById("chapter-section");
-
+  const tongChapter = document.getElementById("tongChapter");
+  const chapterDanhSach = document.getElementById("chapterDanhSach");
+  const chapterXemThem = document.getElementById("chapterXemThem");
+  const thongBao = document.getElementById("chapterThongBao");
   if (truyen.danhSachChapter.length === 0) {
-    section.innerHTML = `
-      <div class="chapter-header">
-        <h2>Danh sách chapter <span class="chapter-dem">(0)</span></h2>
-      </div>
-      <p style="color:#aaa; text-align:center; padding: 20px 0;">
-        Truyện chưa phát hành chapter nào. Vui lòng quay lại sau!
-      </p>
-    `;
+    tongChapter.textContent = "(0)";
+    chapterDanhSach.innerHTML = "";
+    chapterXemThem.innerHTML = "";
+    thongBao.style.display = "block";
     return;
   }
 
+  thongBao.style.display = "none";
+  tongChapter.textContent = `(${truyen.danhSachChapter.length})`;
   let ds = [...truyen.danhSachChapter];
-  ds.sort((a, b) => (thuTuChapter === "desc" ? b.so - a.so : a.so - b.so));
-  const dsHienThi = chapterMoRong ? ds : ds.slice(0, 10);
-  section.innerHTML = `
-    <div class="chapter-header">
-      <h2>
-        Danh sách chapter
-        <span class="chapter-dem">(${truyen.danhSachChapter.length})</span>
-      </h2>
-
-      <div class="chapter-filter">
-        <button class="filter-btn ${thuTuChapter === "desc" ? "active" : ""}" onclick="doiThuTu('desc')">
-          Mới nhất
-        </button>
-        <button class="filter-btn ${thuTuChapter === "asc" ? "active" : ""}" onclick="doiThuTu('asc')">
-          Cũ nhất
-        </button>
-      </div>
-    </div>
-
-    <div class="chapter-grid">
-      ${dsHienThi
-        .map(
-          (c) => `
-        <div class="chapter-item" onclick="moChapter(${c.so})">
-          <div>
-            <div class="chapter-so">
-              Chapter ${c.so}
-              ${c.isMoi ? `<span class="chapter-moi-badge">MỚI</span>` : ""}
-            </div>
-          </div>
-          <div class="chapter-ngay">${c.ngay}</div>
-        </div>
-      `,
-        )
-        .join("")}
-    </div>
-
-    ${
-      ds.length > 10
-        ? `
-      <div class="chapter-xemthem">
-        <button onclick="toggleChapter()">
-          ${chapterMoRong ? "Thu gọn" : "Xem thêm"}
-        </button>
-      </div>
-    `
-        : ""
+  ds.sort((a, b) => {
+    if (thuTuChapter === "desc") {
+      return b.so - a.so;
     }
-  `;
-}
-
-function renderLienQuan() {
-  const ds = layTruyenLienQuan(truyen.id, 4);
-
-  const section = document.getElementById("sectionLQuan");
-
-  section.innerHTML = `
-    <h2>Truyện liên quan</h2>
-
-    <div class="lien-quan-grid">
-      ${ds
-        .map(
-          (t) => `
-        <a class="lien-quan-card" href="./trangchitiet.html?id=${t.id}">
-          <img src="${t.anhBia}" alt="${t.ten}">
-          <div class="lien-quan-info">
-            <div class="lien-quan-ten">${t.ten}</div>
-            <div class="lien-quan-tacgia">${t.tacGia}</div>
-          </div>
-        </a>
-      `,
-        )
-        .join("")}
-    </div>
-  `;
-}
-
-function renderBinhLuan() {
-  const section = document.getElementById("sectionBLuan");
-
-  section.innerHTML = `
-    <h2>Bình luận <span class="chapter-dem">(${truyen.binhLuan.length})</span></h2>
-
-    <!-- Form nhập bình luận mới -->
-    <div class="bl-form">
-      <input type="text" id="blTen" placeholder="Tên của bạn..." />
-      <textarea id="blNoiDung" placeholder="Viết bình luận..."></textarea>
-
-      <div class="bl-form-footer">
-        <div class="danh-gia-box" style="background:none;padding:0">
-          <span class="danh-gia-label">Đánh giá:</span>
-          <span id="starPickWrap">
-            ${[1, 2, 3, 4, 5]
-              .map(
-                (n) =>
-                  `<span class="star-pick" data-star="${n}" onclick="chonSao(${n})">★</span>`,
-              )
-              .join("")}
-          </span>
+    return a.so - b.so;
+  });
+  const dsHienThi = chapterMoRong ? ds : ds.slice(0, 10);
+  chapterDanhSach.innerHTML = dsHienThi
+    .map(
+      (chapter) => `
+      <a class="chapter-item" href="./trangdoc.html?id=${truyen.id}&chapter=${chapter.so}">
+        <div class="chapter-so">
+          Chapter ${chapter.so}
+          ${chapter.isMoi ? `<span class="chapter-moi-badge">MỚI</span>` : ""}
         </div>
+        <div class="chapter-ngay">${chapter.ngay}</div>
+      </a>
+    `,
+    )
+    .join("");
 
-        <button class="bl-gui-btn" onclick="guiBinhLuan()">Gửi bình luận</button>
-      </div>
-    </div>
-
-    <!-- Danh sách bình luận -->
-    <div id="danhSachBinhLuan">
-      ${truyen.binhLuan
-        .map(
-          (bl) => `
-        <div class="binh-luan-item">
-          <div class="bl-avatar">${bl.kyTuDau}</div>
-          <div class="bl-noidung">
-            <div class="bl-meta">
-              <strong>${bl.ten}</strong>
-              <span class="bl-stars">${"★".repeat(bl.sao)}</span>
-              <span class="bl-time">${bl.thoiGian}</span>
-            </div>
-            <p>${bl.noiDung}</p>
-          </div>
-        </div>
-      `,
-        )
-        .join("")}
-    </div>
-  `;
+  if (ds.length > 10) {
+    chapterXemThem.innerHTML = `
+      <button onclick="toggleChapter()">
+        ${chapterMoRong ? "▲ Thu gọn" : "▼ Xem thêm"}
+      </button>
+    `;
+  } else {
+    chapterXemThem.innerHTML = "";
+  }
 }
+
 function doiThuTu(loai) {
   thuTuChapter = loai;
+  document
+    .getElementById("btnMoiNhat")
+    .classList.toggle("active", loai === "desc");
+  document
+    .getElementById("btnCuNhat")
+    .classList.toggle("active", loai === "asc");
   renderChapter();
+}
+
+function ganNutSapXep() {
+  document
+    .getElementById("btnMoiNhat")
+    .addEventListener("click", () => doiThuTu("desc"));
+  document
+    .getElementById("btnCuNhat")
+    .addEventListener("click", () => doiThuTu("asc"));
+  document.getElementById("btnMoiNhat").classList.add("active");
 }
 
 function toggleChapter() {
@@ -283,47 +150,47 @@ function toggleChapter() {
   renderChapter();
 }
 
-function toggleSynopsis() {
-  synopsisMoRong = !synopsisMoRong;
+function renderLienQuan() {
+  const ds = layTruyenLienQuan(truyen.id, 4);
+  const grid = document.getElementById("lienQuanGrid");
 
-  const text = document.getElementById("synopsisText");
-  const btn = document.getElementById("btnSynopsis");
-
-  if (synopsisMoRong) {
-    text.classList.remove("synopsis-hidden");
-    btn.innerText = "▲ Thu gọn";
-  } else {
-    text.classList.add("synopsis-hidden");
-    btn.innerText = "▼ Xem thêm";
-  }
+  grid.innerHTML = ds
+    .map(
+      (t) => `
+      <a class="lien-quan-card" href="./trangchitiet.html?id=${t.id}">
+        <img src="${t.anhBia}" alt="${t.ten}">
+        <div class="lien-quan-info">
+          <div class="lien-quan-ten">${t.ten}</div>
+          <div class="lien-quan-tacgia">${t.tacGia}</div>
+        </div>
+      </a>
+    `,
+    )
+    .join("");
 }
 
-function moChapter(soChapter) {
-  window.location.href = `./trangdoc.html?id=${truyen.id}&chapter=${soChapter}`;
+function renderBinhLuan() {
+  document.getElementById("soBinhLuan").textContent =
+    `(${truyen.binhLuan.length})`;
+  const danhSach = document.getElementById("danhSachBinhLuan");
+  danhSach.innerHTML = truyen.binhLuan
+    .map(
+      (bl) => `
+      <div class="binh-luan-item">
+        <div class="bl-avatar">${bl.kyTuDau}</div>
+        <div class="bl-noidung">
+          <div class="bl-meta">
+            <strong>${bl.ten}</strong>
+            <span class="bl-stars">${"★".repeat(bl.sao)}</span>
+            <span class="bl-time">${bl.thoiGian}</span>
+          </div>
+          <p>${bl.noiDung}</p>
+        </div>
+      </div>
+    `,
+    )
+    .join("");
 }
-
-function toggleTheoDoi() {
-  dangTheoDoi = !dangTheoDoi;
-
-  const btn = document.getElementById("btnTheodoi");
-
-  if (dangTheoDoi) {
-    btn.textContent = "✅ Đang Theo Dõi";
-    btn.classList.add("dang-theo-doi");
-  } else {
-    btn.textContent = "🔔 Theo Dõi";
-    btn.classList.remove("dang-theo-doi");
-  }
-}
-
-function ganNutTheoDoi() {
-  const btn = document.getElementById("btnTheodoi");
-  if (btn) {
-    btn.onclick = toggleTheoDoi;
-  }
-}
-
-let saoDangChon = 0;
 
 function chonSao(soSao) {
   saoDangChon = soSao;
@@ -338,6 +205,15 @@ function chonSao(soSao) {
   });
 }
 
+function ganChonSao() {
+  const allStars = document.querySelectorAll("#starPickWrap .star-pick");
+  allStars.forEach((star) => {
+    star.addEventListener("click", () => {
+      chonSao(parseInt(star.dataset.star));
+    });
+  });
+}
+
 function guiBinhLuan() {
   const inputTen = document.getElementById("blTen");
   const inputNoiDung = document.getElementById("blNoiDung");
@@ -349,6 +225,7 @@ function guiBinhLuan() {
     alert("Vui lòng nhập tên và nội dung bình luận!");
     return;
   }
+
   truyen.binhLuan.unshift({
     ten: ten,
     kyTuDau: ten.charAt(0).toUpperCase(),
@@ -358,12 +235,38 @@ function guiBinhLuan() {
   });
 
   saoDangChon = 0;
+  inputTen.value = "";
+  inputNoiDung.value = "";
+
   renderBinhLuan();
 }
 
+function toggleSynopsis() {
+  synopsisMoRong = !synopsisMoRong;
+
+  const text = document.getElementById("synopsisText");
+  const btn = document.getElementById("btnSynopsis");
+  text.classList.toggle("synopsis-hidden");
+  btn.textContent = synopsisMoRong ? "▲ Thu gọn" : "▼ Xem thêm";
+}
+
+function toggleTheoDoi() {
+  dangTheoDoi = !dangTheoDoi;
+
+  const btn = document.getElementById("btnTheodoi");
+  btn.textContent = dangTheoDoi ? "✅ Đang Theo Dõi" : "🔔 Theo Dõi";
+  btn.classList.toggle("dang-theo-doi");
+}
+
+function ganNutTheoDoi() {
+  const btn = document.getElementById("btnTheodoi");
+  if (btn) {
+    btn.addEventListener("click", toggleTheoDoi);
+  }
+}
+
 function phanTuDaVaoKhungNhin(el) {
-  const viTri = el.getBoundingClientRect();
-  return viTri.top < window.innerHeight * 0.9;
+  return el.getBoundingClientRect().top < window.innerHeight * 0.9;
 }
 
 function ganHieuUngScroll() {
@@ -378,35 +281,28 @@ function ganHieuUngScroll() {
       }
     });
   }
-
   window.addEventListener("scroll", kiemTraVaHienThi);
   kiemTraVaHienThi();
 }
 
 function ganNutQuayLai() {
-  const nutQuayLai = document.getElementById("quaylai");
-  if (!nutQuayLai) return;
-
-  window.addEventListener("scroll", function () {
-    if (window.scrollY > 300) {
-      nutQuayLai.style.display = "block";
-    } else {
-      nutQuayLai.style.display = "none";
-    }
+  const nut = document.getElementById("quaylai");
+  if (!nut) return;
+  window.addEventListener("scroll", () => {
+    nut.style.display = window.scrollY > 300 ? "block" : "none";
   });
-
-  nutQuayLai.addEventListener("click", function () {
+  nut.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 }
 
 function ganMenuToggle() {
-  const btnToggle = document.querySelector(".menu-toggle");
+  const btn = document.querySelector(".menu-toggle");
   const menu = document.querySelector(".menu");
 
-  if (!btnToggle || !menu) return;
+  if (!btn || !menu) return;
 
-  btnToggle.addEventListener("click", function () {
+  btn.addEventListener("click", () => {
     menu.classList.toggle("menu-open");
   });
 }
@@ -419,6 +315,11 @@ document.addEventListener("DOMContentLoaded", () => {
   renderChapter();
   renderLienQuan();
   renderBinhLuan();
+  ganNutSapXep();
+  ganChonSao();
+  document
+    .getElementById("btnGuiBinhLuan")
+    .addEventListener("click", guiBinhLuan);
   ganHieuUngScroll();
   ganNutQuayLai();
   ganMenuToggle();
