@@ -161,6 +161,11 @@ const params = new URLSearchParams(window.location.search);
 const id = Number(params.get("id"));
 const chapter = Number(params.get("chapter")) || 1;
 
+const menus = document.querySelectorAll(".menus");
+
+menus.forEach(menu => {
+    menu.href = `/trangchitiet.html?id=${id}`;
+});
 // Tìm chapter
 const chap = chapters.find(item =>
     item.id === id &&
