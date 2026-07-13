@@ -27,44 +27,42 @@
         </div>
 
         <form id="loginForm" novalidate>
-          <div class="input-group">
-            <label for="email"> <i class="bi bi-envelope"></i> Email </label>
-            <input
-              type="email"
-              id="email"
-              placeholder="example@email.com"
-              required
-            />
-            <span class="error-msg" id="emailError"></span>
-          </div>
-
-          <div class="input-group">
-            <label for="password"> <i class="bi bi-lock"></i> Mật khẩu </label>
-            <div class="password-wrapper">
+          <!-- Email -->
+          <div class="form-row" id="row-email">
+            <label>
+              <i class="bi bi-envelope"></i> Email
               <input
-                type="password"
-                id="password"
-                placeholder="••••••••"
-                required
+                type="email"
+                id="email"
+                placeholder="example@email.com"
+                autocomplete="email"
               />
-              <button
-                type="button"
-                class="toggle-password"
-                id="togglePassword"
-                aria-label="Hiển thị mật khẩu"
-              >
-                <i class="bi bi-eye"></i>
-              </button>
-            </div>
-            <span class="error-msg" id="passwordError"></span>
+            </label>
+            <small class="notification" id="emailMsg"></small>
           </div>
 
-          <div class="form-options">
-            <label class="remember-me">
-              <input type="checkbox" id="remember" />
-              <span>Ghi nhớ đăng nhập</span>
+          <!-- Mật khẩu -->
+          <div class="form-row" id="row-password">
+            <label>
+              <i class="bi bi-lock"></i> Mật khẩu
+              <div class="password-wrapper">
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="••••••••"
+                  autocomplete="current-password"
+                />
+                <button
+                  type="button"
+                  class="toggle-password"
+                  id="togglePassword"
+                  aria-label="Hiển thị mật khẩu"
+                >
+                  <i class="bi bi-eye"></i>
+                </button>
+              </div>
             </label>
-            <a href="#" class="forgot-link">Quên mật khẩu?</a>
+            <small class="notification" id="passwordMsg"></small>
           </div>
 
           <button type="submit" class="btn-login">Đăng nhập</button>
@@ -74,20 +72,6 @@
           Chưa có tài khoản? <a href="register.html">Đăng ký ngay</a>
         </div>
 
-        <div class="social-login">
-          <p>Hoặc đăng nhập bằng</p>
-          <div class="social-icons">
-            <a href="#" class="social-btn google">
-              <i class="bi bi-google"></i>
-            </a>
-            <a href="#" class="social-btn facebook">
-              <i class="bi bi-facebook"></i>
-            </a>
-            <a href="#" class="social-btn github">
-              <i class="bi bi-github"></i>
-            </a>
-          </div>
-        </div>
       </div>
     </div>
 
