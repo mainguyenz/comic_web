@@ -371,7 +371,7 @@ function guiBinhLuan() {
   dsBinhLuan = themBinhLuan(truyen.id, {
     ten: taiKhoan.fullname,
     kyTuDau: taiKhoan.fullname.charAt(0).toUpperCase(),
-    sao: saoDangChon || 5,
+    sao: saoDangChon || 0,
     thoiGian: "Vừa xong",
     noiDung: noiDung,
     chapterSo: null,
