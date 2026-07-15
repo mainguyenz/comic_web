@@ -8,6 +8,12 @@ const SO_MUC_HIEN = 10;
 let tieuChiHienTai = "luotXem";
 let danhSachMoRong = false;
 
+function xoaHetCon(el) {
+  while (el.firstChild) {
+    el.removeChild(el.firstChild);
+  }
+}
+
 function layGiaTriSo(truyen, tieuChi) {
   const giaTri = truyen[tieuChi];
 
@@ -20,15 +26,14 @@ function layGiaTriSo(truyen, tieuChi) {
 
 function xepHangTruyen(tieuChi) {
   const ds = [...danhSachTruyen];
-
   ds.sort((a, b) => layGiaTriSo(b, tieuChi) - layGiaTriSo(a, tieuChi));
-
   return ds;
 }
 
 function dinhDangChiSo(truyen, tieuChi) {
   return `${iconTieuChi[tieuChi]} ${truyen[tieuChi]}`;
 }
+
 function ganSuKienTab() {
   const cacNut = document.querySelectorAll(".xh-tab-nut");
 
@@ -42,58 +47,102 @@ function ganSuKienTab() {
     });
   });
 }
+
 function renderTop3(dsXepHang) {
   const el = document.getElementById("xhTop3");
+  xoaHetCon(el);
+
   const top3 = dsXepHang.slice(0, 3);
 
-  el.innerHTML = top3
-    .map(
-      (truyen, chiSo) => `
-    <a class="xh-top3-the hang-${chiSo + 1}" href="trangchitiet.html?id=${truyen.id}">
-      <div class="xh-hang-so">${chiSo + 1}</div>
-      <img src="${truyen.anhBia}" alt="${truyen.ten}">
-      <div class="xh-top3-info">
-        <div class="xh-top3-ten">${truyen.ten}</div>
-        <div class="xh-top3-chiso">${dinhDangChiSo(truyen, tieuChiHienTai)}</div>
-      </div>
-    </a>
-  `,
-    )
-    .join("");
+  top3.forEach((truyen, chiSo) => {
+    const a = document.createElement("a");
+    a.className = `xh-top3-the hang-${chiSo + 1}`;
+    a.href = `/trangchitiet.html?id=${truyen.id}`;
+
+    const hangSo = document.createElement("div");
+    hangSo.className = "xh-hang-so";
+    hangSo.textContent = chiSo + 1;
+
+    const img = document.createElement("img");
+    img.src = truyen.anhBia;
+    img.alt = truyen.ten;
+
+    const info = document.createElement("div");
+    info.className = "xh-top3-info";
+
+    const ten = document.createElement("div");
+    ten.className = "xh-top3-ten";
+    ten.textContent = truyen.ten;
+
+    const chiso = document.createElement("div");
+    chiso.className = "xh-top3-chiso";
+    chiso.textContent = dinhDangChiSo(truyen, tieuChiHienTai);
+
+    info.appendChild(ten);
+    info.appendChild(chiso);
+    a.appendChild(hangSo);
+    a.appendChild(img);
+    a.appendChild(info);
+    el.appendChild(a);
+  });
 }
 
 function renderDanhSach(dsXepHang) {
   const el = document.getElementById("xhDanhSach");
+  xoaHetCon(el);
+
   const conLai = dsXepHang.slice(3);
   const dsHienThi = danhSachMoRong ? conLai : conLai.slice(0, SO_MUC_HIEN);
-  const dsHtml = dsHienThi
-    .map(
-      (truyen, chiSo) => `
-    <a class="xh-hang-muc" href="trangchitiet.html?id=${truyen.id}">
-      <div class="xh-hang-so-nho">${chiSo + 4}</div>
-      <img src="${truyen.anhBia}" alt="${truyen.ten}">
-      <div class="xh-hang-muc-info">
-        <div class="xh-hang-muc-ten">${truyen.ten}</div>
-        <div class="xh-hang-muc-tacgia">${truyen.tacGia}</div>
-      </div>
-      <div class="xh-hang-muc-chiso">${dinhDangChiSo(truyen, tieuChiHienTai)}</div>
-    </a>
-  `,
-    )
-    .join("");
 
-  const nutXemThemHtml =
-    conLai.length > SO_MUC_HIEN
-      ? `
-    <div class="xh-xem-them">
-      <button onclick="toggleDanhSachXepHang()">
-        ${danhSachMoRong ? "▲ Thu gọn" : "▼ Xem thêm"}
-      </button>
-    </div>
-  `
-      : "";
+  dsHienThi.forEach((truyen, chiSo) => {
+    const a = document.createElement("a");
+    a.className = "xh-hang-muc";
+    a.href = `/trangchitiet.html?id=${truyen.id}`;
 
-  el.innerHTML = dsHtml + nutXemThemHtml;
+    const hangSoNho = document.createElement("div");
+    hangSoNho.className = "xh-hang-so-nho";
+    hangSoNho.textContent = chiSo + 4;
+
+    const img = document.createElement("img");
+    img.src = truyen.anhBia;
+    img.alt = truyen.ten;
+
+    const info = document.createElement("div");
+    info.className = "xh-hang-muc-info";
+
+    const ten = document.createElement("div");
+    ten.className = "xh-hang-muc-ten";
+    ten.textContent = truyen.ten;
+
+    const tacgia = document.createElement("div");
+    tacgia.className = "xh-hang-muc-tacgia";
+    tacgia.textContent = truyen.tacGia;
+
+    info.appendChild(ten);
+    info.appendChild(tacgia);
+
+    const chiso = document.createElement("div");
+    chiso.className = "xh-hang-muc-chiso";
+    chiso.textContent = dinhDangChiSo(truyen, tieuChiHienTai);
+
+    a.appendChild(hangSoNho);
+    a.appendChild(img);
+    a.appendChild(info);
+    a.appendChild(chiso);
+    el.appendChild(a);
+  });
+
+  if (conLai.length > SO_MUC_HIEN) {
+    const wrap = document.createElement("div");
+    wrap.className = "xh-xem-them";
+
+    const btn = document.createElement("button");
+    btn.textContent = danhSachMoRong ? "▲ Thu gọn" : "▼ Xem thêm";
+    btn.addEventListener("click", toggleDanhSachXepHang);
+
+    wrap.appendChild(btn);
+    el.appendChild(wrap);
+  }
 }
 
 function renderTrangXepHang() {
@@ -139,17 +188,31 @@ function ganMenuToggle() {
 //Tìm Kiếm Truyện
 function hienThiTruyen(idKhung, danhSach) {
   const khung = document.getElementById(idKhung);
-  khung.innerHTML = "";
-  danhSach.forEach(function (truyen) {
-    khung.innerHTML += `
-      <div class="khungtruyenrieng">
-        <a href="trangchitiet.html?id=${truyen.id}">
-          <img src="${truyen.anhBia}" alt="${truyen.ten}">
-          <h3>${truyen.ten}</h3>
-        </a>
-        <span>${truyen.theLoai.join(" • ")}</span>
-      </div>
-    `;
+  xoaHetCon(khung);
+
+  danhSach.forEach((truyen) => {
+    const div = document.createElement("div");
+    div.className = "khungtruyenrieng";
+
+    const a = document.createElement("a");
+    a.href = `/trangchitiet.html?id=${truyen.id}`;
+
+    const img = document.createElement("img");
+    img.src = truyen.anhBia;
+    img.alt = truyen.ten;
+
+    const h3 = document.createElement("h3");
+    h3.textContent = truyen.ten;
+
+    a.appendChild(img);
+    a.appendChild(h3);
+
+    const span = document.createElement("span");
+    span.textContent = truyen.theLoai.join(" • ");
+
+    div.appendChild(a);
+    div.appendChild(span);
+    khung.appendChild(div);
   });
 }
 
@@ -159,17 +222,21 @@ function ganTimKiem() {
   const ketquatimkiem = document.getElementById("ketquatimkiem");
   const breadcrumb = document.querySelector(".breadcrumb");
   const xephang = document.getElementById("sectionXepHang");
+
   search.addEventListener("input", function () {
     const tuKhoa = search.value.trim().toLowerCase();
+
     if (tuKhoa === "") {
       ketquatimkiem.style.display = "none";
       breadcrumb.style.display = "block";
       xephang.style.display = "block";
       return;
     }
+
     ketquatimkiem.style.display = "block";
     breadcrumb.style.display = "none";
     xephang.style.display = "none";
+
     const ketQua = danhSachTruyen.filter(function (truyen) {
       return (
         truyen.ten.toLowerCase().includes(tuKhoa) ||
@@ -177,24 +244,26 @@ function ganTimKiem() {
         truyen.theLoai.join(" ").toLowerCase().includes(tuKhoa)
       );
     });
+
     if (ketQua.length === 0) {
+      xoaHetCon(khungKetQua);
+      const p = document.createElement("p");
+      p.textContent =
+        "🔍 Không tìm thấy truyện phù hợp vui lòng nhập từ khóa khác";
+      p.style.color = "white";
+      p.style.fontSize = "20px";
+      p.style.textAlign = "center";
+      p.style.padding = "40px";
       khungKetQua.style.display = "block";
-      khungKetQua.innerHTML = `
-      <p style="
-        color:white;
-        font-size:20px;
-        text-align:center;
-        padding:40px;
-        ">
-        🔍 Không tìm thấy truyện phù hợp vui lòng nhập từ khóa khác
-      </p>
-    `;
+      khungKetQua.appendChild(p);
       return;
     }
+
     hienThiTruyen("khungKetQua", ketQua);
     khungKetQua.style.display = "grid";
   });
 }
+
 //Nút Menu
 function ganMenu() {
   const menuToggle = document.querySelector(".menu-toggle");
