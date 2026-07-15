@@ -51,16 +51,19 @@ function ganTimKiem() {
     });
     if (ketQua.length === 0) {
       khungKetQua.style.display = "block";
-      khungKetQua.innerHTML = `
-      <p style="
-        color:white;
-        font-size:20px;
-        text-align:center;
-        padding:40px;
-        ">
-        🔍 Không tìm thấy truyện phù hợp vui lòng nhập từ khóa khác
-      </p>
-    `;
+      khungKetQua.textContent = "";
+
+      const thongBao = document.createElement("p");
+
+      thongBao.textContent =
+        "🔍 Không tìm thấy truyện phù hợp vui lòng nhập từ khóa khác";
+
+      thongBao.style.color = "white";
+      thongBao.style.fontSize = "20px";
+      thongBao.style.textAlign = "center";
+      thongBao.style.padding = "40px";
+
+      khungKetQua.appendChild(thongBao);
       return;
     }
     hienThiTruyen("khungKetQua", ketQua);
@@ -74,7 +77,7 @@ function ganNutXemThem() {
   let moRong = false;
   btnXemThem.addEventListener("click", function () {
     if (moRong === false) {
-      khungDeCu.style.maxHeight = "5000px";
+      khungDeCu.style.maxHeight = khungDeCu.scrollHeight + "px";
       btnXemThem.textContent = "Thu Gọn";
       moRong = true;
     } else {
@@ -101,9 +104,9 @@ function ganHieuUngCuon() {
 //Nút Khám Phá
 function ganNutKhamPha() {
   const btnKhamPha = document.querySelector(".content_background button");
+  const mucTheLoai = document.getElementById("theloai");
   btnKhamPha.addEventListener("click", function () {
-    window.scrollTo({
-      top: 700,
+    mucTheLoai.scrollIntoView({
       behavior: "smooth",
     });
   });
@@ -142,20 +145,35 @@ function ganMenu() {
 //Hiển Thị Truyện Thông Qua datachitiet.js
 function hienThiTruyen(idKhung, danhSach) {
   const khung = document.getElementById(idKhung);
-  khung.innerHTML = "";
+
+  khung.textContent = "";
+
   danhSach.forEach(function (truyen) {
-    khung.innerHTML += `
-      <div class="khungtruyenrieng">
-        <a href="trangchitiet.html?id=${truyen.id}">
-          <img src="${truyen.anhBia}" alt="${truyen.ten}">
-          <h3>${truyen.ten}</h3>
-        </a>
-        <span>${truyen.theLoai.join(" • ")}</span>
-      </div>
-    `;
+    const khungTruyen = document.createElement("div");
+    khungTruyen.className = "khungtruyenrieng";
+
+    const link = document.createElement("a");
+    link.href = `trangchitiet.html?id=${truyen.id}`;
+
+    const img = document.createElement("img");
+    img.src = truyen.anhBia;
+    img.alt = truyen.ten;
+
+    const ten = document.createElement("h3");
+    ten.textContent = truyen.ten;
+
+    const theLoai = document.createElement("span");
+    theLoai.textContent = truyen.theLoai.join(" • ");
+
+    link.appendChild(img);
+    link.appendChild(ten);
+
+    khungTruyen.appendChild(link);
+    khungTruyen.appendChild(theLoai);
+
+    khung.appendChild(khungTruyen);
   });
 }
-
 function hienThiDuLieu() {
   //Hiển Thị Truyện Cho Truyện Phổ Biến
   const dsPhoBien = danhSachTruyen.filter(function (truyen) {

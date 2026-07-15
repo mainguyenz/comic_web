@@ -330,7 +330,7 @@ const danhSachTruyen = [
     luotXem: "2,050,000",
     luotTheo: "134,000",
     diemDanhGia: 4.4,
-    anhBia: "/img/tt6.jpg",
+    anhBia: "img/tt6.jpg",
     moTa: `Ma Vương Tái Sinh Trở Thành Pháp Sư Mạnh Nhất kể về Varvatos, Ma Vương mạnh
           nhất trong lịch sử, người đã thống trị thế giới bằng sức mạnh áp đảo
           của mình. Tuy nhiên, vì cảm thấy cô đơn khi không có ai đủ sức sánh
@@ -378,7 +378,7 @@ const danhSachTruyen = [
     luotXem: "1,780,000",
     luotTheo: "142,000",
     diemDanhGia: 4.5,
-    anhBia: "/img/tt1.png",
+    anhBia: "img/tt1.png",
     moTa: `Bá Vương Sủng Ái Cô Vợ Mù kể về câu chuyện tình yêu đầy cảm xúc giữa một tổng
           tài quyền lực và người vợ mù của anh. Vì những biến cố trong quá
           khứ, nữ chính phải sống trong bóng tối và chịu đựng nhiều đau khổ,
@@ -401,7 +401,7 @@ const danhSachTruyen = [
     luotXem: "670,000",
     luotTheo: "38,000",
     diemDanhGia: 3.9,
-    anhBia: "/img/tt14.jpg",
+    anhBia: "img/tt14.jpg",
     moTa: `Ác Chi Hoàn kể về hành trình sinh tồn đầy căng thẳng của những con người bị
           cuốn vào một thế giới tàn khốc, nơi ranh giới giữa thiện và ác trở
           nên mờ nhạt. Khi những bí mật đen tối và các thế lực nguy hiểm dần
@@ -423,7 +423,7 @@ const danhSachTruyen = [
     luotXem: "540,000",
     luotTheo: "29,000",
     diemDanhGia: 3.8,
-    anhBia: "/img/tt2.png",
+    anhBia: "img/tt2.png",
     moTa: `Thế Giới Này Không Tồn Tại Ma Quỷ kể về câu chuyện của một chàng trai vô tình
           phát hiện ra rằng thế giới mà mình đang sống không hề bình thường
           như vẻ bề ngoài. Mặc dù mọi người đều tin rằng ma quỷ chỉ là truyền
@@ -447,7 +447,7 @@ const danhSachTruyen = [
     luotXem: "710,000",
     luotTheo: "44,000",
     diemDanhGia: 4.0,
-    anhBia: "/img/tt3.png",
+    anhBia: "img/tt3.png",
     moTa: `Phát Sóng Của Siêu Việt Giả kể về hành trình của một người sở hữu năng lực
           đặc biệt khi vô tình trở thành tâm điểm của một hệ thống phát sóng
           bí ẩn kết nối với vô số thế giới khác nhau. Mỗi hành động, trận
@@ -471,7 +471,7 @@ const danhSachTruyen = [
     luotXem: "1,020,000",
     luotTheo: "76,000",
     diemDanhGia: 4.2,
-    anhBia: "/img/tt4.png",
+    anhBia: "img/tt4.png",
     moTa: `Tỏ Tình kể về câu chuyện tình yêu thanh xuân đầy ngọt ngào và cảm động giữa
           những con người trẻ tuổi đang trên hành trình trưởng thành. Từ một
           cuộc gặp gỡ tình cờ, nam và nữ chính dần bước vào cuộc sống của
@@ -494,7 +494,7 @@ const danhSachTruyen = [
     luotXem: "1,340,000",
     luotTheo: "97,000",
     diemDanhGia: 4.3,
-    anhBia: "/img/tt5.png",
+    anhBia: "img/tt5.png",
     moTa: `Sức Mạnh Tối Đa? Ta Lại Là Vong Linh Sư kể về hành trình của một chàng trai
           bất ngờ thức tỉnh với thiên phú cấp cao nhất trong một thế giới nơi
           sức mạnh quyết định tất cả. Tuy nhiên, điều khiến mọi người kinh
@@ -518,7 +518,7 @@ const danhSachTruyen = [
     luotXem: "0",
     luotTheo: "0",
     diemDanhGia: 0,
-    anhBia: "/img/tt8.png",
+    anhBia: "img/tt8.png",
     moTa: "Truyện sắp ra mắt — nội dung sẽ được cập nhật khi phát hành chương đầu tiên.",
     danhSachChapter: [],
     binhLuan: [],
@@ -533,7 +533,7 @@ const danhSachTruyen = [
     luotXem: "0",
     luotTheo: "0",
     diemDanhGia: 0,
-    anhBia: "/img/tt7.jpg",
+    anhBia: "img/tt7.jpg",
     moTa: "Truyện sắp ra mắt — nội dung sẽ được cập nhật khi phát hành chương đầu tiên.",
     danhSachChapter: [],
     binhLuan: [],
@@ -548,7 +548,7 @@ const danhSachTruyen = [
     luotXem: "0",
     luotTheo: "0",
     diemDanhGia: 0,
-    anhBia: "/img/tt9.png",
+    anhBia: "img/tt9.png",
     moTa: "Truyện sắp ra mắt — nội dung sẽ được cập nhật khi phát hành chương đầu tiên.",
     danhSachChapter: [],
     binhLuan: [],
@@ -563,7 +563,7 @@ const danhSachTruyen = [
     luotXem: "0",
     luotTheo: "0",
     diemDanhGia: 0,
-    anhBia: "/img/tt10.png",
+    anhBia: "img/tt10.png",
     moTa: "Truyện sắp ra mắt — nội dung sẽ được cập nhật khi phát hành chương đầu tiên.",
     danhSachChapter: [],
     binhLuan: [],
@@ -578,7 +578,7 @@ const danhSachTruyen = [
     luotXem: "620,000",
     luotTheo: "41,000",
     diemDanhGia: 4.0,
-    anhBia: "/img/tt12.png",
+    anhBia: "img/tt12.png",
     moTa: `Sinh Tồn Với Tư Cách Là Một Huyết Vương kể về hành trình sinh tồn của nhân
           vật chính sau khi bất ngờ tái sinh hoặc thức tỉnh với thân phận của
           một Huyết Vương — thực thể sở hữu sức mạnh vượt xa con người thông
@@ -602,7 +602,7 @@ const danhSachTruyen = [
     luotXem: "870,000",
     luotTheo: "59,000",
     diemDanhGia: 4.1,
-    anhBia: "/img/tt13.png",
+    anhBia: "img/tt13.png",
     moTa: `Cách Thức Sinh Tồn Của Pháo Hôi Khuê Nữ kể về một cô gái bất ngờ xuyên không
           vào một tiểu thuyết và trở thành nhân vật phụ có số phận bi thảm.
           Biết trước kết cục không mấy tốt đẹp đang chờ đợi mình, cô quyết
@@ -626,7 +626,7 @@ const danhSachTruyen = [
     luotXem: "1,450,000",
     luotTheo: "112,000",
     diemDanhGia: 4.3,
-    anhBia: "/img/tt11.png",
+    anhBia: "img/tt11.png",
     moTa: `Toàn Dân Chuyển Chức: Duy Ta Vô Chức Tàn Nhẫn kể về một thế giới nơi mọi
           người đều có thể thức tỉnh nghề nghiệp và trở nên mạnh mẽ thông qua
           việc chuyển chức. Trong ngày thức tỉnh định mệnh, khi tất cả đều
