@@ -614,7 +614,8 @@ function khoiTaoDanhSachChapterNoi() {
           nut.classList.remove("open-up");
         } else if (
           viTri.bottom >
-          window.innerHeight - CAU_HINH_DOC_TRUYEN.khoangCachMepMenu
+          document.documentElement.clientHeight -
+          CAU_HINH_DOC_TRUYEN.khoangCachMepMenu
         ) {
           nut.classList.add("open-up");
         }
@@ -657,7 +658,7 @@ function khoiTaoStickyFooterDieuHuong() {
   window.addEventListener("scroll", () => {
     const viTriMoi = window.scrollY;
     const daChamFooter =
-      viTriMoi + window.innerHeight >= mocFooter.offsetTop;
+      viTriMoi + document.documentElement.clientHeight >= mocFooter.offsetTop;
 
     if (nutLenDauTrang) {
       nutLenDauTrang.hidden =
