@@ -6842,7 +6842,7 @@ const chapters = [
       "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap1/anh_44.jpg",
     ],
   },
-{
+  {
     id: 5,
     chapter: 2,
     images: [
@@ -6932,7 +6932,7 @@ const chapters = [
       "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap4/anh_19.jpg",
     ],
   },
-   {
+  {
     id: 5,
     chapter: 5,
     images: [
@@ -6958,7 +6958,7 @@ const chapters = [
       "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap5/anh_20.jpg",
     ],
   },
-   {
+  {
     id: 5,
     chapter: 6,
     images: [
@@ -6984,7 +6984,7 @@ const chapters = [
       "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap6/anh_20.jpg",
     ],
   },
-   {
+  {
     id: 5,
     chapter: 7,
     images: [
@@ -7009,7 +7009,7 @@ const chapters = [
       "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap7/anh_19.jpg",
     ],
   },
-   {
+  {
     id: 5,
     chapter: 8,
     images: [
@@ -7035,7 +7035,7 @@ const chapters = [
       "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap8/anh_20.jpg",
     ],
   },
-   {
+  {
     id: 5,
     chapter: 9,
     images: [
@@ -7060,7 +7060,7 @@ const chapters = [
       "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap9/anh_19.jpg",
     ],
   },
-   {
+  {
     id: 5,
     chapter: 10,
     images: [
@@ -7084,7 +7084,7 @@ const chapters = [
       "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap10/anh_18.jpg",
     ],
   },
-   {
+  {
     id: 5,
     chapter: 11,
     images: [
@@ -7109,7 +7109,7 @@ const chapters = [
       "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap11/anh_19.jpg",
     ],
   },
-   {
+  {
     id: 5,
     chapter: 12,
     images: [
@@ -7135,7 +7135,7 @@ const chapters = [
       "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap12/anh_20.jpg",
     ],
   },
-   {
+  {
     id: 5,
     chapter: 13,
     images: [
@@ -7160,7 +7160,7 @@ const chapters = [
       "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap13/anh_19.jpg",
     ],
   },
-   {
+  {
     id: 5,
     chapter: 14,
     images: [
@@ -7184,7 +7184,7 @@ const chapters = [
       "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap14/anh_18.jpg",
     ],
   },
-   {
+  {
     id: 5,
     chapter: 15,
     images: [
@@ -7210,7 +7210,7 @@ const chapters = [
       "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap15/anh_20.jpg",
     ],
   },
-   {
+  {
     id: 5,
     chapter: 16,
     images: [
@@ -7240,7 +7240,7 @@ const chapters = [
       "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap16/anh_24.jpg",
     ],
   },
-   {
+  {
     id: 5,
     chapter: 17,
     images: [
@@ -7265,7 +7265,7 @@ const chapters = [
       "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap17/anh_19.jpg",
     ],
   },
-   {
+  {
     id: 5,
     chapter: 18,
     images: [
@@ -7291,7 +7291,7 @@ const chapters = [
       "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap18/anh_20.jpg",
     ],
   },
-   {
+  {
     id: 5,
     chapter: 19,
     images: [
@@ -7315,7 +7315,7 @@ const chapters = [
       "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap19/anh_18.jpg",
     ],
   },
-   {
+  {
     id: 5,
     chapter: 20,
     images: [
@@ -7338,10 +7338,10 @@ const chapters = [
       "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap20/anh_17.jpg",
       "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap20/anh_18.jpg",
       "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap20/anh_19.jpg",
-      "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap20/anh_20.jpg"
+      "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap20/anh_20.jpg",
     ],
   },
-   {
+  {
     id: 5,
     chapter: 444,
     images: [
@@ -7367,7 +7367,7 @@ const chapters = [
       "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap444/anh_20.jpg",
     ],
   },
-   {
+  {
     id: 5,
     chapter: 445,
     images: [
@@ -7395,7 +7395,7 @@ const chapters = [
       "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap445/anh_22.png",
     ],
   },
-   {
+  {
     id: 5,
     chapter: 446,
     images: [
@@ -7420,7 +7420,7 @@ const chapters = [
       "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap446/anh_19.png",
     ],
   },
-   {
+  {
     id: 5,
     chapter: 447,
     images: [
@@ -7446,7 +7446,7 @@ const chapters = [
       "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap447/anh_20.png",
     ],
   },
-   {
+  {
     id: 5,
     chapter: 448,
     images: [
@@ -7470,7 +7470,7 @@ const chapters = [
       "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap448/anh_18.png",
     ],
   },
-   {
+  {
     id: 5,
     chapter: 449,
     images: [
@@ -7494,7 +7494,7 @@ const chapters = [
       "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap449/anh_18.png",
     ],
   },
-   {
+  {
     id: 5,
     chapter: 450,
     images: [
@@ -7520,7 +7520,7 @@ const chapters = [
       "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap450/anh_20.png",
     ],
   },
-   {
+  {
     id: 5,
     chapter: 451,
     images: [
@@ -7545,7 +7545,7 @@ const chapters = [
       "img/Anhtruyen/Welcome_to_Demon_School!_Iruma-kun/Iruma-kun chap451/anh_19.png",
     ],
   },
-   {
+  {
     id: 5,
     chapter: 452,
     images: [
