@@ -1,31 +1,50 @@
-// Cấu hình dùng chung, tránh rải các giá trị cố định trong toàn bộ chương trình.
+// ==================================================
+// 1. CẤU HÌNH TRANG ĐỌC TRUYỆN
+// ==================================================
+
+// Lưu tập trung đường dẫn, giới hạn dữ liệu và thông số giao diện.
+// Object.freeze() ngăn các giá trị cấu hình bị thay đổi ngoài ý muốn.
+
 const CAU_HINH_DOC_TRUYEN = Object.freeze({
-  trangDangNhap: "login.html",
-  trangChiTiet: "trangchitiet.html",
-  trangDocTruyen: "doctruyen.html",
-  chapterMacDinh: 1,
-  idToiDa: 1000,
-  chapterToiDa: 100000,
-  binhLuanToiDaKyTu: 500,
-  binhLuanToiDaMoiTruyen: 40,
-  anhToiDaMoiChapter: 500,
-  ketQuaTimKiemToiDa: 50,
-  tuKhoaToiDaKyTu: 100,
-  viTriHienNutLenDauTrang: 300,
-  viTriBatDauSticky: 100,
-  khoangCachMepMenu: 10,
-  thoiGianDongMenu: 1000,
+  trangDangNhap: "login.html",       // Trang đăng nhập dùng chung
+  trangChiTiet: "trangchitiet.html", // Trang thông tin chi tiết truyện
+  trangDocTruyen: "doctruyen.html",  // Trang đọc chapter
+
+  chapterMacDinh: 1,    // Chapter mặc định khi URL không có chapter
+  idToiDa: 1000,        // ID truyện lớn nhất được chấp nhận
+  chapterToiDa: 100000, // Số chapter lớn nhất được chấp nhận
+
+  binhLuanToiDaKyTu: 500,      // Số ký tự tối đa của bình luận
+  binhLuanToiDaMoiTruyen: 40,  // Số bình luận tối đa của mỗi truyện
+  anhToiDaMoiChapter: 500,     // Số ảnh tối đa được hiển thị trong một chapter
+  ketQuaTimKiemToiDa: 50,      // Số truyện tối đa trong kết quả tìm kiếm
+  tuKhoaToiDaKyTu: 100,        // Độ dài tối đa của từ khóa tìm kiếm
+
+  viTriHienNutLenDauTrang: 300, // Vị trí cuộn để hiện nút lên đầu trang
+  viTriBatDauSticky: 100,       // Vị trí bắt đầu thanh điều hướng nổi
+  khoangCachMepMenu: 10,        // Khoảng cách an toàn của menu với mép màn hình
+  thoiGianDongMenu: 1000,       // Thời gian chờ đóng menu chapter, tính bằng ms
 });
 
+
+// Key localStorage dùng chung với trang chi tiết để lưu bình luận.
+// Không thêm dấu cách trước "app_comments".
 const KHO_BINH_LUAN_CHUNG = "app_comments";
 
+// Kiểm tra dữ liệu chapter đã được nạp từ datadoctruyen.js hay chưa.
+// Nếu không có thì sử dụng mảng rỗng để tránh lỗi.
 const duLieuChuong =
   typeof chapters !== "undefined" && Array.isArray(chapters) ? chapters : [];
+
+// Kiểm tra danh sách truyện đã được nạp từ datachitiet.js hay chưa.
 const duLieuTruyen =
   typeof danhSachTruyen !== "undefined" && Array.isArray(danhSachTruyen)
     ? danhSachTruyen
     : [];
 
+
+// Đọc dữ liệu JSON từ localStorage.
+// Nếu key không tồn tại hoặc JSON bị lỗi thì trả về giá trị mặc định.
 function docJsonLocalStorage(khoa, giaTriMacDinh) {
   try {
     const chuoiJson = localStorage.getItem(khoa);
@@ -39,6 +58,9 @@ function docJsonLocalStorage(khoa, giaTriMacDinh) {
   }
 }
 
+
+// Chuyển dữ liệu thành JSON và lưu vào localStorage.
+// Trả về true nếu lưu thành công, false nếu xảy ra lỗi.
 function ghiJsonLocalStorage(khoa, duLieu) {
   try {
     localStorage.setItem(khoa, JSON.stringify(duLieu));
@@ -49,6 +71,8 @@ function ghiJsonLocalStorage(khoa, duLieu) {
   }
 }
 
+// Chuyển một giá trị thành số nguyên dương hợp lệ.
+// Nếu giá trị rỗng, không phải số hoặc vượt giới hạn thì trả về mặc định.
 function laySoNguyenDuong(value, giaTriMacDinh, giaTriToiDa) {
   if (value === null || String(value).trim() === "") return giaTriMacDinh;
 
@@ -60,6 +84,9 @@ function laySoNguyenDuong(value, giaTriMacDinh, giaTriToiDa) {
   return so;
 }
 
+
+// Chuyển dữ liệu thành chuỗi, xóa khoảng trắng thừa
+// và cắt chuỗi theo số ký tự tối đa.
 function gioiHanChuoi(value, soKyTuToiDa) {
   return String(value ?? "")
     .trim()
@@ -74,6 +101,9 @@ function xoaNoiDungPhanTu(phanTu) {
   }
 }
 
+
+// Tạo đường dẫn URL và thêm các tham số truy vấn hợp lệ.
+// Ví dụ: doctruyen.html?id=1&chapter=2
 function taoDuongDan(tenTrang, thamSo = {}) {
   const query = new URLSearchParams();
 
@@ -87,6 +117,8 @@ function taoDuongDan(tenTrang, thamSo = {}) {
   return chuoiQuery ? `${tenTrang}?${chuoiQuery}` : tenTrang;
 }
 
+// Lấy tài khoản đang đăng nhập thông qua hàm dùng chung trong luutru.js.
+// Đồng thời tạo thuộc tính tenHienThi để sử dụng trên giao diện.
 function layTaiKhoanHienTai() {
   if (typeof layTaiKhoanLuuTruHienTai !== "function") {
     return null;
@@ -118,7 +150,8 @@ function layTaiKhoanHienTai() {
 }
 
 
-
+// Tạo đường dẫn tới trang đăng nhập kèm trang hiện tại.
+// Tham số quaylai dùng để quay về chapter sau khi đăng nhập.
 function taoLinkDangNhap() {
   const trangHienTai = `${window.location.pathname}${window.location.search}`;
   return taoDuongDan(CAU_HINH_DOC_TRUYEN.trangDangNhap, {
@@ -126,6 +159,9 @@ function taoLinkDangNhap() {
   });
 }
 
+
+// Hiển thị thông báo lỗi trong khu vực đọc truyện
+// khi không tìm thấy truyện hoặc chapter.
 function hienThiLoiDocTruyen(thongBao) {
   const reader = document.getElementById("reader");
   if (!reader) return;
@@ -136,23 +172,37 @@ function hienThiLoiDocTruyen(thongBao) {
   reader.appendChild(tieuDe);
 }
 
+// Đọc id truyện và số chapter từ URL hiện tại.
 const thamSoUrl = new URLSearchParams(window.location.search);
+
+// Kiểm tra và lấy ID truyện hợp lệ từ URL.
 const idTruyen = laySoNguyenDuong(
   thamSoUrl.get("id"),
   null,
   CAU_HINH_DOC_TRUYEN.idToiDa,
 );
+
+
+// Kiểm tra và lấy chapter hợp lệ từ URL.
 const soChapter = laySoNguyenDuong(
   thamSoUrl.get("chapter"),
   CAU_HINH_DOC_TRUYEN.chapterMacDinh,
   CAU_HINH_DOC_TRUYEN.chapterToiDa,
 );
 
+
+// Tìm thông tin truyện dựa trên ID.
 const truyen = duLieuTruyen.find((item) => item?.id === idTruyen) ?? null;
+
+// Tìm nội dung chapter dựa trên ID truyện và số chapter.
 const chap =
   duLieuChuong.find(
     (item) => item?.id === idTruyen && item?.chapter === soChapter,
   ) ?? null;
+
+
+
+// Lấy tối đa 40 bình luận gần nhất của truyện từ app_comments.
 
 function layBinhLuanCuaTruyen() {
   if (!truyen) {
@@ -178,6 +228,8 @@ function layBinhLuanCuaTruyen() {
   );
 }
 
+
+// Thêm bình luận mới và chỉ giữ lại số lượng bình luận cho phép.
 function luuBinhLuanMoi(binhLuan) {
   if (!truyen) {
     return false;
@@ -211,7 +263,7 @@ function luuBinhLuanMoi(binhLuan) {
     khoBinhLuan,
   );
 }
-
+// Tạo một phần tử HTML hiển thị tên, thời gian và nội dung bình luận.
 function taoDongBinhLuan(binhLuan) {
   const item = document.createElement("div");
   item.classList.add("comment-item");
@@ -252,6 +304,9 @@ function taoDongBinhLuan(binhLuan) {
   return item;
 }
 
+
+// Lọc và hiển thị những bình luận thuộc chapter hiện tại.
+// Bình luận mới nhất được hiển thị trước.
 function renderBinhLuanChapter(commentList) {
   if (!commentList || !chap) return;
 
@@ -279,6 +334,9 @@ function renderBinhLuanChapter(commentList) {
   commentList.appendChild(fragment);
 }
 
+
+// Khởi tạo khu vực bình luận.
+// Chỉ cho phép người đã đăng nhập gửi bình luận.
 function khoiTaoBinhLuan() {
   const form = document.getElementById("commentForm");
   const input = document.getElementById("commentInput");
@@ -298,19 +356,23 @@ function khoiTaoBinhLuan() {
   renderBinhLuanChapter(list);
 
   form.addEventListener("submit", (event) => {
+    // Ngăn trình duyệt tải lại trang khi gửi bình luận.
+
     event.preventDefault();
+    // Kiểm tra lại trạng thái đăng nhập tại thời điểm gửi.
 
     const taiKhoanMoi = layTaiKhoanHienTai();
     if (!taiKhoanMoi) {
       window.location.assign(taoLinkDangNhap());
       return;
     }
-
+    // Chuẩn hóa và giới hạn nội dung bình luận.
     const noiDung = gioiHanChuoi(
       input.value,
       CAU_HINH_DOC_TRUYEN.binhLuanToiDaKyTu,
     );
     if (!noiDung) return;
+    // Tạo dữ liệu bình luận theo cấu trúc dùng chung với trang chi tiết.
 
     const binhLuan = {
       id: Date.now(),
@@ -345,7 +407,7 @@ function khoiTaoBinhLuan() {
     }
   });
 }
-
+// Kiểm tra truyện hiện tại có nằm trong danh sách theo dõi của tài khoản đang đăng nhập hay không.
 function kiemTraTheoDoi() {
   if (
     !truyen ||
@@ -359,6 +421,8 @@ function kiemTraTheoDoi() {
   );
 }
 
+
+// Thêm hoặc xóa truyện khỏi danh sách theo dõi thông qua luutru.js.
 function daoTrangThaiTheoDoi() {
   if (
     !truyen ||
@@ -371,6 +435,8 @@ function daoTrangThaiTheoDoi() {
     toggleTheoDoiId(truyen.id),
   );
 }
+
+// Cập nhật biểu tượng, nội dung và trạng thái giao diện của một nút yêu thích.
 function capNhatNutYeuThich(nut, dangTheoDoi) {
   let icon = nut.querySelector("i");
   if (!icon) {
@@ -395,6 +461,8 @@ function capNhatNutYeuThich(nut, dangTheoDoi) {
   nut.setAttribute("aria-pressed", String(dangTheoDoi));
 }
 
+// Khởi tạo tất cả nút yêu thích ở đầu và cuối trang.
+// Nếu chưa đăng nhập thì chuyển người dùng tới trang đăng nhập.
 function khoiTaoYeuThich() {
   if (!truyen) return;
 
@@ -425,6 +493,9 @@ function khoiTaoYeuThich() {
   });
 }
 
+
+// Lưu chapter hiện tại làm tiến độ đọc của tài khoản.
+// Người chưa đăng nhập sẽ không được lưu tiến độ.
 function luuTienDoHienTai() {
   if (!truyen || !chap) return;
 
@@ -447,6 +518,8 @@ function luuTienDoHienTai() {
   }
 }
 
+
+// Gắn ID truyện vào các liên kết quay về trang chi tiết.
 function ganLienKetCoBan() {
   if (!truyen) return;
 
@@ -457,6 +530,7 @@ function ganLienKetCoBan() {
   });
 }
 
+// Tìm chapter trước và chapter sau, sau đó cập nhật các nút điều hướng ở đầu và cuối trang.
 function ganDieuHuongChapter() {
   if (!truyen || !chap) return;
 
@@ -481,6 +555,9 @@ function ganDieuHuongChapter() {
   });
 }
 
+
+// Cập nhật trạng thái một nút chuyển chapter.
+// Nếu không có chapter đích thì vô hiệu hóa nút.
 function ganTrangThaiNutChapter(nut, chapterDich, thongBaoBien) {
   if (!chapterDich) {
     nut.removeAttribute("href");
@@ -499,6 +576,7 @@ function ganTrangThaiNutChapter(nut, chapterDich, thongBaoBien) {
   nut.title = `Chapter ${chapterDich.chapter}`;
 }
 
+// Tạo và hiển thị ảnh của chapter hiện tại.
 function renderNoiDungChapter() {
   if (!chap) return;
 
@@ -525,6 +603,7 @@ function renderNoiDungChapter() {
   reader.appendChild(fragment);
 }
 
+// Tạo danh sách chapter của truyện và đánh dấu chapter đang đọc.
 function renderDanhSachChapter() {
   if (!truyen) return;
 
@@ -551,6 +630,7 @@ function renderDanhSachChapter() {
   });
 }
 
+// Tạo một thẻ truyện dùng trong kết quả tìm kiếm.
 function taoTheTruyen(item) {
   const khung = document.createElement("div");
   khung.classList.add("khungtruyenrieng");
@@ -576,6 +656,9 @@ function taoTheTruyen(item) {
   return khung;
 }
 
+
+// Hiển thị danh sách truyện vào khung kết quả.
+// Số lượng kết quả được giới hạn theo cấu hình.
 function hienThiTruyen(khung, danhSach) {
   if (!khung) return;
 
@@ -587,6 +670,8 @@ function hienThiTruyen(khung, danhSach) {
   khung.appendChild(fragment);
 }
 
+
+// Khởi tạo chức năng tìm kiếm theo tên truyện, tác giả hoặc thể loại.
 function khoiTaoTimKiem() {
   const input = document.getElementById("inputsearch");
   const khungKetQua = document.getElementById("khungKetQua");
@@ -597,6 +682,8 @@ function khoiTaoTimKiem() {
   input.maxLength = CAU_HINH_DOC_TRUYEN.tuKhoaToiDaKyTu;
 
   input.addEventListener("input", () => {
+    // Chuẩn hóa từ khóa tìm kiếm thành chữ thường.
+
     const tuKhoa = gioiHanChuoi(
       input.value,
       CAU_HINH_DOC_TRUYEN.tuKhoaToiDaKyTu,
@@ -645,6 +732,7 @@ function khoiTaoTimKiem() {
   });
 }
 
+// Khởi tạo nút đóng/mở menu chính trên màn hình nhỏ.
 function khoiTaoMenu() {
   const nutMenu = document.querySelector(".menu-toggle");
   const menu = document.querySelector(".menu");
@@ -658,6 +746,8 @@ function khoiTaoMenu() {
   document.addEventListener("click", () => menu.classList.remove("active"));
 }
 
+// Khởi tạo danh sách chọn chapter.
+// Menu có thể mở lên trên nếu phía dưới không đủ khoảng trống.
 function khoiTaoDanhSachChapterNoi() {
   document.querySelectorAll(".check__line").forEach((nut) => {
     const menu = nut.querySelector(".chapter-list");
@@ -703,6 +793,11 @@ function khoiTaoDanhSachChapterNoi() {
   });
 }
 
+
+// Điều khiển thanh chuyển chapter khi cuộn trang.
+// Cuộn xuống: thanh nằm dưới.
+// Cuộn lên: thanh nằm trên.
+// Khi đến thanh điều hướng cuối trang: bỏ trạng thái fixed.
 function khoiTaoThanhDieuHuongNoi() {
   const thanhDieuHuong = document.querySelector(".div_main.top");
   const mocFooter = document.querySelector(".div_main.bottom");
@@ -741,6 +836,8 @@ function khoiTaoThanhDieuHuongNoi() {
   });
 }
 
+
+// Hàm chính khởi tạo toàn bộ chức năng của trang đọc truyện. Tránh khởi tạo menu chapter, thanh điều hướng và chức năng khác khi truyện hoặc chapter không tồn tại.
 function khoiTaoTrangDocTruyen() {
   khoiTaoMenu();
   khoiTaoTimKiem();
