@@ -4,7 +4,7 @@ const CAU_HINH_DOC_TRUYEN = Object.freeze({
   trangChiTiet: "trangchitiet.html",
   trangDocTruyen: "doctruyen.html",
   chapterMacDinh: 1,
-  idToiDa: 1000000,
+  idToiDa: 1000,
   chapterToiDa: 100000,
   binhLuanToiDaKyTu: 500,
   binhLuanToiDaMoiTruyen: 40,
@@ -675,7 +675,7 @@ function khoiTaoDanhSachChapterNoi() {
         } else if (
           viTri.bottom >
           document.documentElement.clientHeight -
-            CAU_HINH_DOC_TRUYEN.khoangCachMepMenu
+          CAU_HINH_DOC_TRUYEN.khoangCachMepMenu
         ) {
           nut.classList.add("open-up");
         }
