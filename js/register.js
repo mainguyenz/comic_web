@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // DOM elements
   const usernameInput = document.getElementById("username");
   const emailInput = document.getElementById("email");
   const passwordInput = document.getElementById("password");
@@ -15,24 +14,31 @@ document.addEventListener("DOMContentLoaded", function () {
   const registerForm = document.getElementById("registerForm");
   const agreeCheck = document.getElementById("agree");
 
-  // Toggle password
   const togglePassword = document.getElementById("togglePassword");
   const toggleConfirm = document.getElementById("toggleConfirmPassword");
 
-  // Hàm kiểm tra email
+  // Lấy tài khoản đã đăng ký (nếu có)
+  function getAccount() {
+    const data = localStorage.getItem("account");
+    return data ? JSON.parse(data) : null;
+  }
+
+  // Lưu tài khoản
+  function saveAccount(account) {
+    localStorage.setItem("account", JSON.stringify(account));
+  }
+
   function isValidEmail(email) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
   }
 
-  // Hàm reset row
   function resetRow(row) {
     row.classList.remove("success", "failure");
     const msg = row.querySelector(".notification");
     if (msg) msg.textContent = "";
   }
 
-  // Hàm đặt lỗi
   function setError(row, message, msgElement) {
     row.classList.remove("success");
     row.classList.add("failure");
@@ -41,7 +47,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Hàm đặt thành công
   function setSuccess(row, msgElement) {
     row.classList.remove("failure");
     row.classList.add("success");
@@ -50,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // ---- Validation Username (blur) ----
+  // Validate Username
   function validateUsername() {
     const val = usernameInput.value.trim();
     usernameMsg.textContent = "";
@@ -59,16 +64,14 @@ document.addEventListener("DOMContentLoaded", function () {
       setError(usernameRow, "Vui lòng nhập tên người dùng!", usernameMsg);
       return;
     }
-
     if (val.length < 5) {
       setError(usernameRow, "Tên người dùng phải có ít nhất 5 kí tự!", usernameMsg);
       return;
     }
-
     setSuccess(usernameRow, usernameMsg);
   }
 
-  // ---- Validation Email (blur) ----
+  // Validate Email
   function validateEmail() {
     const val = emailInput.value.trim();
     emailMsg.textContent = "";
@@ -77,15 +80,14 @@ document.addEventListener("DOMContentLoaded", function () {
       setError(emailRow, "Vui lòng nhập email!", emailMsg);
       return;
     }
-
     if (!isValidEmail(val)) {
       setError(emailRow, "Email không hợp lệ!", emailMsg);
       return;
     }
 
     // Kiểm tra email đã tồn tại
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
-    if (users.some((user) => user.email === val)) {
+    const account = getAccount();
+    if (account && account.email === val) {
       setError(emailRow, "Email đã được đăng ký!", emailMsg);
       return;
     }
@@ -93,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
     setSuccess(emailRow, emailMsg);
   }
 
-  // ---- Validation Password (blur) ----
+  // Validate Password
   function validatePassword() {
     const val = passwordInput.value;
     passwordMsg.textContent = "";
@@ -102,28 +104,24 @@ document.addEventListener("DOMContentLoaded", function () {
       setError(passwordRow, "Vui lòng nhập mật khẩu!", passwordMsg);
       return;
     }
-
     if (val.length < 8) {
       setError(passwordRow, "Mật khẩu phải có ít nhất 8 kí tự!", passwordMsg);
       return;
     }
-
     setSuccess(passwordRow, passwordMsg);
 
-    // Nếu password thay đổi, kiểm tra lại confirm
     if (confirmInput.value) {
       validateConfirm();
     }
   }
 
-  // ---- Validation Confirm Password (blur) ----
+  // Validate Confirm Password
   function validateConfirm() {
     const pass = passwordInput.value;
     const confirm = confirmInput.value;
     confirmMsg.textContent = "";
 
     if (!pass) {
-      // Nếu chưa có password, không cần check confirm
       resetRow(confirmRow);
       confirmMsg.textContent = "";
       return;
@@ -133,22 +131,18 @@ document.addEventListener("DOMContentLoaded", function () {
       setError(confirmRow, "Vui lòng xác nhận mật khẩu!", confirmMsg);
       return;
     }
-
     if (confirm !== pass) {
       setError(confirmRow, "Mật khẩu không khớp!", confirmMsg);
       return;
     }
-
     setSuccess(confirmRow, confirmMsg);
   }
 
-  // Gán sự kiện blur
   usernameInput.addEventListener("blur", validateUsername);
   emailInput.addEventListener("blur", validateEmail);
   passwordInput.addEventListener("blur", validatePassword);
   confirmInput.addEventListener("blur", validateConfirm);
 
-  // ---- Toggle hiển thị mật khẩu ----
   togglePassword.addEventListener("click", function () {
     const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
     passwordInput.setAttribute("type", type);
@@ -165,17 +159,14 @@ document.addEventListener("DOMContentLoaded", function () {
     icon.classList.toggle("bi-eye-slash");
   });
 
-  // ---- Xử lý submit ----
   registerForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    // Gọi lại validation để cập nhật
     validateUsername();
     validateEmail();
     validatePassword();
     validateConfirm();
 
-    // Kiểm tra tất cả các row có success không
     const isUsernameValid = usernameRow.classList.contains("success");
     const isEmailValid = emailRow.classList.contains("success");
     const isPasswordValid = passwordRow.classList.contains("success");
@@ -187,24 +178,22 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // Lưu user mới
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
-    const newUser = {
+    // Tạo tài khoản mới (ghi đè tài khoản cũ)
+    const newAccount = {
       fullname: usernameInput.value.trim(),
       email: emailInput.value.trim(),
       password: passwordInput.value,
-      createdAt: new Date().toISOString(),
+      createdAt: new Date().toISOString()
     };
-    users.push(newUser);
-    localStorage.setItem("users", JSON.stringify(users));
 
-    // Chỉ lưu email để gợi nhớ, không tự động đăng nhập
-    localStorage.setItem("lastEmail", newUser.email);
+    // Chỉ lưu account, KHÔNG lưu currentUser
+    saveAccount(newAccount);
+
     alert("Form đã được gửi thành công! Chuyển hướng đến trang đăng nhập!");
     window.location.href = "login.html";
   });
 
-  // Nếu đã đăng nhập, chuyển hướng về trang chủ
+  // Nếu đã đăng nhập, chuyển về trang chủ
   if (localStorage.getItem("currentUser")) {
     window.location.href = "trangchu.html";
   }
