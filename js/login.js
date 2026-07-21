@@ -142,8 +142,6 @@ document.addEventListener("DOMContentLoaded", function () {
           createdAt: account.createdAt,
         }),
       );
-
-      alert("Form đã được gửi thành công! Chuyển hướng đến trang chủ!");
       window.location.href = "trangchu.html";
     }
   });

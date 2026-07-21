@@ -210,8 +210,6 @@ document.addEventListener("DOMContentLoaded", function () {
     accounts.push(newAccount);
 
     saveAccounts(accounts);
-
-    alert("Form đã được gửi thành công! Chuyển hướng đến trang đăng nhập!");
     window.location.href = "login.html";
   });
 
