@@ -1,3 +1,4 @@
+//object
 const iconTieuChi = {
   luotXem: "👁",
   luotTheo: "❤",
@@ -27,7 +28,7 @@ function xepHangTruyen(tieuChi) {
   return ds;
 }
 
-// Hàm định dạng tạo các node phần tử 
+// Hàm định dạng tạo các node phần tử
 function dinhDangChiSo(truyen, tieuChi) {
   const giaTri = truyen[tieuChi];
   let chuoiSo = giaTri;

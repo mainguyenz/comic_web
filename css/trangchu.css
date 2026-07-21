@@ -442,6 +442,14 @@ footer {
     margin-top: 10px;
   }
 
+  .theloai:hover .theloai_content {
+    display: none;
+  }
+
+  .theloai.active .theloai_content {
+    display: grid;
+  }
+
   .theloai > a {
     font-size: 15px;
   }

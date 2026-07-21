@@ -9,9 +9,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const togglePassword = document.getElementById("togglePassword");
 
   // Lấy tài khoản đã đăng ký (chỉ 1 object)
-  function getAccount() {
-    const data = localStorage.getItem("account");
-    return data ? JSON.parse(data) : null;
+  function getAccounts() {
+    const data = localStorage.getItem("accounts");
+    return data ? JSON.parse(data) : [];
   }
 
   // Hàm kiểm tra email hợp lệ
@@ -83,7 +83,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   //Toggle hiển thị mật khẩu
   togglePassword.addEventListener("click", function () {
-    const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+    const type =
+      passwordInput.getAttribute("type") === "password" ? "text" : "password";
     passwordInput.setAttribute("type", type);
     const icon = this.querySelector("i");
     icon.classList.toggle("bi-eye");
@@ -111,39 +112,39 @@ document.addEventListener("DOMContentLoaded", function () {
     const password = passwordInput.value;
 
     // Lấy tài khoản đã đăng ký
-    const account = getAccount();
+    const accounts = getAccounts();
 
-    // Nếu chưa có tài khoản
+    // Tìm tài khoản có email và mật khẩu khớp
+    const account = accounts.find(function (user) {
+      return (
+        user.email.toLowerCase() === email.toLowerCase() &&
+        user.password === password
+      );
+    });
+
+    // Không tìm thấy
     if (!account) {
-      setError(emailRow, "Email chưa được đăng ký!", emailMsg);
+      setError(emailRow, "Email hoặc mật khẩu không chính xác!", emailMsg);
       resetRow(passwordRow);
       passwordMsg.textContent = "";
       return;
     }
 
     // So sánh email và mật khẩu với tài khoản
-    if (account.email === email && account.password === password) {
+    if (account) {
       // Lưu currentUser
-      localStorage.setItem("currentUser", JSON.stringify({
-        fullname: account.fullname,
-        email: account.email,
-        createdAt: account.createdAt || new Date().toISOString()
-      }));
+      localStorage.setItem(
+        "currentUser",
+        JSON.stringify({
+          id: "comic_user", // luôn cố định
+          fullname: account.fullname,
+          email: account.email,
+          createdAt: account.createdAt,
+        }),
+      );
 
       alert("Form đã được gửi thành công! Chuyển hướng đến trang chủ!");
       window.location.href = "trangchu.html";
-    } else {
-      const userExists = account.email === email;
-      if (userExists) {
-        setError(passwordRow, "Mật khẩu không chính xác!", passwordMsg);
-        if (isValidEmail(email)) {
-          setSuccess(emailRow, emailMsg);
-        }
-      } else {
-        setError(emailRow, "Email chưa được đăng ký!", emailMsg);
-        resetRow(passwordRow);
-        passwordMsg.textContent = "";
-      }
     }
   });
 
