@@ -19,12 +19,12 @@ function xoaHetCon(el) {
 function layGiaTriSo(truyen, tieuChi) {
   const giaTri = truyen[tieuChi];
   if (typeof giaTri === "number") return giaTri;
-  return parseInt(String(giaTri || "0").replace(/,/g, ""), 10) || 0;
+  return parseInt(String(giaTri || "0").replace(/,/g, ""), 10) || 0; //Chuyển từ chuỗi thành số
 }
 
 function xepHangTruyen(tieuChi) {
-  const ds = [...danhSachTruyen];
-  ds.sort((a, b) => layGiaTriSo(b, tieuChi) - layGiaTriSo(a, tieuChi));
+  const ds = [...danhSachTruyen]; //Copy mảng
+  ds.sort((a, b) => layGiaTriSo(b, tieuChi) - layGiaTriSo(a, tieuChi)); //Sắp xếp theo giảm dần
   return ds;
 }
 
@@ -34,14 +34,14 @@ function dinhDangChiSo(truyen, tieuChi) {
   let chuoiSo = giaTri;
 
   if (tieuChi === "diemDanhGia") {
-    chuoiSo = Number(giaTri).toFixed(1);
+    chuoiSo = Number(giaTri).toFixed(1); //Ví dụ: 9->9.0 hoặc 9.75->9.8
   }
 
-  const spanIcon = document.createElement("span");
+  const spanIcon = document.createElement("span"); // tạo html span để hiển thị icon
   spanIcon.className = "xh-chiso-icon";
   spanIcon.textContent = iconTieuChi[tieuChi];
 
-  const spanText = document.createElement("span");
+  const spanText = document.createElement("span"); // tạo html để hiển thị số
   spanText.className = "xh-chiso-so";
   spanText.textContent = chuoiSo;
 
@@ -57,11 +57,11 @@ function renderTrangXepHang() {
   xoaHetCon(el);
 
   const dsXepHang = xepHangTruyen(tieuChiHienTai);
-
   const gioiHan = danhSachMoRong ? dsXepHang.length : 3 + SO_MUC_HIEN;
   const dsHienThi = dsXepHang.slice(0, gioiHan);
 
   dsHienThi.forEach((truyen, chiSo) => {
+    //Lặp từng truyện sau đó tạo html
     const a = document.createElement("a");
     a.className = "xh-hang-muc";
     a.href = `trangchitiet.html?id=${truyen.id}`;
@@ -95,9 +95,9 @@ function renderTrangXepHang() {
     chiso.appendChild(dinhDangChiSo(truyen, tieuChiHienTai));
 
     a.append(hangSoNho, img, info, chiso);
-    el.appendChild(a);
+    el.appendChild(a); //Thêm vào trang
   });
-
+  //Nếu có trên 10 truyện thì hiện nút xem thêm
   if (dsXepHang.length > 3 + SO_MUC_HIEN) {
     const wrap = document.createElement("div");
     wrap.className = "xh-xem-them";
@@ -115,7 +115,7 @@ function toggleDanhSachXepHang() {
   danhSachMoRong = !danhSachMoRong;
   renderTrangXepHang();
 }
-
+//Khi click xóa active cũ và thêm active mới
 function ganSuKienTab() {
   const cacNut = document.querySelectorAll(".xh-tab-nut");
   cacNut.forEach((nut) => {

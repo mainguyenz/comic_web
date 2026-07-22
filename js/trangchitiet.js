@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // ============================================================================
 // HÀM BỔ TRỢ (UTILITIES & LOCALSTORAGE)
 // ============================================================================
@@ -8,6 +9,23 @@ const layThamSoURL = (tenThamSo) => {
 };
 
 const safeParseJSON = (key, fallback = null) => {
+=======
+function layThamSoURL(tenThamSo) {
+  const cap = window.location.search
+    .substring(1) //Xóa kí tự đầu tiên
+    .split("&") //Tách chuỗi thành mảng (?id=1&chapter=12->id=1 và chapter=12)
+    .find((item) => item.startsWith(`${tenThamSo}=`));
+  return cap ? decodeURIComponent(cap.split("=")[1]) : null;
+}
+//Xóa nội dung
+function xoaHetCon(element) {
+  if (element) {
+    element.textContent = "";
+  }
+}
+//Hàm đọc dữ liệu từ localStorage và chuyển dữ liệu JSON thành object
+function safeParseJSON(key, fallback = null) {
+>>>>>>> e610363a007a2c555f023703ec61b18620ac96d1
   try {
     const item = localStorage.getItem(key);
     if (item) {
@@ -33,6 +51,10 @@ const taoTextNode = (text) => document.createTextNode(String(text));
 // KIỂM TRA LỖI TRUYỆN KHÔNG TỒN TẠI (404)
 // ============================================================================
 
+<<<<<<< HEAD
+=======
+//Kiểm tra truyện và xử lý lỗi 404
+>>>>>>> e610363a007a2c555f023703ec61b18620ac96d1
 const idThamSo = layThamSoURL("id");
 const idTruyen = idThamSo && idThamSo.trim() !== "" ? Number(idThamSo) : NaN;
 const idHopLe = !isNaN(idTruyen) && Number.isInteger(idTruyen) && idTruyen > 0;
@@ -64,20 +86,29 @@ if (!truyen) {
   throw new Error("LỖI 404: Không tìm thấy truyện.");
 }
 
+<<<<<<< HEAD
 // ============================================================================
 // TRẠNG THÁI TOÀN CỤC (GLOBAL STATE)
 // ============================================================================
 
+=======
+//Khởi tạo biến toàn cục
+>>>>>>> e610363a007a2c555f023703ec61b18620ac96d1
 let currentUser = safeParseJSON("currentUser", null);
 let thuTuChapter = "desc";
 let chapterMoRong = false;
 let saoDangChon = 0;
 
+<<<<<<< HEAD
 // ============================================================================
 // CHỨC NĂNG: MÀN HÌNH CHI TIẾT TRUYỆN & MENU
 // ============================================================================
 
 const thietLapMenu = () => {
+=======
+//Điều chỉnh menu theo trạng thái đăng nhập
+function thietLapMenu() {
+>>>>>>> e610363a007a2c555f023703ec61b18620ac96d1
   const khuChuaDangNhap = document.getElementById("khuChuaDangNhap");
   const khuDaDangNhap = document.getElementById("khuDaDangNhap");
   const tenTaiKhoan = document.getElementById("tenTaiKhoan");
@@ -98,6 +129,7 @@ const thietLapMenu = () => {
   }
 };
 
+<<<<<<< HEAD
 const capNhatHienThiDiemDanhGia = () => {
   const lblDiemTb = document.getElementById("lblDiemTb");
   const dungTichSao = document.getElementById("dungTichSao");
@@ -156,6 +188,11 @@ const hienNutDocTiep = () => {
 const hienThiChiTietTruyen = () => {
   document.title = `${truyen.ten} - Comic Web`;
 
+=======
+//Hiển thị thông tin chi tiết truyện
+function hienThiChiTietTruyen() {
+  document.title = `${truyen.ten} - Comic Web`; //Đổi tên tiêu đề cuả tab trình duyệt
+>>>>>>> e610363a007a2c555f023703ec61b18620ac96d1
   const brTenTruyen = document.getElementById("breadcrumbTenTruyen");
   const lblTenTruyen = document.getElementById("lblTenTruyen");
 
@@ -276,7 +313,11 @@ const hienThiChiTietTruyen = () => {
       boxTheLoai.appendChild(fragment);
     }
   }
+<<<<<<< HEAD
 
+=======
+  //Nút theo dõi
+>>>>>>> e610363a007a2c555f023703ec61b18620ac96d1
   const btnTheoDoi = document.getElementById("btnTheoDoi");
   if (btnTheoDoi) {
     const iconHeart = btnTheoDoi.querySelector("i");
@@ -328,7 +369,54 @@ const hienThiChiTietTruyen = () => {
 // CHỨC NĂNG: QUẢN LÝ DANH SÁCH CHAPTER
 // ============================================================================
 
+<<<<<<< HEAD
 const renderDanhSachChapter = () => {
+=======
+  if (lblDiemTb) lblDiemTb.textContent = diemSo.toFixed(1);
+  if (dungTichSao) {
+    const lamTronSao = Math.round(diemSo);
+    dungTichSao.textContent =
+      "★".repeat(lamTronSao) + "☆".repeat(5 - lamTronSao);
+  }
+}
+function capNhatDiemDanhGiaTrungBinh(dsBinhLuan) {
+  const coDanhGia = dsBinhLuan.filter((bl) => bl.saoDanhGia > 0);
+  if (coDanhGia.length === 0) return;
+
+  const tong = coDanhGia.reduce((s, bl) => s + bl.saoDanhGia, 0);
+  truyen.diemDanhGia = tong / coDanhGia.length;
+
+  capNhatHienThiDiemDanhGia();
+}
+
+//Nút đọc tiếp (dùng layChapterDangDocDo() từ luutru.js)
+function hienNutDocTiep() {
+  const btnDocTiep = document.getElementById("btnDocTiep");
+  if (!btnDocTiep) return;
+
+  if (typeof layChapterDangDocDo !== "function") {
+    btnDocTiep.style.display = "none";
+    return;
+  }
+
+  const chapterDaDoc = layChapterDangDocDo(idTruyen);
+  const chapterVanConTonTai =
+    chapterDaDoc &&
+    Array.isArray(truyen.danhSachChapter) &&
+    truyen.danhSachChapter.some((c) => c.so === chapterDaDoc);
+
+  if (chapterVanConTonTai) {
+    btnDocTiep.href = `doctruyen.html?id=${idTruyen}&chapter=${chapterDaDoc}`;
+    btnDocTiep.textContent = `▶ Đọc Tiếp - Chương ${chapterDaDoc}`;
+    btnDocTiep.style.display = "block";
+  } else {
+    btnDocTiep.style.display = "none";
+  }
+}
+
+// --- 6. XỬ LÝ HIỂN THỊ CHƯƠNG TRUYỆN ---
+function renderDanhSachChapter() {
+>>>>>>> e610363a007a2c555f023703ec61b18620ac96d1
   const listEl = document.getElementById("danhSachChapter");
   const btnXemThem = document.getElementById("btnXemThemChapter");
   const chapterDem = document.getElementById("chapterDem");
