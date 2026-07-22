@@ -1,17 +1,17 @@
 function layThamSoURL(tenThamSo) {
   const cap = window.location.search
-    .substring(1)
-    .split("&")
+    .substring(1) //Xóa kí tự đầu tiên
+    .split("&") //Tách chuỗi thành mảng (?id=1&chapter=12->id=1 và chapter=12)
     .find((item) => item.startsWith(`${tenThamSo}=`));
   return cap ? decodeURIComponent(cap.split("=")[1]) : null;
 }
-
+//Xóa nội dung
 function xoaHetCon(element) {
   if (element) {
     element.textContent = "";
   }
 }
-
+//Hàm đọc dữ liệu từ localStorage và chuyển dữ liệu JSON thành object
 function safeParseJSON(key, fallback = null) {
   try {
     const item = localStorage.getItem(key);
@@ -22,7 +22,7 @@ function safeParseJSON(key, fallback = null) {
   }
 }
 
-// --- 2. KIỂM TRA TRUYỆN & XỬ LÝ LỖI 404 ---
+//Kiểm tra truyện và xử lý lỗi 404
 const idThamSo = layThamSoURL("id");
 const idTruyen = idThamSo && idThamSo.trim() !== "" ? Number(idThamSo) : NaN;
 const idHopLe = !isNaN(idTruyen) && Number.isInteger(idTruyen) && idTruyen > 0;
@@ -50,13 +50,13 @@ if (!truyen) {
   throw new Error("LỖI 404: Không tìm thấy truyện.");
 }
 
-// --- 3. KHỞI TẠO BIẾN TOÀN CỤC ---
+//Khởi tạo biến toàn cục
 let currentUser = safeParseJSON("currentUser", null);
 let thuTuChapter = "desc";
 let chapterMoRong = false;
 let saoDangChon = 0;
 
-// --- 4. ĐIỀU CHỈNH MENU THEO TRẠNG THÁI ĐĂNG NHẬP ---
+//Điều chỉnh menu theo trạng thái đăng nhập
 function thietLapMenu() {
   const khuChuaDangNhap = document.getElementById("khuChuaDangNhap");
   const khuDaDangNhap = document.getElementById("khuDaDangNhap");
@@ -77,9 +77,9 @@ function thietLapMenu() {
   }
 }
 
-// --- 5. HIỂN THỊ CHI TIẾT THÔNG TIN TRUYỆN ---
+//Hiển thị thông tin chi tiết truyện
 function hienThiChiTietTruyen() {
-  document.title = `${truyen.ten} - Comic Web`;
+  document.title = `${truyen.ten} - Comic Web`; //Đổi tên tiêu đề cuả tab trình duyệt
   const brTenTruyen = document.getElementById("breadcrumbTenTruyen");
   const lblTenTruyen = document.getElementById("lblTenTruyen");
   if (brTenTruyen) brTenTruyen.textContent = truyen.ten;
@@ -184,8 +184,7 @@ function hienThiChiTietTruyen() {
       });
     }
   }
-
-  // --- NÚT THEO DÕI ---
+  //Nút theo dõi
   const btnTheoDoi = document.getElementById("btnTheoDoi");
   if (btnTheoDoi) {
     const iconHeart = btnTheoDoi.querySelector("i");
@@ -258,7 +257,7 @@ function capNhatDiemDanhGiaTrungBinh(dsBinhLuan) {
   capNhatHienThiDiemDanhGia();
 }
 
-// --- NÚT "ĐỌC TIẾP" (dùng layChapterDangDocDo() từ luutru.js) ---
+//Nút đọc tiếp (dùng layChapterDangDocDo() từ luutru.js)
 function hienNutDocTiep() {
   const btnDocTiep = document.getElementById("btnDocTiep");
   if (!btnDocTiep) return;
