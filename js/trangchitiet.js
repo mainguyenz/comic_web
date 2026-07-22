@@ -399,19 +399,25 @@ function luuBinhLuanCuaTruyen(dsBinhLuan) {
   toanBoBinhLuan[idTruyen] = dsBinhLuan.slice(-40);
   localStorage.setItem("app_comments", JSON.stringify(toanBoBinhLuan));
 }
-
 function renderDanhSachBinhLuan() {
   const khuBinhLuan = document.getElementById("khuBinhLuan");
   if (!khuBinhLuan) return;
 
-  khuBinhLuan.textContent = "";
+  // Xóa sạch con theo chuẩn DOM
+  while (khuBinhLuan.firstChild) {
+    khuBinhLuan.removeChild(khuBinhLuan.firstChild);
+  }
+
   const dsSapXep = [...layKhoBinhLuan()].reverse();
 
   if (dsSapXep.length === 0) {
     const emptyP = document.createElement("p");
     emptyP.className = "empty-comment-text";
-    emptyP.textContent =
-      "Chưa có bình luận nào. Hãy là người đầu tiên bình luận và đánh giá!";
+    emptyP.appendChild(
+      document.createTextNode(
+        "Chưa có bình luận nào. Hãy là người đầu tiên bình luận và đánh giá!"
+      )
+    );
     khuBinhLuan.appendChild(emptyP);
     return;
   }
@@ -420,41 +426,63 @@ function renderDanhSachBinhLuan() {
     const card = document.createElement("div");
     card.className = "binh-luan-item";
 
+    // 1. Avatar
     const avatar = document.createElement("div");
     avatar.className = "bl-avatar";
     const tenHienThi = bl.fullname || bl.email || "Độc giả";
-    avatar.textContent = tenHienThi.trim().charAt(0).toUpperCase();
+    avatar.appendChild(
+      document.createTextNode(tenHienThi.trim().charAt(0).toUpperCase())
+    );
 
+    // 2. Nội dung bình luận
     const body = document.createElement("div");
     body.className = "bl-noidung";
 
     const meta = document.createElement("div");
     meta.className = "bl-meta";
 
+    // Tên người dùng
     const name = document.createElement("strong");
-    name.textContent = tenHienThi;
+    name.appendChild(document.createTextNode(tenHienThi));
     meta.appendChild(name);
 
+    // 🏷️ HIỂN THỊ TÊN CHAPTER (NẾU CÓ)
+    if (bl.chapterSo) {
+      const tagChap = document.createElement("span");
+      tagChap.className = "bl-chapter-badge"; // Thêm class để CSS nếu thích
+      tagChap.appendChild(document.createTextNode(` [Chương ${bl.chapterSo}]`));
+      tagChap.style.color = "#ff9800"; // Màu cam nổi bật (hoặc chỉnh trong CSS)
+      tagChap.style.fontWeight = "bold";
+      meta.appendChild(tagChap);
+    }
+
+    // Sao đánh giá (nếu có)
     if (bl.saoDanhGia > 0) {
       const starsSpan = document.createElement("span");
       starsSpan.className = "bl-stars";
-      starsSpan.textContent =
-        "★".repeat(bl.saoDanhGia) + "☆".repeat(5 - bl.saoDanhGia);
+      starsSpan.appendChild(
+        document.createTextNode(
+          " ★".repeat(bl.saoDanhGia) + "☆".repeat(5 - bl.saoDanhGia)
+        )
+      );
       meta.appendChild(starsSpan);
     }
 
+    // Thời gian đăng
     const time = document.createElement("span");
     time.className = "bl-time";
-    time.textContent = bl.ngayDang || "Gần đây";
+    time.appendChild(document.createTextNode(` · ${bl.ngayDang || "Gần đây"}`));
     meta.appendChild(time);
 
+    // Nội dung chữ
     const content = document.createElement("p");
-    content.textContent = bl.noiDung;
+    content.appendChild(document.createTextNode(bl.noiDung));
 
     body.appendChild(meta);
     body.appendChild(content);
     card.appendChild(avatar);
     card.appendChild(body);
+
     khuBinhLuan.appendChild(card);
   });
 }
