@@ -742,7 +742,17 @@ body {
   font-size: 14px;
   line-height: 1.7;
 }
-
+/* cho đánh dấu chapter*/
+.bl-chapter-badge {
+  background-color: rgba(255, 152, 0, 0.15);
+  color: #ff9800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  margin-left: 6px;
+  display: inline-block;
+}
+/*=============*/
 .footer-copy {
   padding: 20px;
   border-top: 1px solid rgba(134, 98, 242, 0.4);
