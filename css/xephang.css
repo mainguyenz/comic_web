@@ -1,13 +1,3 @@
-.breadcrumb {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  font-size: 14px;
-  color: white;
-  padding: 10px 16px;
-  box-sizing: border-box;
-}
-
 .xh-tab-nut:focus-visible,
 .xh-xem-them button:focus-visible,
 .xh-hang-muc:focus-visible {
