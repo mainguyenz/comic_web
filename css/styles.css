@@ -307,7 +307,7 @@ main {
 .comment-item .comment-time {
   display: block;
   font-size: 11px;
-  color: #aaa;
+  color: #f5f1f1;
   margin-bottom: 5px;
 }
 
@@ -316,7 +316,6 @@ main {
   line-height: 1.5;
   word-break: break-word;
 }
-
 
 .check__line {
   position: relative;
@@ -351,7 +350,6 @@ main {
 .chapter-list a:hover {
   background: #3b82f6;
 }
-
 
 .chapter-list.show {
   display: block;
@@ -416,8 +414,6 @@ main {
     border-radius: 0;
   }
 }
-
-
 
 @media (max-width: 480px) {
   .div_main {

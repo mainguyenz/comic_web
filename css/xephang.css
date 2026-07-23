@@ -17,7 +17,7 @@
   border-radius: 30px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: rgba(255, 255, 255, 0.08);
-  color: #ccc;
+  color: #f9f7f7;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -173,7 +173,7 @@
 
 .xh-danh-sach .xh-hang-muc:nth-child(n + 4) .xh-hang-muc-tacgia {
   font-size: 13px;
-  color: #aaa;
+  color: #e0dcdc;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
