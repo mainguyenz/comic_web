@@ -726,14 +726,7 @@ function ganTimKiem() {
 
     const ketQua = danhSachTruyen.filter((truyen) => {
       const ten = (truyen.ten || "").toLowerCase();
-      const tacGia = (truyen.tacGia || "").toLowerCase();
-      const theLoai = (truyen.theLoai || []).join(" ").toLowerCase();
-
-      return (
-        ten.includes(tuKhoa) ||
-        tacGia.includes(tuKhoa) ||
-        theLoai.includes(tuKhoa)
-      );
+      return ten.includes(tuKhoa);
     });
 
     if (ketQua.length === 0) {
