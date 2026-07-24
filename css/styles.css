@@ -107,7 +107,6 @@ main {
 /* HOME - MENU - CHỌN TRANG - YÊU THÍCH */
 .home,
 .menus,
-.love,
 .check__line {
   display: flex;
   justify-content: center;
@@ -143,7 +142,6 @@ main {
 /* HIỆU ỨNG */
 .home:hover,
 .menus:hover,
-.love:hover,
 .check__line:hover,
 .arrow-box:hover {
   background-color: #3b82f6;
@@ -212,14 +210,7 @@ main {
   z-index: 999;
 }
 
-.love.is-loved {
-  background-color: #ef4444;
-  color: white;
-}
 
-.love.is-loved:hover {
-  background-color: #dc2626;
-}
 
 /*Thong báo đăng nhập mới bình luận*/
 .bl-thongbao-dangnhap {
@@ -386,7 +377,6 @@ main {
 
   .home,
   .menus,
-  .love,
   .check__line {
     min-width: 35px;
     height: 35px;
@@ -422,11 +412,11 @@ main {
     align-items: center;
     gap: 2px;
     padding: 1px;
+    justify-content: center;
   }
 
   .navigation--main {
     display: flex;
-    flex: 1;
     justify-content: space-between;
     align-items: center;
     gap: 2px;
@@ -443,16 +433,10 @@ main {
     margin: 2px;
   }
 
-  .check__line,
-  .love {
+  .check__line {
     min-width: 40px;
     height: 40px;
     font-size: 12px;
     padding: 0 1px;
-  }
-
-  .love {
-    white-space: nowrap;
-    /* khong cho noi dung xuong dong */
   }
 }
