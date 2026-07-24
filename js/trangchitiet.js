@@ -30,6 +30,32 @@ const xoaHetCon = (element) => {
 const taoTextNode = (text) => document.createTextNode(String(text));
 
 // ============================================================================
+// DỮ LIỆU BÌNH LUẬN MẪU (MẢNG OBJECT THÔ - RAW DATA IN-MEMORY)
+// ============================================================================
+
+// Khai báo mảng Object lưu trữ bình luận theo từng ID truyện ngay trong RAM
+const khoBinhLuanInMem = {
+  1: [
+    {
+      id: 1,
+      fullname: "Nguyễn Văn A",
+      email: "a@gmail.com",
+      noiDung: "Truyện cuốn quá admin ơi, hóng chap mới!",
+      ngayDang: "10/05/2024, 14:30:00",
+      saoDanhGia: 5,
+    },
+    {
+      id: 2,
+      fullname: "Trần Thị B",
+      email: "b@gmail.com",
+      noiDung: "Nét vẽ đẹp, cốt truyện khá ổn.",
+      ngayDang: "11/05/2024, 09:15:00",
+      saoDanhGia: 4,
+    },
+  ],
+};
+
+// ============================================================================
 // KIỂM TRA LỖI TRUYỆN KHÔNG TỒN TẠI (404)
 // ============================================================================
 
@@ -126,33 +152,6 @@ const capNhatDiemDanhGiaTrungBinh = (dsBinhLuan) => {
   truyen.diemDanhGia = tong / coDanhGia.length;
 
   capNhatHienThiDiemDanhGia();
-};
-
-const hienNutDocTiep = () => {
-  const btnDocTiep = document.getElementById("btnDocTiep");
-  if (!btnDocTiep) return;
-
-  if (typeof layChapterDangDocDo !== "function") {
-    btnDocTiep.style.display = "none";
-    return;
-  }
-
-  const chapterDaDoc = layChapterDangDocDo(idTruyen);
-  const { danhSachChapter } = truyen;
-
-  const chapterVanConTonTai =
-    chapterDaDoc &&
-    Array.isArray(danhSachChapter) &&
-    danhSachChapter.some((c) => c.so === chapterDaDoc);
-
-  if (chapterVanConTonTai) {
-    btnDocTiep.href = `doctruyen.html?id=${idTruyen}&chapter=${chapterDaDoc}`;
-    xoaHetCon(btnDocTiep);
-    btnDocTiep.appendChild(taoTextNode(`▶ Đọc Tiếp - Chương ${chapterDaDoc}`));
-    btnDocTiep.style.display = "block";
-  } else {
-    btnDocTiep.style.display = "none";
-  }
 };
 
 const hienThiChiTietTruyen = () => {
@@ -284,6 +283,7 @@ const hienThiChiTietTruyen = () => {
       boxTheLoai.appendChild(fragment);
     }
   }
+
   const btnTheoDoi = document.getElementById("btnTheoDoi");
   if (btnTheoDoi) {
     const iconHeart = btnTheoDoi.querySelector("i");
@@ -334,8 +334,6 @@ const hienThiChiTietTruyen = () => {
       capNhatGiaoDienTheoDoi();
     });
   }
-
-  hienNutDocTiep();
 };
 
 // ============================================================================
@@ -449,7 +447,7 @@ const thietLapTuongTacChapter = () => {
 };
 
 // ============================================================================
-// CHỨC NĂNG: ĐÁNH GIÁ SAO VÀ BÌNH LUẬN
+// CHỨC NĂNG: ĐÁNH GIÁ SAO VÀ BÌNH LUẬN (THUẦN OBJECT/ARRAY TRONG RAM)
 // ============================================================================
 
 const thietLapDanhGiaSao = () => {
@@ -471,12 +469,12 @@ const thietLapDanhGiaSao = () => {
   });
 };
 
-const layKhoBinhLuan = () => safeParseJSON("app_comments", {})[idTruyen] || [];
-
-const luuBinhLuanCuaTruyen = (dsBinhLuan) => {
-  const toanBoBinhLuan = safeParseJSON("app_comments", {});
-  toanBoBinhLuan[idTruyen] = dsBinhLuan.slice(-40);
-  localStorage.setItem("app_comments", JSON.stringify(toanBoBinhLuan));
+// Đọc danh sách bình luận trực tiếp từ Object thô khoBinhLuanInMem
+const layKhoBinhLuan = () => {
+  if (!khoBinhLuanInMem[idTruyen]) {
+    khoBinhLuanInMem[idTruyen] = [];
+  }
+  return khoBinhLuanInMem[idTruyen];
 };
 
 const renderDanhSachBinhLuan = () => {
@@ -588,6 +586,7 @@ const thietLapFormBinhLuan = () => {
       return;
     }
 
+    // Thêm Object bình luận mới trực tiếp vào Mảng RAM (In-Memory)
     const dsMoi = layKhoBinhLuan();
     dsMoi.push({
       id: Date.now(),
@@ -598,7 +597,7 @@ const thietLapFormBinhLuan = () => {
       saoDanhGia: saoDangChon,
     });
 
-    luuBinhLuanCuaTruyen(dsMoi);
+    // Cập nhật lại điểm đánh giá trung bình
     capNhatDiemDanhGiaTrungBinh(dsMoi);
 
     if (txtBinhLuan) txtBinhLuan.value = "";
@@ -766,10 +765,6 @@ function ganTimKiem() {
 // ============================================================================
 
 document.addEventListener("DOMContentLoaded", () => {
-  ganMenu();
-  ganTimKiem();
-  ganNutQuayLai();
-  thietLapMenu();
   hienThiChiTietTruyen();
   renderDanhSachChapter();
   thietLapTuongTacChapter();
