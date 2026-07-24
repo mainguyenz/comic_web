@@ -21,9 +21,9 @@ const CAU_HINH_DOC_TRUYEN = Object.freeze({
   tuKhoaToiDaKyTu: 100, // Độ dài tối đa của từ khóa tìm kiếm
 
   viTriHienNutLenDauTrang: 300, // Vị trí cuộn để hiện nút lên đầu trang
-  viTriBatDauSticky: 100, // Vị trí bắt đầu thanh điều hướng nổi
-  khoangCachMepMenu: 10, // Khoảng cách an toàn của menu với mép màn hình
-  thoiGianDongMenu: 1000, // Thời gian chờ đóng menu chapter, tính bằng ms
+  viTriBatDauSticky: 100,       // Vị trí bắt đầu thanh điều hướng nổi
+  khoangCachMepMenu: 10,        // Khoảng cách an toàn của menu với mép màn hình
+  thoiGianDongMenu: 200,       // Thời gian chờ đóng menu chapter, tính bằng ms
 });
 
 // Key localStorage dùng chung với trang chi tiết để lưu bình luận.
@@ -616,7 +616,7 @@ function khoiTaoDanhSachChapterNoi() {
         } else if (
           viTri.bottom >
           document.documentElement.clientHeight -
-            CAU_HINH_DOC_TRUYEN.khoangCachMepMenu
+          CAU_HINH_DOC_TRUYEN.khoangCachMepMenu
         ) {
           nut.classList.add("open-up");
         }
