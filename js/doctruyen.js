@@ -14,11 +14,8 @@ const CAU_HINH_DOC_TRUYEN = Object.freeze({
   idToiDa: 1000, // ID truyện lớn nhất được chấp nhận
   chapterToiDa: 100000, // Số chapter lớn nhất được chấp nhận
 
-  binhLuanToiDaKyTu: 500, // Số ký tự tối đa của bình luận
-  binhLuanToiDaMoiTruyen: 40, // Số bình luận tối đa của mỗi truyện
   anhToiDaMoiChapter: 500, // Số ảnh tối đa được hiển thị trong một chapter
   ketQuaTimKiemToiDa: 50, // Số truyện tối đa trong kết quả tìm kiếm
-  tuKhoaToiDaKyTu: 100, // Độ dài tối đa của từ khoa tìm kiếm
 
   viTriHienNutLenDauTrang: 300, // Vị trí cuộn để hiện nút lên đầu trang
   viTriBatDauSticky: 100,       // Vị trí bắt đầu thanh điều hướng nổi
@@ -56,17 +53,6 @@ function docJsonLocalStorage(khoa, giaTriMacDinh) {
   }
 }
 
-// Chuyển dữ liệu thành JSON và lưu vào localStorage.
-// Trả về true nếu lưu thành công, false nếu xảy ra lỗi.
-function ghiJsonLocalStorage(khoa, duLieu) {
-  try {
-    localStorage.setItem(khoa, JSON.stringify(duLieu));
-    return true;
-  } catch (loi) {
-    console.warn(`Không lưu được dữ liệu JSON tại khóa ${khoa}.`, loi);
-    return false;
-  }
-}
 
 // Chuyển một giá trị thành số nguyên dương hợp lệ.
 // Nếu giá trị rỗng, không phải số hoặc vượt giới hạn thì trả về mặc định.
@@ -225,214 +211,9 @@ function luuBinhLuanMoi(binhLuan) {
 
   return ghiJsonLocalStorage(KHO_BINH_LUAN_CHUNG, khoBinhLuan);
 }
-// Tạo một phần tử HTML hiển thị tên, thời gian và nội dung bình luận.
-function taoDongBinhLuan(binhLuan) {
-  const item = document.createElement("div");
-  item.classList.add("comment-item");
 
-  const thoiGian = document.createElement("span");
-  thoiGian.classList.add("comment-time");
 
-  const ten = document.createElement("strong");
 
-  ten.textContent =
-    gioiHanChuoi(binhLuan.fullname || binhLuan.ten || binhLuan.email, 80) ||
-    "Người dùng";
-
-  thoiGian.appendChild(ten);
-
-  thoiGian.appendChild(
-    document.createTextNode(
-      ` · ${gioiHanChuoi(binhLuan.ngayDang || binhLuan.thoiGian, 40)}`,
-    ),
-  );
-
-  const noiDung = document.createElement("p");
-  noiDung.classList.add("comment-text");
-  noiDung.textContent = gioiHanChuoi(
-    binhLuan.noiDung,
-    CAU_HINH_DOC_TRUYEN.binhLuanToiDaKyTu,
-  );
-
-  item.append(thoiGian, noiDung);
-  return item;
-}
-
-// Lọc và hiển thị những bình luận thuộc chapter hiện tại.
-// Bình luận mới nhất được hiển thị trước.
-function renderBinhLuanChapter(commentList) {
-  if (!commentList || !chap) return;
-
-  xoaNoiDungPhanTu(commentList);
-  const danhSach = layBinhLuanCuaTruyen()
-    .filter((binhLuan) => Number(binhLuan?.chapterSo) === Number(chap.chapter))
-    .reverse();
-  if (danhSach.length === 0) {
-    const thongBao = document.createElement("p");
-    thongBao.classList.add("comment-empty");
-    thongBao.textContent =
-      "Chưa có bình luận nào ở chapter này. Hãy là người đầu tiên!";
-    commentList.appendChild(thongBao);
-    return;
-  }
-
-  const fragment = document.createDocumentFragment();
-  danhSach.forEach((binhLuan) => {
-    fragment.appendChild(taoDongBinhLuan(binhLuan));
-  });
-  commentList.appendChild(fragment);
-}
-
-// Khởi tạo khu vực bình luận.
-// Chỉ cho phép người đã đăng nhập gửi bình luận.
-function khoiTaoBinhLuan() {
-  const form = document.getElementById("commentForm");
-  const input = document.getElementById("commentInput");
-  const list = document.getElementById("commentList");
-  const thongBaoDangNhap = document.getElementById("blThongBaoDangNhap");
-  const linkDangNhap = document.getElementById("blLinkDangNhap");
-
-  if (!form || !input || !list || !truyen || !chap) return;
-
-  input.maxLength = CAU_HINH_DOC_TRUYEN.binhLuanToiDaKyTu;
-  const taiKhoan = layTaiKhoanHienTai();
-
-  form.hidden = !taiKhoan;
-  if (thongBaoDangNhap) thongBaoDangNhap.hidden = Boolean(taiKhoan);
-  if (linkDangNhap) linkDangNhap.href = taoLinkDangNhap();
-
-  renderBinhLuanChapter(list);
-
-  form.addEventListener("submit", (event) => {
-    // Ngăn trình duyệt tải lại trang khi gửi bình luận.
-
-    event.preventDefault();
-    // Kiểm tra lại trạng thái đăng nhập tại thời điểm gửi.
-
-    const taiKhoanMoi = layTaiKhoanHienTai();
-    if (!taiKhoanMoi) {
-      window.location.assign(taoLinkDangNhap());
-      return;
-    }
-    // Chuẩn hóa và giới hạn nội dung bình luận.
-    const noiDung = gioiHanChuoi(
-      input.value,
-      CAU_HINH_DOC_TRUYEN.binhLuanToiDaKyTu,
-    );
-    if (!noiDung) return;
-    // Tạo dữ liệu bình luận theo cấu trúc dùng chung với trang chi tiết.
-
-    const binhLuan = {
-      id: Date.now(),
-
-      fullname: taiKhoanMoi.fullname || taiKhoanMoi.tenHienThi || null,
-
-      email: taiKhoanMoi.email || "Ẩn danh",
-
-      noiDung,
-
-      ngayDang: new Date().toLocaleString("vi-VN"),
-
-      saoDanhGia: 0,
-
-      chapterSo: Number(chap.chapter),
-    };
-
-    if (luuBinhLuanMoi(binhLuan)) {
-      input.value = "";
-      renderBinhLuanChapter(list);
-    } else {
-      alert(
-        "Không thể lưu bình luận. Vui lòng kiểm tra dung lượng trình duyệt.",
-      );
-    }
-  });
-}
-// Kiểm tra truyện hiện tại có nằm trong danh sách theo dõi của tài khoản đang đăng nhập hay không.
-function kiemTraTheoDoi() {
-  if (!truyen || typeof kiemTraDaTheoDoi !== "function") {
-    return false;
-  }
-
-  return Boolean(kiemTraDaTheoDoi(truyen.id));
-}
-
-// Thêm hoặc xóa truyện khỏi danh sách theo dõi thông qua luutru.js.
-function daoTrangThaiTheoDoi() {
-  if (!truyen || typeof toggleTheoDoiId !== "function") {
-    return false;
-  }
-
-  return Boolean(toggleTheoDoiId(truyen.id));
-}
-
-// Cập nhật biểu tượng, nội dung và trạng thái giao diện của một nút yêu thích.
-function capNhatNutYeuThich(nut, dangTheoDoi) {
-  let icon = nut.querySelector("i");
-  if (!icon) {
-    icon = document.createElement("i");
-    nut.prepend(icon);
-  }
-
-  icon.className = dangTheoDoi ? "fa-solid fa-heart" : "fa-regular fa-heart";
-
-  let nhan = nut.querySelector(".love-label");
-  if (!nhan) {
-    Array.from(nut.childNodes).forEach((node) => {
-      if (node.nodeType === Node.TEXT_NODE) node.remove();
-    });
-    nhan = document.createElement("span");
-    nhan.classList.add("love-label");
-    nut.appendChild(nhan);
-  }
-
-  nhan.textContent = dangTheoDoi ? "Đã thích" : "Yêu thích";
-  nut.classList.toggle("is-loved", dangTheoDoi);
-  nut.setAttribute("aria-pressed", String(dangTheoDoi));
-}
-
-// Khởi tạo tất cả nút yêu thích ở đầu và cuối trang.
-// Nếu chưa đăng nhập thì chuyển người dùng tới trang đăng nhập.
-function khoiTaoYeuThich() {
-  if (!truyen) return;
-
-  const cacNut = document.querySelectorAll(".love");
-  const taiKhoan = layTaiKhoanHienTai();
-  const capNhatTatCa = (trangThai) => {
-    cacNut.forEach((nut) => capNhatNutYeuThich(nut, trangThai));
-  };
-
-  capNhatTatCa(taiKhoan ? kiemTraTheoDoi() : false);
-
-  cacNut.forEach((nut) => {
-    nut.addEventListener("click", () => {
-      const taiKhoanMoi = layTaiKhoanHienTai();
-      if (!taiKhoanMoi) {
-        window.location.assign(taoLinkDangNhap());
-        return;
-      }
-
-      capNhatTatCa(daoTrangThaiTheoDoi());
-    });
-  });
-}
-
-// Lưu chapter hiện tại làm tiến độ đọc của tài khoản.
-// Người chưa đăng nhập sẽ không được lưu tiến độ.
-function luuTienDoHienTai() {
-  if (!truyen || !chap) return;
-
-  if (typeof luuTienDoDoc !== "function") {
-    console.warn("Không tìm thấy hàm lưu tiến độ.");
-    return;
-  }
-
-  const daLuu = luuTienDoDoc(truyen.id, chap.chapter);
-
-  if (!daLuu) {
-    console.info("Chưa đăng nhập nên không lưu tiến độ.");
-  }
-}
 
 // Gắn ID truyện vào các liên kết quay về trang chi tiết.
 function ganLienKetCoBan() {
@@ -762,9 +543,6 @@ function khoiTaoTrangDocTruyen() {
   ganDieuHuongChapter();
   renderNoiDungChapter();
   renderDanhSachChapter();
-  khoiTaoBinhLuan();
-  khoiTaoYeuThich();
-  luuTienDoHienTai();
 }
 
 document.addEventListener("DOMContentLoaded", khoiTaoTrangDocTruyen);
