@@ -23,7 +23,7 @@ const CAU_HINH_DOC_TRUYEN = Object.freeze({
   viTriHienNutLenDauTrang: 300, // Vị trí cuộn để hiện nút lên đầu trang
   viTriBatDauSticky: 100,       // Vị trí bắt đầu thanh điều hướng nổi
   khoangCachMepMenu: 10,        // Khoảng cách an toàn của menu với mép màn hình
-  thoiGianDongMenu: 1000,       // Thời gian chờ đóng menu chapter, tính bằng ms
+  thoiGianDongMenu: 200,       // Thời gian chờ đóng menu chapter, tính bằng ms
 });
 
 
