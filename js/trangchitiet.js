@@ -672,6 +672,94 @@ const renderTruyenLQuan = () => {
   khuTruyenLQuan.appendChild(fragment);
 };
 
+const ganMenu = () => {
+  const menuToggle = document.querySelector(".menu-toggle");
+  const menu = document.querySelector(".menu");
+
+  if (!menuToggle || !menu) return;
+
+  menuToggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    menu.classList.toggle("active");
+  });
+
+  menu.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
+
+  document.addEventListener("click", () => {
+    menu.classList.remove("active");
+  });
+};
+
+const ganNutQuayLai = () => {
+  const btnQuayLai = document.getElementById("quaylai");
+  if (!btnQuayLai) return;
+
+  window.addEventListener("scroll", () => {
+    btnQuayLai.style.display = window.scrollY > 300 ? "block" : "none";
+  });
+
+  btnQuayLai.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+};
+
+function ganTimKiem() {
+  const input = document.getElementById("inputsearch");
+  const goiY = document.getElementById("goiYTimKiem");
+
+  if (!input || !goiY) return;
+
+  input.addEventListener("input", function () {
+    const tuKhoa = input.value.trim().toLowerCase();
+
+    goiY.replaceChildren();
+
+    if (tuKhoa === "") {
+      goiY.style.display = "none";
+      return;
+    }
+
+    if (typeof danhSachTruyen === "undefined") return;
+
+    const ketQua = danhSachTruyen.filter((truyen) => {
+      const ten = (truyen.ten || "").toLowerCase();
+      return ten.includes(tuKhoa);
+    });
+
+    if (ketQua.length === 0) {
+      const p = document.createElement("p");
+      p.textContent = "Không tìm thấy truyện";
+      p.style.padding = "12px";
+      goiY.appendChild(p);
+    } else {
+      ketQua.forEach((truyen) => {
+        const link = document.createElement("a");
+        link.href = `trangchitiet.html?id=${truyen.id}`;
+        link.className = "item-goi-y";
+
+        const img = document.createElement("img");
+        img.src = truyen.anhBia;
+        img.alt = truyen.ten;
+
+        const ten = document.createElement("span");
+        ten.textContent = truyen.ten;
+
+        link.append(img, ten);
+        goiY.appendChild(link);
+      });
+    }
+
+    goiY.style.display = "block";
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!document.querySelector(".search").contains(e.target)) {
+      goiY.style.display = "none";
+    }
+  });
+}
 // ============================================================================
 // KHỞI TẠO ỨNG DỤNG (ENTRY POINT)
 // ============================================================================
