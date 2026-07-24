@@ -112,46 +112,75 @@ function ganNutQuayLai() {
   });
 }
 function ganTimKiem() {
-  const search = document.getElementById("inputsearch");
-  const khungKetQua = document.getElementById("khungKetQua");
-  const ketquatimkiem = document.getElementById("ketquatimkiem");
-  const theloai = document.getElementById("theloai-page");
-  search.addEventListener("input", function () {
-    const tuKhoa = search.value.trim().toLowerCase();
+  const input = document.getElementById("inputsearch");
+  const goiY = document.getElementById("goiYTimKiem");
+
+  if (!input || !goiY) return;
+
+  input.addEventListener("input", function () {
+    const tuKhoa = input.value.trim().toLowerCase();
+
+    goiY.replaceChildren();
+
     if (tuKhoa === "") {
-      ketquatimkiem.style.display = "none";
-      theloai.style.display = "block";
-      khungKetQua.replaceChildren();
+      goiY.style.display = "none";
+
       return;
     }
-    ketquatimkiem.style.display = "block";
-    theloai.style.display = "none";
-    const ketQua = danhSachTruyen.filter(function (truyen) {
-      return (
-        truyen.ten.toLowerCase().includes(tuKhoa) ||
-        truyen.tacGia.toLowerCase().includes(tuKhoa) ||
-        truyen.theLoai.join(" ").toLowerCase().includes(tuKhoa)
-      );
-    });
-    if (ketQua.length === 0) {
-      khungKetQua.style.display = "block";
-      khungKetQua.replaceChildren();
 
+    const daThem = new Set();
+
+    let dem = 0;
+
+    danhSachTruyen.forEach(function (truyen) {
+      const ten = truyen.ten.toLowerCase();
+
+      if (ten.includes(tuKhoa) && !daThem.has(ten)) {
+        daThem.add(ten);
+
+        const link = document.createElement("a");
+
+        link.href = "trangchitiet.html?id=" + truyen.id;
+
+        link.className = "item-goi-y";
+
+        const img = document.createElement("img");
+
+        img.src = truyen.anhBia;
+
+        img.alt = truyen.ten;
+
+        const span = document.createElement("span");
+
+        span.textContent = truyen.ten;
+
+        link.appendChild(img);
+
+        link.appendChild(span);
+
+        goiY.appendChild(link);
+
+        dem++;
+      }
+    });
+
+    if (dem === 0) {
       const p = document.createElement("p");
 
-      p.textContent =
-        "🔍 Không tìm thấy truyện phù hợp vui lòng nhập từ khóa khác";
+      p.textContent = "Không tìm thấy truyện";
 
-      p.style.color = "white";
-      p.style.fontSize = "20px";
-      p.style.textAlign = "center";
-      p.style.padding = "40px";
+      p.style.padding = "12px";
 
-      khungKetQua.appendChild(p);
-      return;
+      goiY.appendChild(p);
     }
-    hienThiTruyen("khungKetQua", ketQua);
-    khungKetQua.style.display = "grid";
+
+    goiY.style.display = "block";
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!document.querySelector(".search").contains(e.target)) {
+      goiY.style.display = "none";
+    }
   });
 }
 //Nút Menu

@@ -56,50 +56,49 @@
       </nav>
       <div class="search">
         <input type="text" id="inputsearch" placeholder="Tìm truyện...." />
+        <div id="goiYTimKiem" class="goi-y-tim-kiem"></div>
       </div>
-      <nav>
-        <!-- Hiện khi chưa đăng nhập -->
-        <nav id="khuChuaDangNhap">
-          <a href="login.html">Đăng Nhập</a>
-          <a href="register.html">Đăng Ký</a>
-        </nav>
-
-        <!-- Hiện khi đã đăng nhập -->
-        <div id="khuDaDangNhap" class="tai-khoan tai-khoan-an">
-          <button id="nutTaiKhoan" class="nut-tai-khoan" type="button">
-            <i class="bi bi-person-circle"></i>
-            <span id="tenTaiKhoan"></span>
-            <i class="bi bi-caret-down-fill"></i>
-          </button>
-
-          <div id="bangTaiKhoan" class="bang-tai-khoan tai-khoan-an">
-            <h3>Thông tin tài khoản</h3>
-            <hr />
-
-            <p>
-              <strong>Họ tên:</strong>
-              <span id="hoTenTaiKhoan"></span>
-            </p>
-
-            <p>
-              <strong>Email:</strong>
-              <span id="emailTaiKhoan"></span>
-            </p>
-
-            <p>
-              <strong>Ngày tham gia:</strong>
-              <span id="ngayTaoTaiKhoan"></span>
-            </p>
-
-            <hr />
-
-            <button id="nutDangXuat" class="nut-dang-xuat" type="button">
-              <i class="bi bi-box-arrow-right"></i>
-              Đăng xuất
-            </button>
-          </div>
-        </div>
+      <!-- Hiện khi chưa đăng nhập -->
+      <nav id="khuChuaDangNhap">
+        <a href="login.html">Đăng Nhập</a>
+        <a href="register.html">Đăng Ký</a>
       </nav>
+
+      <!-- Hiện khi đã đăng nhập -->
+      <div id="khuDaDangNhap" class="tai-khoan tai-khoan-an">
+        <button id="nutTaiKhoan" class="nut-tai-khoan" type="button">
+          <i class="bi bi-person-circle"></i>
+          <span id="tenTaiKhoan"></span>
+          <i class="bi bi-caret-down-fill"></i>
+        </button>
+
+        <div id="bangTaiKhoan" class="bang-tai-khoan tai-khoan-an">
+          <h3>Thông tin tài khoản</h3>
+          <hr />
+
+          <p>
+            <strong>Họ tên:</strong>
+            <span id="hoTenTaiKhoan"></span>
+          </p>
+
+          <p>
+            <strong>Email:</strong>
+            <span id="emailTaiKhoan"></span>
+          </p>
+
+          <p>
+            <strong>Ngày tham gia:</strong>
+            <span id="ngayTaoTaiKhoan"></span>
+          </p>
+
+          <hr />
+
+          <button id="nutDangXuat" class="nut-dang-xuat" type="button">
+            <i class="bi bi-box-arrow-right"></i>
+            Đăng xuất
+          </button>
+        </div>
+      </div>
     </header>
 
     <section class="section">
@@ -136,7 +135,7 @@
           </p>
           <p>📍 Địa chỉ: Cần Thơ, Việt Nam</p>
           <div class="social">
-             <a href="https://facebook.com"><i class="bi bi-facebook"></i></a>
+            <a href="https://facebook.com"><i class="bi bi-facebook"></i></a>
             <a href="https://youtube.com"><i class="bi bi-youtube"></i></a>
             <a href="https://tiktok.com"><i class="bi bi-tiktok"></i></a>
           </div>

@@ -56,6 +56,7 @@
       </nav>
       <div class="search">
         <input type="text" id="inputsearch" placeholder="Tìm truyện...." />
+        <div id="goiYTimKiem" class="goi-y-tim-kiem"></div>
       </div>
       <nav>
         <nav id="khuChuaDangNhap">
@@ -101,12 +102,6 @@
     </header>
 
     <main class="main-content">
-      <!-- 🔍 KẾT QUẢ TÌM KIẾM (Đặt lên đầu main để hiển thị ngay khi gõ tìm kiếm) -->
-      <section class="section" id="ketquatimkiem" style="display: none">
-        <h2>🔍 Kết Quả Tìm Kiếm</h2>
-        <div class="khungtruyen" id="khungKetQua"></div>
-      </section>
-
       <section id="khung-loi" class="error-container error-hidden">
         <div class="error-box">
           <h1 class="error-title">404</h1>
@@ -151,9 +146,14 @@
               <a href="#" id="btnDocMoiNhat" class="btn-doc btn-doc-secondary">
                 <i class="bi bi-play-fill"></i> Đọc Mới Nhất
               </a>
-              <a href="#" id="btnDocTiep" class="btn-doc btn-doc-outline" style="display: none">
-  ▶ Đọc Tiếp
-</a>
+              <a
+                href="#"
+                id="btnDocTiep"
+                class="btn-doc btn-doc-outline"
+                style="display: none"
+              >
+                ▶ Đọc Tiếp
+              </a>
               <button
                 id="btnTheoDoi"
                 class="btn-doc btn-doc-outline"

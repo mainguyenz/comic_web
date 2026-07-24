@@ -146,84 +146,65 @@ function ganNutQuayLai() {
   });
 }
 
-function hienThiTruyen(idKhung, danhSach) {
-  const khung = document.getElementById(idKhung);
-  xoaHetCon(khung);
-
-  danhSach.forEach((truyen) => {
-    const div = document.createElement("div");
-    div.className = "khungtruyenrieng";
-
-    const a = document.createElement("a");
-    a.href = `/trangchitiet.html?id=${truyen.id}`;
-
-    const img = document.createElement("img");
-    img.src = truyen.anhBia;
-    img.alt = truyen.ten;
-
-    const h3 = document.createElement("h3");
-    h3.textContent = truyen.ten;
-
-    a.append(img, h3);
-
-    const span = document.createElement("span");
-    span.textContent = truyen.theLoai ? truyen.theLoai.join(" • ") : "";
-
-    div.append(a, span);
-    khung.appendChild(div);
-  });
-}
-
 function ganTimKiem() {
-  const search = document.getElementById("inputsearch");
-  const khungKetQua = document.getElementById("khungKetQua");
-  const ketquatimkiem = document.getElementById("ketquatimkiem");
-  const breadcrumb = document.querySelector(".breadcrumb");
-  const xephang = document.getElementById("sectionXepHang");
+  const input = document.getElementById("inputsearch");
+  const goiY = document.getElementById("goiYTimKiem");
 
-  if (!search || !khungKetQua || !ketquatimkiem || !xephang) return;
+  if (!input || !goiY) return;
 
-  search.addEventListener("input", function () {
-    const tuKhoa = search.value.trim().toLowerCase();
+  input.addEventListener("input", function () {
+    const tuKhoa = input.value.trim().toLowerCase();
+
+    xoaHetCon(goiY);
 
     if (tuKhoa === "") {
-      ketquatimkiem.style.display = "none";
-      if (breadcrumb) breadcrumb.style.display = "block";
-      xephang.style.display = "block";
+      goiY.style.display = "none";
       return;
     }
 
-    ketquatimkiem.style.display = "block";
-    if (breadcrumb) breadcrumb.style.display = "none";
-    xephang.style.display = "none";
+    const daThem = new Set();
+    let dem = 0;
 
-    const ketQua = danhSachTruyen.filter(function (truyen) {
-      const ten = (truyen.ten || "").toLowerCase();
-      const tacGia = (truyen.tacGia || "").toLowerCase();
-      const theLoai = (truyen.theLoai || []).join(" ").toLowerCase();
-      return (
-        ten.includes(tuKhoa) ||
-        tacGia.includes(tuKhoa) ||
-        theLoai.includes(tuKhoa)
-      );
+    danhSachTruyen.forEach(function (truyen) {
+      const ten = truyen.ten || "";
+
+      if (daThem.has(ten.toLowerCase())) return;
+
+      if (ten.toLowerCase().includes(tuKhoa)) {
+        daThem.add(ten.toLowerCase());
+
+        const link = document.createElement("a");
+        link.href = `trangchitiet.html?id=${truyen.id}`;
+        link.className = "item-goi-y";
+
+        const img = document.createElement("img");
+        img.src = truyen.anhBia;
+        img.alt = ten;
+
+        const span = document.createElement("span");
+        span.textContent = ten;
+
+        link.append(img, span);
+        goiY.appendChild(link);
+
+        dem++;
+      }
     });
 
-    if (ketQua.length === 0) {
-      xoaHetCon(khungKetQua);
+    if (dem === 0) {
       const p = document.createElement("p");
-      p.textContent =
-        "🔍 Không tìm thấy truyện phù hợp vui lòng nhập từ khóa khác";
-      p.style.color = "white";
-      p.style.fontSize = "20px";
-      p.style.textAlign = "center";
-      p.style.padding = "40px";
-      khungKetQua.style.display = "block";
-      khungKetQua.appendChild(p);
-      return;
+      p.textContent = "Không tìm thấy truyện";
+      p.style.padding = "12px";
+      goiY.appendChild(p);
     }
 
-    hienThiTruyen("khungKetQua", ketQua);
-    khungKetQua.style.display = "grid";
+    goiY.style.display = "block";
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!document.querySelector(".search").contains(e.target)) {
+      goiY.style.display = "none";
+    }
   });
 }
 

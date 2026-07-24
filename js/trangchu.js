@@ -19,60 +19,63 @@ function ganNutQuayLai() {
 }
 //Tìm Kiếm Truyện
 function ganTimKiem() {
-  const input = document.getElementById("inputsearch"); //Lấy ô tìm kiếm
-  const ketQua = document.getElementById("khungKetQua"); //Lấy nơi chứa kết quả
-  const khungKetQua = document.getElementById("ketquatimkiem"); //Lấy cả section
-  //Danh sách các khung cần ẩn
-  const cacMuc = [
-    document.getElementById("theloai"),
-    document.getElementById("phobien"),
-    document.getElementById("moiramat"),
-    document.getElementById("sapramat"),
-    document.getElementById("decu"),
-  ];
+  const input = document.getElementById("inputsearch");
+  const goiY = document.getElementById("goiYTimKiem");
+
   input.addEventListener("input", function () {
-    const tukhoa = input.value.trim().toLowerCase();
-    ketQua.replaceChildren(); //Xóa kết quả cũ
-    //Nếu ko nhập gì thì ẩn khung kết quả
-    if (tukhoa === "") {
-      khungKetQua.style.display = "none";
-      cacMuc.forEach((muc) => (muc.style.display = "block"));
+    const tuKhoa = input.value.trim().toLowerCase();
+
+    goiY.replaceChildren();
+
+    if (tuKhoa === "") {
+      goiY.style.display = "none";
       return;
     }
-    //Nếu có nhập thì hiển thị khung kết quả ẩn các khung khác
-    khungKetQua.style.display = "block";
-    cacMuc.forEach((muc) => (muc.style.display = "none"));
-    const tatCaTruyen = document.querySelectorAll(".khungtruyenrieng"); //Lấy toàn bộ truyện
-    const daThem = new Set(); //Dùng Set() để tránh tìm truyện bị trùng
+
+    const tatCaTruyen = document.querySelectorAll(".khungtruyenrieng");
+    const daThem = new Set();
     let dem = 0;
+
     tatCaTruyen.forEach(function (truyen) {
-      const ten = truyen.querySelector("h3").textContent.trim(); //Lấy tên truyện
-      const theLoai = truyen.querySelector("span").textContent.trim(); //Lấy thể loại
-      //Nếu đã thêm rồi thì bỏ qua
-      if (daThem.has(ten.toLowerCase())) {
-        return;
-      }
-      //Kiểm tra chứa từ khóa
-      if (
-        ten.toLowerCase().includes(tukhoa) ||
-        theLoai.toLowerCase().includes(tukhoa)
-      ) {
-        daThem.add(ten.toLowerCase()); //Thêm vào Set()
-        //cloneNode(true) dùng để tạo một bản sao hoàn chỉnh của .khungtruyenrieng
-        //appendChild() dùng để thêm bản sao này vào #khungKetQua
-        ketQua.appendChild(truyen.cloneNode(true));
+      const ten = truyen.querySelector("h3").textContent.trim();
+
+      if (daThem.has(ten.toLowerCase())) return;
+
+      if (ten.toLowerCase().includes(tuKhoa)) {
+        daThem.add(ten.toLowerCase());
+
+        const link = document.createElement("a");
+        link.href = truyen.querySelector("a").href;
+        link.className = "item-goi-y";
+
+        const img = document.createElement("img");
+        img.src = truyen.querySelector("img").src;
+        img.alt = ten;
+
+        const tenTruyen = document.createElement("span");
+        tenTruyen.textContent = ten;
+
+        link.appendChild(img);
+        link.appendChild(tenTruyen);
+
+        goiY.appendChild(link);
         dem++;
       }
     });
-    //Nếu ko có kết quả thì báo ko tìm thấy truyện
+
     if (dem === 0) {
       const p = document.createElement("p");
-      p.textContent = "Không tìm thấy truyện.";
-      p.style.color = "#fff";
-      p.style.fontSize = "22px";
-      p.style.textAlign = "center";
-      p.style.padding = "40px";
-      ketQua.appendChild(p);
+      p.textContent = "Không tìm thấy truyện";
+      p.style.padding = "12px";
+      goiY.appendChild(p);
+    }
+
+    goiY.style.display = "block";
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!document.querySelector(".search").contains(e.target)) {
+      goiY.style.display = "none";
     }
   });
 }

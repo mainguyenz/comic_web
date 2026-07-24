@@ -56,7 +56,9 @@ if (!truyen) {
       if (lblNoiDungLoi) {
         xoaHetCon(lblNoiDungLoi);
         lblNoiDungLoi.appendChild(
-          taoTextNode("Không tìm thấy truyện hoặc ID không hợp lệ trong hệ thống!")
+          taoTextNode(
+            "Không tìm thấy truyện hoặc ID không hợp lệ trong hệ thống!",
+          ),
         );
       }
     }
@@ -214,7 +216,8 @@ const hienThiChiTietTruyen = () => {
   }
 
   const lblLuotTheoDoi = document.getElementById("lblLuotTheoDoi");
-  const dsTheoDoi = typeof layDanhSachTheoDoi === "function" ? layDanhSachTheoDoi() : [];
+  const dsTheoDoi =
+    typeof layDanhSachTheoDoi === "function" ? layDanhSachTheoDoi() : [];
   const dangTheoDoi = dsTheoDoi.includes(idTruyen);
 
   const chuoiLuotTheo = String(truyen.luotTheo || "0").replace(/,/g, "");
@@ -223,13 +226,18 @@ const hienThiChiTietTruyen = () => {
   if (lblLuotTheoDoi) {
     xoaHetCon(lblLuotTheoDoi);
     lblLuotTheoDoi.appendChild(
-      taoTextNode((dangTheoDoi ? soTheoDoiGoc + 1 : soTheoDoiGoc).toLocaleString("vi-VN"))
+      taoTextNode(
+        (dangTheoDoi ? soTheoDoiGoc + 1 : soTheoDoiGoc).toLocaleString("vi-VN"),
+      ),
     );
   }
 
   const lblSynopsis = document.getElementById("lblSynopsis");
   const btnDocThemSynopsis = document.getElementById("btnDocThemSynopsis");
-  const noiDungMoTa = truyen.moTa && truyen.moTa.trim() !== "" ? truyen.moTa : "Không có tóm tắt cho truyện này.";
+  const noiDungMoTa =
+    truyen.moTa && truyen.moTa.trim() !== ""
+      ? truyen.moTa
+      : "Không có tóm tắt cho truyện này.";
 
   if (lblSynopsis) {
     xoaHetCon(lblSynopsis);
@@ -246,12 +254,12 @@ const hienThiChiTietTruyen = () => {
 
       if (chieuCaoThucTe > chieuCaoThuGon) {
         btnDocThemSynopsis.style.display = "inline-block";
-        
+
         btnDocThemSynopsis.addEventListener("click", () => {
           const expanded = lblSynopsis.classList.toggle("synopsis-hidden");
           xoaHetCon(btnDocThemSynopsis);
           btnDocThemSynopsis.appendChild(
-            taoTextNode(!expanded ? "Thu gọn" : "Đọc thêm")
+            taoTextNode(!expanded ? "Thu gọn" : "Đọc thêm"),
           );
         });
       } else {
@@ -282,12 +290,16 @@ const hienThiChiTietTruyen = () => {
 
     const capNhatGiaoDienTheoDoi = () => {
       const hienTaiDangTheoDoi =
-        typeof kiemTraDaTheoDoi === "function" ? kiemTraDaTheoDoi(idTruyen) : false;
+        typeof kiemTraDaTheoDoi === "function"
+          ? kiemTraDaTheoDoi(idTruyen)
+          : false;
 
       btnTheoDoi.classList.toggle("dang-theo-doi", hienTaiDangTheoDoi);
 
       if (iconHeart) {
-        iconHeart.className = hienTaiDangTheoDoi ? "bi bi-check-lg" : "bi bi-heart";
+        iconHeart.className = hienTaiDangTheoDoi
+          ? "bi bi-check-lg"
+          : "bi bi-heart";
       }
 
       Array.from(btnTheoDoi.childNodes)
@@ -295,15 +307,18 @@ const hienThiChiTietTruyen = () => {
         .forEach((node) => node.remove());
 
       btnTheoDoi.appendChild(
-        taoTextNode(hienTaiDangTheoDoi ? " Bỏ theo dõi" : " Theo dõi")
+        taoTextNode(hienTaiDangTheoDoi ? " Bỏ theo dõi" : " Theo dõi"),
       );
 
       if (lblLuotTheoDoi) {
         xoaHetCon(lblLuotTheoDoi);
         lblLuotTheoDoi.appendChild(
           taoTextNode(
-            (hienTaiDangTheoDoi ? soTheoDoiGoc + 1 : soTheoDoiGoc).toLocaleString("vi-VN")
-          )
+            (hienTaiDangTheoDoi
+              ? soTheoDoiGoc + 1
+              : soTheoDoiGoc
+            ).toLocaleString("vi-VN"),
+          ),
         );
       }
     };
@@ -345,7 +360,7 @@ const renderDanhSachChapter = () => {
   }
 
   mangChapter.sort((a, b) =>
-    thuTuChapter === "desc" ? b.so - a.so : a.so - b.so
+    thuTuChapter === "desc" ? b.so - a.so : a.so - b.so,
   );
 
   if (mangChapter.length > 0) {
@@ -394,10 +409,11 @@ const renderDanhSachChapter = () => {
   listEl.appendChild(fragment);
 
   if (btnXemThem) {
-    btnXemThem.style.display = mangChapter.length <= 5 ? "none" : "inline-block";
+    btnXemThem.style.display =
+      mangChapter.length <= 5 ? "none" : "inline-block";
     xoaHetCon(btnXemThem);
     btnXemThem.appendChild(
-      taoTextNode(chapterMoRong ? "Thu gọn danh sách" : "Xem thêm chương")
+      taoTextNode(chapterMoRong ? "Thu gọn danh sách" : "Xem thêm chương"),
     );
   }
 };
@@ -415,7 +431,9 @@ const thietLapTuongTacChapter = () => {
       if (textNode) {
         xoaHetCon(textNode);
         textNode.appendChild(
-          taoTextNode(thuTuChapter === "desc" ? "Mới nhất trước" : "Cũ nhất trước")
+          taoTextNode(
+            thuTuChapter === "desc" ? "Mới nhất trước" : "Cũ nhất trước",
+          ),
         );
       }
       renderDanhSachChapter();
@@ -473,7 +491,9 @@ const renderDanhSachBinhLuan = () => {
     const emptyP = document.createElement("p");
     emptyP.className = "empty-comment-text";
     emptyP.appendChild(
-      taoTextNode("Chưa có bình luận nào. Hãy là người đầu tiên bình luận và đánh giá!")
+      taoTextNode(
+        "Chưa có bình luận nào. Hãy là người đầu tiên bình luận và đánh giá!",
+      ),
     );
     khuBinhLuan.appendChild(emptyP);
     return;
@@ -513,7 +533,7 @@ const renderDanhSachBinhLuan = () => {
       const starsSpan = document.createElement("span");
       starsSpan.className = "bl-stars";
       starsSpan.appendChild(
-        taoTextNode(" ★".repeat(bl.saoDanhGia) + "☆".repeat(5 - bl.saoDanhGia))
+        taoTextNode(" ★".repeat(bl.saoDanhGia) + "☆".repeat(5 - bl.saoDanhGia)),
       );
       meta.appendChild(starsSpan);
     }
@@ -548,7 +568,7 @@ const thietLapFormBinhLuan = () => {
     const linkLogin = thongBaoDangNhapBL.querySelector("a");
     if (linkLogin) {
       const duongDanHienTai = encodeURIComponent(
-        window.location.pathname + window.location.search
+        window.location.pathname + window.location.search,
       );
       linkLogin.href = `login.html?quaylai=${duongDanHienTai}`;
     }
@@ -618,8 +638,8 @@ const renderTruyenLQuan = () => {
     typeof layTruyenLienQuan === "function"
       ? layTruyenLienQuan(idTruyen, 4)
       : typeof danhSachTruyen !== "undefined"
-      ? danhSachTruyen.filter((t) => t.id !== idTruyen).slice(0, 4)
-      : [];
+        ? danhSachTruyen.filter((t) => t.id !== idTruyen).slice(0, 4)
+        : [];
 
   const fragment = document.createDocumentFragment();
 
@@ -651,102 +671,6 @@ const renderTruyenLQuan = () => {
   });
 
   khuTruyenLQuan.appendChild(fragment);
-};
-
-// ============================================================================
-// CHỨC NĂNG: TÌM KIẾM, MENU RESPONSIVE & NÚT CUỘN TOP
-// ============================================================================
-
-const hienThiTruyen = (idKhung, danhSach) => {
-  const khung = document.getElementById(idKhung);
-  if (!khung) return;
-  xoaHetCon(khung);
-
-  const fragment = document.createDocumentFragment();
-
-  danhSach.forEach((truyenItem) => {
-    const div = document.createElement("div");
-    div.className = "khungtruyenrieng";
-
-    const a = document.createElement("a");
-    a.href = `trangchitiet.html?id=${truyenItem.id}`;
-
-    const img = document.createElement("img");
-    img.src = truyenItem.anhBia;
-    img.alt = truyenItem.ten;
-
-    const h3 = document.createElement("h3");
-    h3.appendChild(taoTextNode(truyenItem.ten));
-
-    a.appendChild(img);
-    a.appendChild(h3);
-
-    const span = document.createElement("span");
-    const chuoiTL = truyenItem.theLoai ? truyenItem.theLoai.join(" • ") : "";
-    span.appendChild(taoTextNode(chuoiTL));
-
-    div.appendChild(a);
-    div.appendChild(span);
-    fragment.appendChild(div);
-  });
-
-  khung.appendChild(fragment);
-};
-
-const ganTimKiem = () => {
-  const search = document.getElementById("inputsearch");
-  const khungKetQua = document.getElementById("khungKetQua");
-  const ketquatimkiem = document.getElementById("ketquatimkiem");
-  const breadcrumb = document.querySelector(".breadcrumb");
-  const containerTruyen = document.getElementById("container-truyen");
-
-  if (!search || !khungKetQua || !ketquatimkiem || !containerTruyen) return;
-
-  search.addEventListener("input", () => {
-    const tuKhoa = search.value.trim().toLowerCase();
-
-    if (tuKhoa === "") {
-      ketquatimkiem.style.display = "none";
-      if (breadcrumb) breadcrumb.style.display = "block";
-      containerTruyen.style.display = "block";
-      return;
-    }
-
-    ketquatimkiem.style.display = "block";
-    if (breadcrumb) breadcrumb.style.display = "none";
-    containerTruyen.style.display = "none";
-
-    if (typeof danhSachTruyen === "undefined") return;
-
-    const ketQua = danhSachTruyen.filter((t) => {
-      const ten = (t.ten || "").toLowerCase();
-      const tacGia = (t.tacGia || "").toLowerCase();
-      const theLoai = (t.theLoai || []).join(" ").toLowerCase();
-      return (
-        ten.includes(tuKhoa) ||
-        tacGia.includes(tuKhoa) ||
-        theLoai.includes(tuKhoa)
-      );
-    });
-
-    if (ketQua.length === 0) {
-      xoaHetCon(khungKetQua);
-      const p = document.createElement("p");
-      p.appendChild(
-        taoTextNode("🔍 Không tìm thấy truyện phù hợp vui lòng nhập từ khóa khác")
-      );
-      p.style.color = "white";
-      p.style.fontSize = "20px";
-      p.style.textAlign = "center";
-      p.style.padding = "40px";
-      khungKetQua.style.display = "block";
-      khungKetQua.appendChild(p);
-      return;
-    }
-
-    hienThiTruyen("khungKetQua", ketQua);
-    khungKetQua.style.display = "grid";
-  });
 };
 
 const ganMenu = () => {
@@ -782,6 +706,68 @@ const ganNutQuayLai = () => {
   });
 };
 
+function ganTimKiem() {
+  const input = document.getElementById("inputsearch");
+  const goiY = document.getElementById("goiYTimKiem");
+
+  if (!input || !goiY) return;
+
+  input.addEventListener("input", function () {
+    const tuKhoa = input.value.trim().toLowerCase();
+
+    goiY.replaceChildren();
+
+    if (tuKhoa === "") {
+      goiY.style.display = "none";
+      return;
+    }
+
+    if (typeof danhSachTruyen === "undefined") return;
+
+    const ketQua = danhSachTruyen.filter((truyen) => {
+      const ten = (truyen.ten || "").toLowerCase();
+      const tacGia = (truyen.tacGia || "").toLowerCase();
+      const theLoai = (truyen.theLoai || []).join(" ").toLowerCase();
+
+      return (
+        ten.includes(tuKhoa) ||
+        tacGia.includes(tuKhoa) ||
+        theLoai.includes(tuKhoa)
+      );
+    });
+
+    if (ketQua.length === 0) {
+      const p = document.createElement("p");
+      p.textContent = "Không tìm thấy truyện";
+      p.style.padding = "12px";
+      goiY.appendChild(p);
+    } else {
+      ketQua.forEach((truyen) => {
+        const link = document.createElement("a");
+        link.href = `trangchitiet.html?id=${truyen.id}`;
+        link.className = "item-goi-y";
+
+        const img = document.createElement("img");
+        img.src = truyen.anhBia;
+        img.alt = truyen.ten;
+
+        const ten = document.createElement("span");
+        ten.textContent = truyen.ten;
+
+        link.append(img, ten);
+        goiY.appendChild(link);
+      });
+    }
+
+    goiY.style.display = "block";
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!document.querySelector(".search").contains(e.target)) {
+      goiY.style.display = "none";
+    }
+  });
+}
 // ============================================================================
 // KHỞI TẠO ỨNG DỤNG (ENTRY POINT)
 // ============================================================================
