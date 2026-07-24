@@ -18,13 +18,14 @@ document.addEventListener("DOMContentLoaded", function () {
   const toggleConfirm = document.getElementById("toggleConfirmPassword");
 
   // Lấy tài khoản đã đăng ký (nếu có)
-  function getAccounts() {
-    const data = localStorage.getItem("accounts");
-    return data ? JSON.parse(data) : [];
+  function getAccount() {
+    const data = localStorage.getItem("account");
+    return data ? JSON.parse(data) : null;
   }
 
-  function saveAccounts(accounts) {
-    localStorage.setItem("accounts", JSON.stringify(accounts));
+  // Lưu tài khoản
+  function saveAccount(account) {
+    localStorage.setItem("account", JSON.stringify(account));
   }
 
   function isValidEmail(email) {
@@ -64,11 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
     if (val.length < 5) {
-      setError(
-        usernameRow,
-        "Tên người dùng phải có ít nhất 5 kí tự!",
-        usernameMsg,
-      );
+      setError(usernameRow, "Tên người dùng phải có ít nhất 5 kí tự!", usernameMsg);
       return;
     }
     setSuccess(usernameRow, usernameMsg);
@@ -89,15 +86,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Kiểm tra email đã tồn tại
-    // Lấy danh sách tài khoản
-    const accounts = getAccounts();
-
-    // Kiểm tra email đã tồn tại chưa
-    const tonTai = accounts.some(function (account) {
-      return account.email.toLowerCase() === val.toLowerCase();
-    });
-
-    if (tonTai) {
+    const account = getAccount();
+    if (account && account.email === val) {
       setError(emailRow, "Email đã được đăng ký!", emailMsg);
       return;
     }
@@ -154,8 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
   confirmInput.addEventListener("blur", validateConfirm);
 
   togglePassword.addEventListener("click", function () {
-    const type =
-      passwordInput.getAttribute("type") === "password" ? "text" : "password";
+    const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
     passwordInput.setAttribute("type", type);
     const icon = this.querySelector("i");
     icon.classList.toggle("bi-eye");
@@ -163,8 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   toggleConfirm.addEventListener("click", function () {
-    const type =
-      confirmInput.getAttribute("type") === "password" ? "text" : "password";
+    const type = confirmInput.getAttribute("type") === "password" ? "text" : "password";
     confirmInput.setAttribute("type", type);
     const icon = this.querySelector("i");
     icon.classList.toggle("bi-eye");
@@ -185,31 +173,23 @@ document.addEventListener("DOMContentLoaded", function () {
     const isConfirmValid = confirmRow.classList.contains("success");
     const isAgreed = agreeCheck.checked;
 
-    if (
-      !isUsernameValid ||
-      !isEmailValid ||
-      !isPasswordValid ||
-      !isConfirmValid ||
-      !isAgreed
-    ) {
+    if (!isUsernameValid || !isEmailValid || !isPasswordValid || !isConfirmValid || !isAgreed) {
       alert("Form vẫn còn lỗi!");
       return;
     }
 
-    // Tạo tài khoản mới (ghi đè tài khoản cũ)
+    // Tạo tài khoản mới
     const newAccount = {
       fullname: usernameInput.value.trim(),
       email: emailInput.value.trim(),
       password: passwordInput.value,
-      createdAt: new Date().toISOString(),
+      createdAt: new Date().toISOString()
     };
 
     // Chỉ lưu account, KHÔNG lưu currentUser
-    const accounts = getAccounts();
+    saveAccount(newAccount);
 
-    accounts.push(newAccount);
-
-    saveAccounts(accounts);
+    alert("Form đã được gửi thành công! Chuyển hướng đến trang đăng nhập!");
     window.location.href = "login.html";
   });
 
