@@ -213,12 +213,12 @@ main {
 }
 
 .love.is-loved {
-  background-color: #ef4444 !important;
-  color: white !important;
+  background-color: #ef4444;
+  color: white;
 }
 
 .love.is-loved:hover {
-  background-color: #dc2626 !important;
+  background-color: #dc2626;
 }
 
 /*Thong báo đăng nhập mới bình luận*/
