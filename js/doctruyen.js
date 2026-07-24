@@ -18,7 +18,7 @@ const CAU_HINH_DOC_TRUYEN = Object.freeze({
   binhLuanToiDaMoiTruyen: 40, // Số bình luận tối đa của mỗi truyện
   anhToiDaMoiChapter: 500, // Số ảnh tối đa được hiển thị trong một chapter
   ketQuaTimKiemToiDa: 50, // Số truyện tối đa trong kết quả tìm kiếm
-  tuKhoaToiDaKyTu: 100, // Độ dài tối đa của từ khóa tìm kiếm
+  tuKhoaToiDaKyTu: 100, // Độ dài tối đa của từ khoa tìm kiếm
 
   viTriHienNutLenDauTrang: 300, // Vị trí cuộn để hiện nút lên đầu trang
   viTriBatDauSticky: 100,       // Vị trí bắt đầu thanh điều hướng nổi
@@ -150,7 +150,7 @@ function taoLinkDangNhap() {
 // Hiển thị thông báo lỗi trong khu vực đọc truyện
 // khi không tìm thấy truyện hoặc chapter.
 function hienThiLoiDocTruyen(thongBao) {
-  const reader = document.getElementById("reader");
+  const reader = document.querySelector(".reader");
   if (!reader) return;
 
   xoaNoiDungPhanTu(reader);
@@ -498,7 +498,7 @@ function renderNoiDungChapter() {
     phanTu.textContent = `Chapter ${chap.chapter}`;
   });
 
-  const reader = document.getElementById("reader");
+  const reader = document.querySelector(".reader");
   if (!reader) return;
 
   xoaNoiDungPhanTu(reader);
@@ -685,7 +685,7 @@ function khoiTaoThanhDieuHuongNoi() {
     viTriCu = viTriMoi;
   });
 }
-
+//gắn tìm kiếm truyện
 function ganTimKiem() {
   const input = document.getElementById("inputsearch");
   const goiY = document.getElementById("goiYTimKiem");
@@ -740,7 +740,8 @@ function ganTimKiem() {
   });
 }
 
-// Hàm chính khởi tạo toàn bộ chức năng của trang đọc truyện. Tránh khởi tạo menu chapter, thanh điều hướng và chức năng khác khi truyện hoặc chapter không tồn tại.
+// Hàm chính khởi tạo toàn bộ chức năng của trang đọc truyện. 
+//Tránh khởi tạo menu chapter, thanh điều hướng và chức năng khác khi truyện hoặc chapter không tồn tại.
 function khoiTaoTrangDocTruyen() {
   khoiTaoMenu();
   khoiTaoDanhSachChapterNoi();
