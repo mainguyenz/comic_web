@@ -2,33 +2,6 @@
 // 1. CẤU HÌNH TRANG ĐỌC TRUYỆN
 // ==================================================
 
-// Lưu tập trung đường dẫn, giới hạn dữ liệu và thông số giao diện.
-// Object.freeze() ngăn các giá trị cấu hình bị thay đổi ngoài ý muốn.
-
-const CAU_HINH_DOC_TRUYEN = Object.freeze({
-  trangDangNhap: "login.html", // Trang đăng nhập dùng chung
-  trangChiTiet: "trangchitiet.html", // Trang thông tin chi tiết truyện
-  trangDocTruyen: "doctruyen.html", // Trang đọc chapter
-
-  chapterMacDinh: 1, // Chapter mặc định khi URL không có chapter
-  idToiDa: 1000, // ID truyện lớn nhất được chấp nhận
-  chapterToiDa: 100000, // Số chapter lớn nhất được chấp nhận
-
-  anhToiDaMoiChapter: 500, // Số ảnh tối đa được hiển thị trong một chapter
-  ketQuaTimKiemToiDa: 50, // Số truyện tối đa trong kết quả tìm kiếm
-
-  viTriHienNutLenDauTrang: 300, // Vị trí cuộn để hiện nút lên đầu trang
-  viTriBatDauSticky: 100,       // Vị trí bắt đầu thanh điều hướng nổi
-  khoangCachMepMenu: 10,        // Khoảng cách an toàn của menu với mép màn hình
-  thoiGianDongMenu: 200,       // Thời gian chờ đóng menu chapter, tính bằng ms
-});
-
-// Key localStorage dùng chung với trang chi tiết để lưu bình luận.
-// Không thêm dấu cách trước "app_comments".
-const KHO_BINH_LUAN_CHUNG = "app_comments";
-
-// Kiểm tra dữ liệu chapter đã được nạp từ datadoctruyen.js hay chưa.
-// Nếu không có thì sử dụng mảng rỗng để tránh lỗi.
 const duLieuChuong =
   typeof chapters !== "undefined" && Array.isArray(chapters) ? chapters : [];
 
@@ -38,20 +11,7 @@ const duLieuTruyen =
     ? danhSachTruyen
     : [];
 
-// Đọc dữ liệu JSON từ localStorage.
-// Nếu key không tồn tại hoặc JSON bị lỗi thì trả về giá trị mặc định.
-function docJsonLocalStorage(khoa, giaTriMacDinh) {
-  try {
-    const chuoiJson = localStorage.getItem(khoa);
-    if (chuoiJson === null) return giaTriMacDinh;
 
-    const duLieu = JSON.parse(chuoiJson);
-    return duLieu ?? giaTriMacDinh;
-  } catch (loi) {
-    console.warn(`Không đọc được dữ liệu JSON tại khóa ${khoa}.`, loi);
-    return giaTriMacDinh;
-  }
-}
 
 
 // Chuyển một giá trị thành số nguyên dương hợp lệ.
@@ -98,40 +58,8 @@ function taoDuongDan(tenTrang, thamSo = {}) {
   return chuoiQuery ? `${tenTrang}?${chuoiQuery}` : tenTrang;
 }
 
-// Lấy tài khoản đang đăng nhập thông qua hàm dùng chung trong luutru.js.
-// Đồng thời tạo thuộc tính tenHienThi để sử dụng trên giao diện.
-function layTaiKhoanHienTai() {
-  if (typeof layTaiKhoanLuuTruHienTai !== "function") {
-    return null;
-  }
 
-  const taiKhoan = layTaiKhoanLuuTruHienTai();
 
-  if (!taiKhoan || typeof taiKhoan !== "object" || Array.isArray(taiKhoan)) {
-    return null;
-  }
-
-  const tenHienThi = gioiHanChuoi(
-    taiKhoan.fullname || taiKhoan.username || taiKhoan.email,
-    80,
-  );
-
-  if (!tenHienThi) return null;
-
-  return {
-    ...taiKhoan,
-    tenHienThi,
-  };
-}
-
-// Tạo đường dẫn tới trang đăng nhập kèm trang hiện tại.
-// Tham số quaylai dùng để quay về chapter sau khi đăng nhập.
-function taoLinkDangNhap() {
-  const trangHienTai = `${window.location.pathname}${window.location.search}`;
-  return taoDuongDan(CAU_HINH_DOC_TRUYEN.trangDangNhap, {
-    quaylai: trangHienTai,
-  });
-}
 
 // Hiển thị thông báo lỗi trong khu vực đọc truyện
 // khi không tìm thấy truyện hoặc chapter.
@@ -152,14 +80,14 @@ const thamSoUrl = new URLSearchParams(window.location.search);
 const idTruyen = laySoNguyenDuong(
   thamSoUrl.get("id"),
   null,
-  CAU_HINH_DOC_TRUYEN.idToiDa,
+  1000,
 );
 
 // Kiểm tra và lấy chapter hợp lệ từ URL.
 const soChapter = laySoNguyenDuong(
   thamSoUrl.get("chapter"),
-  CAU_HINH_DOC_TRUYEN.chapterMacDinh,
-  CAU_HINH_DOC_TRUYEN.chapterToiDa,
+  1,
+  100000,
 );
 
 // Tìm thông tin truyện dựa trên ID.
@@ -171,46 +99,6 @@ const chap =
     (item) => item?.id === idTruyen && item?.chapter === soChapter,
   ) ?? null;
 
-// Lấy tối đa 40 bình luận gần nhất của truyện từ app_comments.
-
-function layBinhLuanCuaTruyen() {
-  if (!truyen) {
-    return [];
-  }
-
-  const khoBinhLuan = docJsonLocalStorage(KHO_BINH_LUAN_CHUNG, {});
-
-  const danhSach = khoBinhLuan[String(truyen.id)];
-
-  if (!Array.isArray(danhSach)) {
-    return [];
-  }
-
-  return danhSach.slice(-CAU_HINH_DOC_TRUYEN.binhLuanToiDaMoiTruyen);
-}
-
-// Thêm bình luận mới và chỉ giữ lại số lượng bình luận cho phép.
-function luuBinhLuanMoi(binhLuan) {
-  if (!truyen) {
-    return false;
-  }
-
-  const khoBinhLuan = docJsonLocalStorage(KHO_BINH_LUAN_CHUNG, {});
-
-  const khoaTruyen = String(truyen.id);
-
-  const danhSachCu = Array.isArray(khoBinhLuan[khoaTruyen])
-    ? khoBinhLuan[khoaTruyen]
-    : [];
-
-  danhSachCu.push(binhLuan);
-
-  khoBinhLuan[khoaTruyen] = danhSachCu.slice(
-    -CAU_HINH_DOC_TRUYEN.binhLuanToiDaMoiTruyen,
-  );
-
-  return ghiJsonLocalStorage(KHO_BINH_LUAN_CHUNG, khoBinhLuan);
-}
 
 
 
@@ -220,7 +108,7 @@ function ganLienKetCoBan() {
   if (!truyen) return;
 
   document.querySelectorAll(".menus").forEach((menu) => {
-    menu.href = taoDuongDan(CAU_HINH_DOC_TRUYEN.trangChiTiet, {
+    menu.href = taoDuongDan("trangchitiet.html", {
       id: truyen.id,
     });
   });
@@ -262,7 +150,7 @@ function ganTrangThaiNutChapter(nut, chapterDich, thongBaoBien) {
     return;
   }
 
-  nut.href = taoDuongDan(CAU_HINH_DOC_TRUYEN.trangDocTruyen, {
+  nut.href = taoDuongDan("doctruyen.html", {
     id: truyen.id,
     chapter: chapterDich.chapter,
   });
@@ -285,7 +173,7 @@ function renderNoiDungChapter() {
   xoaNoiDungPhanTu(reader);
   const fragment = document.createDocumentFragment();
   const danhSachAnh = Array.isArray(chap.images)
-    ? chap.images.slice(0, CAU_HINH_DOC_TRUYEN.anhToiDaMoiChapter)
+    ? chap.images.slice(0, 500)
     : [];
 
   danhSachAnh.forEach((duongDanAnh, index) => {
@@ -313,7 +201,7 @@ function renderDanhSachChapter() {
 
     danhSach.forEach((item) => {
       const link = document.createElement("a");
-      link.href = taoDuongDan(CAU_HINH_DOC_TRUYEN.trangDocTruyen, {
+      link.href = taoDuongDan("doctruyen.html", {
         id: truyen.id,
         chapter: item.chapter,
       });
@@ -331,7 +219,9 @@ function taoTheTruyen(item) {
   khung.classList.add("khungtruyenrieng");
 
   const link = document.createElement("a");
-  link.href = taoDuongDan(CAU_HINH_DOC_TRUYEN.trangChiTiet, { id: item.id });
+  link.href = taoDuongDan("trangchitiet.html", {
+    id: item.id,
+  });
 
   const anh = document.createElement("img");
   anh.src = String(item.anhBia ?? "");
@@ -359,7 +249,7 @@ function hienThiTruyen(khung, danhSach) {
   xoaNoiDungPhanTu(khung);
   const fragment = document.createDocumentFragment();
   danhSach
-    .slice(0, CAU_HINH_DOC_TRUYEN.ketQuaTimKiemToiDa)
+    .slice(0, 50)
     .forEach((item) => fragment.appendChild(taoTheTruyen(item)));
   khung.appendChild(fragment);
 }
@@ -392,12 +282,10 @@ function khoiTaoDanhSachChapterNoi() {
 
       requestAnimationFrame(() => {
         const viTri = menu.getBoundingClientRect();
-        if (viTri.top < CAU_HINH_DOC_TRUYEN.khoangCachMepMenu) {
+        if (viTri.top < 10) {
           nut.classList.remove("open-up");
         } else if (
-          viTri.bottom >
-          document.documentElement.clientHeight -
-          CAU_HINH_DOC_TRUYEN.khoangCachMepMenu
+          viTri.bottom > document.documentElement.clientHeight - 10
         ) {
           nut.classList.add("open-up");
         }
@@ -407,7 +295,7 @@ function khoiTaoDanhSachChapterNoi() {
     nut.addEventListener("mouseleave", () => {
       boDemDong = setTimeout(() => {
         if (!nut.classList.contains("active")) menu.classList.remove("show");
-      }, CAU_HINH_DOC_TRUYEN.thoiGianDongMenu);
+      }, 200);
     });
 
     nut.addEventListener("click", (event) => {
@@ -447,11 +335,10 @@ function khoiTaoThanhDieuHuongNoi() {
       viTriMoi + document.documentElement.clientHeight >= mocFooter.offsetTop;
 
     if (nutLenDauTrang) {
-      nutLenDauTrang.hidden =
-        viTriMoi <= CAU_HINH_DOC_TRUYEN.viTriHienNutLenDauTrang;
+      nutLenDauTrang.hidden = viTriMoi <= 300;
     }
 
-    if (viTriMoi <= CAU_HINH_DOC_TRUYEN.viTriBatDauSticky || daChamFooter) {
+    if (viTriMoi <= 100 || daChamFooter) {
       thanhDieuHuong.classList.remove("fixed-top", "fixed-bottom");
       viTriCu = viTriMoi;
       return;
@@ -488,10 +375,10 @@ function ganTimKiem() {
     });
 
     if (ketQua.length === 0) {
-      goiY.innerHTML = "<p style='padding:12px'>Không tìm thấy truyện</p>";
-
-      goiY.style.display = "block";
-      return;
+      const thongBao = document.createElement("p");
+      thongBao.textContent = "Không tìm thấy truyện";
+      thongBao.style.padding = "12px";
+      goiY.appendChild(thongBao);
     }
 
     ketQua.slice(0, 5).forEach((truyen) => {
