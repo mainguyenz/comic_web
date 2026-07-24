@@ -33,7 +33,7 @@ const taoTextNode = (text) => document.createTextNode(String(text));
 // DỮ LIỆU BÌNH LUẬN MẪU (MẢNG OBJECT THÔ - RAW DATA IN-MEMORY)
 // ============================================================================
 
-// Khai báo mảng Object lưu trữ bình luận theo từng ID truyện ngay trong RAM
+// Mảng Object lưu trữ bình luận trực tiếp trong RAM (không dùng localStorage)
 const khoBinhLuanInMem = {
   1: [
     {
@@ -469,7 +469,6 @@ const thietLapDanhGiaSao = () => {
   });
 };
 
-// Đọc danh sách bình luận trực tiếp từ Object thô khoBinhLuanInMem
 const layKhoBinhLuan = () => {
   if (!khoBinhLuanInMem[idTruyen]) {
     khoBinhLuanInMem[idTruyen] = [];
@@ -517,15 +516,6 @@ const renderDanhSachBinhLuan = () => {
     const name = document.createElement("strong");
     name.appendChild(taoTextNode(tenHienThi));
     meta.appendChild(name);
-
-    if (bl.chapterSo) {
-      const tagChap = document.createElement("span");
-      tagChap.className = "bl-chapter-badge";
-      tagChap.style.color = "#ff9800";
-      tagChap.style.fontWeight = "bold";
-      tagChap.appendChild(taoTextNode(` Chương ${bl.chapterSo}`));
-      meta.appendChild(tagChap);
-    }
 
     if (bl.saoDanhGia > 0) {
       const starsSpan = document.createElement("span");
@@ -586,7 +576,6 @@ const thietLapFormBinhLuan = () => {
       return;
     }
 
-    // Thêm Object bình luận mới trực tiếp vào Mảng RAM (In-Memory)
     const dsMoi = layKhoBinhLuan();
     dsMoi.push({
       id: Date.now(),
@@ -597,7 +586,6 @@ const thietLapFormBinhLuan = () => {
       saoDanhGia: saoDangChon,
     });
 
-    // Cập nhật lại điểm đánh giá trung bình
     capNhatDiemDanhGiaTrungBinh(dsMoi);
 
     if (txtBinhLuan) txtBinhLuan.value = "";
@@ -725,7 +713,14 @@ function ganTimKiem() {
 
     const ketQua = danhSachTruyen.filter((truyen) => {
       const ten = (truyen.ten || "").toLowerCase();
-      return ten.includes(tuKhoa);
+      const tacGia = (truyen.tacGia || "").toLowerCase();
+      const theLoai = (truyen.theLoai || []).join(" ").toLowerCase();
+
+      return (
+        ten.includes(tuKhoa) ||
+        tacGia.includes(tuKhoa) ||
+        theLoai.includes(tuKhoa)
+      );
     });
 
     if (ketQua.length === 0) {
@@ -760,16 +755,21 @@ function ganTimKiem() {
     }
   });
 }
+
 // ============================================================================
 // KHỞI TẠO ỨNG DỤNG (ENTRY POINT)
 // ============================================================================
 
 document.addEventListener("DOMContentLoaded", () => {
+  ganMenu();
+  ganTimKiem();
+  ganNutQuayLai();
+  thietLapMenu();
   hienThiChiTietTruyen();
   renderDanhSachChapter();
   thietLapTuongTacChapter();
+  renderTruyenLQuan();
   thietLapDanhGiaSao();
   renderDanhSachBinhLuan();
   thietLapFormBinhLuan();
-  renderTruyenLQuan();
 });
