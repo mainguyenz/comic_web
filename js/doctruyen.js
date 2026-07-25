@@ -25,8 +25,7 @@ function laySoNguyenDuong(value, giaTriMacDinh, giaTriToiDa) {
   return so;
 }
 
-// Chuyển dữ liệu thành chuỗi, xóa khoảng trắng thừa
-// và cắt chuỗi theo số ký tự tối đa.
+// xóa danh sách chương cũ trước khi tạo chương mới
 function gioiHanChuoi(value, soKyTuToiDa) {
   return String(value ?? "")
     .trim()
