@@ -1,17 +1,15 @@
-// ==================================================
-// 1. CẤU HÌNH TRANG ĐỌC TRUYỆN
-// ==================================================
-
+// Nếu chapters từ datadoctruyen.js tồn tại và là mảng thì sử dụng chapters, ngược lại dùng mảng rỗng 
 const duLieuChuong =
   typeof chapters !== "undefined" && Array.isArray(chapters) ? chapters : [];
+
+
+
 
 // Kiểm tra danh sách truyện đã được nạp từ datachitiet.js hay chưa.
 const duLieuTruyen =
   typeof danhSachTruyen !== "undefined" && Array.isArray(danhSachTruyen)
     ? danhSachTruyen
     : [];
-
-
 
 
 // Chuyển một giá trị thành số nguyên dương hợp lệ.
