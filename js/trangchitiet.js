@@ -30,30 +30,10 @@ const xoaHetCon = (element) => {
 const taoTextNode = (text) => document.createTextNode(String(text));
 
 // ============================================================================
-// DỮ LIỆU BÌNH LUẬN MẪU (MẢNG OBJECT THÔ - RAW DATA IN-MEMORY)
+// KHO BÌNH LUẬN TRONG RAM (BẮT ĐẦU VỚI MẢNG RỖNG)
 // ============================================================================
 
-// Mảng Object lưu trữ bình luận trực tiếp trong RAM (không dùng localStorage)
-const khoBinhLuanInMem = {
-  1: [
-    {
-      id: 1,
-      fullname: "Nguyễn Văn A",
-      email: "a@gmail.com",
-      noiDung: "Truyện cuốn quá admin ơi, hóng chap mới!",
-      ngayDang: "10/05/2024, 14:30:00",
-      saoDanhGia: 5,
-    },
-    {
-      id: 2,
-      fullname: "Trần Thị B",
-      email: "b@gmail.com",
-      noiDung: "Nét vẽ đẹp, cốt truyện khá ổn.",
-      ngayDang: "11/05/2024, 09:15:00",
-      saoDanhGia: 4,
-    },
-  ],
-};
+const khoBinhLuanInMem = {};
 
 // ============================================================================
 // KIỂM TRA LỖI TRUYỆN KHÔNG TỒN TẠI (404)
@@ -214,23 +194,6 @@ const hienThiChiTietTruyen = () => {
     lblLuotXem.appendChild(taoTextNode(truyen.luotXem || "0"));
   }
 
-  const lblLuotTheoDoi = document.getElementById("lblLuotTheoDoi");
-  const dsTheoDoi =
-    typeof layDanhSachTheoDoi === "function" ? layDanhSachTheoDoi() : [];
-  const dangTheoDoi = dsTheoDoi.includes(idTruyen);
-
-  const chuoiLuotTheo = String(truyen.luotTheo || "0").replace(/,/g, "");
-  const soTheoDoiGoc = parseInt(chuoiLuotTheo, 10) || 0;
-
-  if (lblLuotTheoDoi) {
-    xoaHetCon(lblLuotTheoDoi);
-    lblLuotTheoDoi.appendChild(
-      taoTextNode(
-        (dangTheoDoi ? soTheoDoiGoc + 1 : soTheoDoiGoc).toLocaleString("vi-VN"),
-      ),
-    );
-  }
-
   const lblSynopsis = document.getElementById("lblSynopsis");
   const btnDocThemSynopsis = document.getElementById("btnDocThemSynopsis");
   const noiDungMoTa =
@@ -283,57 +246,59 @@ const hienThiChiTietTruyen = () => {
       boxTheLoai.appendChild(fragment);
     }
   }
+};
 
+// ============================================================================
+// CHỨC NĂNG: THEO DÕI TRUYỆN
+// ============================================================================
+
+const capNhatGiaoDienTheoDoi = (daTheoDoi) => {
   const btnTheoDoi = document.getElementById("btnTheoDoi");
+  const lblLuotTheoDoi = document.getElementById("lblLuotTheoDoi");
+
+  // 1. Cập nhật trạng thái nút bấm
   if (btnTheoDoi) {
-    const iconHeart = btnTheoDoi.querySelector("i");
-
-    const capNhatGiaoDienTheoDoi = () => {
-      const hienTaiDangTheoDoi =
-        typeof kiemTraDaTheoDoi === "function"
-          ? kiemTraDaTheoDoi(idTruyen)
-          : false;
-
-      btnTheoDoi.classList.toggle("dang-theo-doi", hienTaiDangTheoDoi);
-
-      if (iconHeart) {
-        iconHeart.className = hienTaiDangTheoDoi
-          ? "bi bi-check-lg"
-          : "bi bi-heart";
-      }
-
-      Array.from(btnTheoDoi.childNodes)
-        .filter((node) => node.nodeType === Node.TEXT_NODE)
-        .forEach((node) => node.remove());
-
-      btnTheoDoi.appendChild(
-        taoTextNode(hienTaiDangTheoDoi ? " Bỏ theo dõi" : " Theo dõi"),
-      );
-
-      if (lblLuotTheoDoi) {
-        xoaHetCon(lblLuotTheoDoi);
-        lblLuotTheoDoi.appendChild(
-          taoTextNode(
-            (hienTaiDangTheoDoi
-              ? soTheoDoiGoc + 1
-              : soTheoDoiGoc
-            ).toLocaleString("vi-VN"),
-          ),
-        );
-      }
-    };
-
-    capNhatGiaoDienTheoDoi();
-
-    btnTheoDoi.addEventListener("click", () => {
-      if (typeof toggleTheoDoiId !== "function") {
-        alert("Hệ thống lưu trữ đang bận, vui lòng thử lại sau!");
-        return;
-      }
-      toggleTheoDoiId(idTruyen);
-      capNhatGiaoDienTheoDoi();
-    });
+    xoaHetCon(btnTheoDoi);
+    if (daTheoDoi) {
+      btnTheoDoi.classList.add("da-theo-doi");
+      btnTheoDoi.innerHTML = `<i class="bi bi-heart-fill" style="color: #e74c3c;"></i> Đã theo dõi`;
+    } else {
+      btnTheoDoi.classList.remove("da-theo-doi");
+      btnTheoDoi.innerHTML = `<i class="bi bi-heart"></i> Theo dõi`;
+    }
   }
+
+  // 2. Cập nhật số lượt theo dõi hiển thị tự động bằng hàm layLuotTheoThucTe
+  if (lblLuotTheoDoi) {
+    xoaHetCon(lblLuotTheoDoi);
+    const soLuotTheo = typeof layLuotTheoThucTe === "function" 
+      ? layLuotTheoThucTe(idTruyen) 
+      : truyen.luotTheo || "0";
+    lblLuotTheoDoi.appendChild(taoTextNode(soLuotTheo));
+  }
+};
+
+const thietLapChucNangTheoDoi = () => {
+  const btnTheoDoi = document.getElementById("btnTheoDoi");
+  if (!btnTheoDoi) return;
+
+  // Kiểm tra trạng thái ban đầu
+  const daTheoDoi =
+    typeof kiemTraDaTheoDoi === "function" ? kiemTraDaTheoDoi(idTruyen) : false;
+
+  capNhatGiaoDienTheoDoi(daTheoDoi);
+
+  // Bắt sự kiện Click nút
+  btnTheoDoi.addEventListener("click", () => {
+    if (typeof toggleTheoDoiId === "function") {
+      const ketQuaToggle = toggleTheoDoiId(idTruyen);
+      
+      // Nếu là boolean (user đã đăng nhập và bấm thành công)
+      if (typeof ketQuaToggle === "boolean") {
+        capNhatGiaoDienTheoDoi(ketQuaToggle);
+      }
+    }
+  });
 };
 
 // ============================================================================
@@ -750,7 +715,8 @@ function ganTimKiem() {
   });
 
   document.addEventListener("click", function (e) {
-    if (!document.querySelector(".search").contains(e.target)) {
+    const searchContainer = document.querySelector(".search");
+    if (searchContainer && !searchContainer.contains(e.target)) {
       goiY.style.display = "none";
     }
   });
@@ -766,6 +732,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ganNutQuayLai();
   thietLapMenu();
   hienThiChiTietTruyen();
+  thietLapChucNangTheoDoi(); // Gọi khởi tạo chức năng Theo dõi
   renderDanhSachChapter();
   thietLapTuongTacChapter();
   renderTruyenLQuan();
