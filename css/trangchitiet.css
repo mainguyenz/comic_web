@@ -1,136 +1,212 @@
+/* Reset CSS: Áp dụng thuộc tính box-sizing cho tất cả các phần tử và phần tử ảo (before/after) */
 *,
 *::before,
 *::after {
+  /* Giúp kích thước của phần tử bao gồm cả padding và border, tránh bị phình kích thước ngoài ý muốn */
   box-sizing: border-box;
 }
 
+/* Định dạng thẻ body (toàn bộ trang web) */
 body {
+  /* Đặt font chữ mặc định, ưu tiên Segoe UI rồi đến các font dự phòng */
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  /* Xóa khoảng cách lề ngoài mặc định của trình duyệt */
   margin: 0;
+  /* Xóa khoảng cách đệm trong mặc định của trình duyệt */
   padding: 0;
 }
 
+/* Thanh hướng dẫn / Đường dẫn trang (Breadcrumb) */
 .breadcrumb {
+  /* Sử dụng Flexbox để sắp xếp các phần tử con theo chiều ngang */
   display: flex;
+  /* Căn chỉnh các phần tử con theo trục dọc vào giữa */
   align-items: center;
+  /* Khoảng cách giữa các phần tử con là 8px */
   gap: 8px;
+  /* Padding trên/dưới là 15px, trái/phải là 6% */
   padding: 15px 6%;
+  /* Kích thước chữ 14px */
   font-size: 14px;
+  /* Màu chữ trắng với độ trong suốt 70% */
   color: rgba(255, 255, 255, 0.7);
 }
 
+/* Các liên kết trong thanh Breadcrumbs */
 .breadcrumb-link {
+  /* Màu chữ trắng */
   color: white;
+  /* Bỏ gạch chân mặc định của thẻ <a> */
   text-decoration: none;
+  /* Tạo hiệu ứng chuyển đổi mượt mà cho thuộc tính color trong 0.2s */
   transition: color 0.2s ease;
 }
 
+/* Hiệu ứng khi rê chuột vào liên kết Breadcrumb */
 .breadcrumb-link:hover {
+  /* Đổi sang màu xanh nhạt */
   color: #93c5fd;
 }
 
+/* Dấu phân cách giữa các liên kết Breadcrumb (ví dụ: / hoặc >) */
 .breadcrumb-separator {
+  /* Màu trắng mờ hơn (50%) */
   color: rgba(255, 255, 255, 0.5);
 }
 
+/* Trang hiện tại trong thanh Breadcrumb */
 .breadcrumb-current {
+  /* Màu chữ trắng hoàn toàn */
   color: #fff;
+  /* Độ đậm chữ 600 (Semi-bold) */
   font-weight: 600;
 }
 
+/* Các lớp tiện ích dùng để ẩn hoàn toàn các phần tử trên giao diện */
 .error-hidden,
 .alias-hidden,
 .bl-login-hidden {
+  /* Ẩn phần tử khỏi dòng chảy trang và bắt buộc áp dụng (!important) */
   display: none !important;
 }
 
+/* Phần Hero/Đầu trang chi tiết */
 .chitiet-hero {
+  /* Khoảng cách phía trên 20px */
   padding-top: 20px;
 }
 
+/* Bố cục chính chứa thông tin chi tiết (Bìa + Thông tin) */
 .chitiet-container {
+  /* Sử dụng CSS Grid để chia cột */
   display: grid;
+  /* Cột 1 cố định 260px (chứa ảnh bìa), cột 2 tự co giãn chiếm phần còn lại (1fr) */
   grid-template-columns: 260px 1fr;
+  /* Khoảng cách giữa 2 cột là 40px */
   gap: 40px;
+  /* Căn các cột bắt đầu từ phía trên đỉnh */
   align-items: start;
 }
 
+/* Cột chứa ảnh bìa và các nút thao tác bên trái */
 .chitiet-cover-col {
+  /* Sắp xếp nội dung theo dạng cột (Flexbox) */
   display: flex;
   flex-direction: column;
+  /* Khoảng cách giữa các phần tử con là 15px */
   gap: 15px;
 }
 
+/* Khung chứa ảnh bìa */
 .chitiet-cover {
+  /* Chiều rộng chiếm 100% cột chứa nó */
   width: 100%;
+  /* Tỷ lệ khung hình chuẩn của truyện/sách (Rộng 2 : Cao 3) */
   aspect-ratio: 2 / 3;
+  /* Bo tròn 4 góc 20px */
   border-radius: 20px;
+  /* Viền tím nhạt mờ 2px */
   border: 2px solid rgba(134, 98, 242, 0.4);
+  /* Đổ bóng đen bên dưới tạo độ nổi cho ảnh bìa */
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+  /* Tránh việc ảnh bên trong bị tràn ra ngoài góc đã bo */
   overflow: hidden;
 }
 
+/* Định dạng thẻ <img> bên trong khung bìa */
 .chitiet-cover img {
+  /* Hiển thị dạng khối */
   display: block;
+  /* Chiều rộng full khung */
   width: 100%;
+  /* Chiều cao full khung */
   height: 100%;
+  /* Giữ đúng tỷ lệ ảnh, cắt bớt phần thừa nếu cần để phủ kín khung */
   object-fit: cover;
+  /* Hiệu ứng mượt cho phóng to ảnh */
   transition: transform 0.3s ease;
 }
 
+/* Hiệu ứng phóng to nhẹ khi rê chuột vào ảnh bìa */
 .chitiet-cover img:hover {
+  /* Phóng to ảnh lên 1.03 lần (3%) */
   transform: scale(1.03);
 }
 
+/* Khung hiển thị tên thay thế / tên khác của truyện */
 .chitiet-alias {
+  /* Khoảng cách đệm trong */
   padding: 12px 15px;
+  /* Bo góc 12px */
   border-radius: 12px;
+  /* Viền trắng mờ */
   border: 1px solid rgba(255, 255, 255, 0.15);
+  /* Mềm nền trắng mờ tạo hiệu ứng kính mờ (Glassmorphism) */
   background: rgba(255, 255, 255, 0.1);
+  /* Cỡ chữ 13px */
   font-size: 13px;
+  /* Màu chữ mờ 70% */
   color: rgba(255, 255, 255, 0.7);
+  /* Khoảng cách giữa các dòng chữ */
   line-height: 1.6;
 }
 
+/* Định dạng thẻ <strong> bên trong tên thay thế */
 .chitiet-alias strong {
+  /* Màu tím sáng cho phần tiêu đề/nhãn */
   color: rgb(167, 139, 250);
 }
 
+/* Nhóm chứa các nút bấm (Đọc truyện, Theo dõi...) */
 .chitiet-btns {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
+/* Kiểu dáng chung cho các nút đọc truyện */
 .btn-doc {
   display: block;
+  /* Padding trên/dưới 13px, trái/phải 20px */
   padding: 13px 20px;
+  /* Bỏ viền mặc định */
   border: none;
+  /* Bo tròn thành dạng hình viên thuốc (Pill shape) */
   border-radius: 40px;
   font-size: 15px;
   font-weight: 600;
+  /* Căn chữ vào giữa nút */
   text-align: center;
   text-decoration: none;
+  /* Đổi con trỏ chuột thành hình bàn tay khi di chuột vào */
   cursor: pointer;
+  /* Hiệu ứng chuyển động cho tất cả thuộc tính */
   transition: all 0.3s ease;
 }
 
+/* Nút chính (ví dụ: Đọc từ đầu) - Màu tím nổi bật */
 .btn-doc-primary {
   background: rgb(134, 98, 242);
   color: #fff;
 }
 
+/* Hiệu ứng hover cho nút chính */
 .btn-doc-primary:hover {
+  /* Màu tím đậm hơn */
   background: rgb(110, 75, 210);
+  /* Đổ bóng màu tím tạo hiệu ứng phát sáng */
   box-shadow: 0 5px 15px rgba(134, 98, 242, 0.4);
+  /* Đẩy nhẹ nút lên trên 2px */
   transform: translateY(-2px);
 }
 
+/* Nút phụ (ví dụ: Đọc mới nhất) - Màu xám nhạt */
 .btn-doc-secondary {
   background: rgb(202, 199, 199);
   color: rgb(58, 58, 80);
 }
 
+/* Hiệu ứng hover cho nút phụ và nút dạng viền */
 .btn-doc-secondary:hover,
 .btn-doc-outline:hover {
   background: rgb(134, 98, 242);
@@ -138,35 +214,45 @@ body {
   transform: translateY(-2px);
 }
 
+/* Nút dạng viền trong suốt (ví dụ: Theo dõi) */
 .btn-doc-outline {
   border: 1.5px solid rgba(255, 255, 255, 0.3);
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
 }
 
+/* Hover viền đổi sang màu tím */
 .btn-doc-outline:hover {
   border-color: rgb(134, 98, 242);
 }
 
+/* Trạng thái khi nút Theo dõi đã được click (Đang theo dõi) */
 .btn-doc-outline.dang-theo-doi {
   border-color: rgb(134, 98, 242);
+  /* Nền tím mờ */
   background: rgba(134, 98, 242, 0.2);
   color: #fff;
 }
 
+/* Cột thông tin chi tiết bên phải */
 .chitiet-info-col {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
+/* Tiêu đề truyện */
 .chitiet-title {
   color: #fff;
+  /* Chữ lớn 2.2rem */
   font-size: 2.2rem;
+  /* Đậm nhất */
   font-weight: 900;
+  /* Khoảng cách dòng chặt chẽ */
   line-height: 1.2;
 }
 
+/* Khung chứa điểm đánh giá và ngôi sao */
 .rating-container {
   display: flex;
   align-items: center;
@@ -174,54 +260,70 @@ body {
   font-family: sans-serif;
 }
 
+/* Số điểm đánh giá (ví dụ: 4.5/5) */
 .rating-number {
   font-weight: bold;
   font-size: 1.2rem;
+  /* Màu vàng ngôi sao */
   color: #ffc107;
 }
 
+/* Dãy ngôi sao đánh giá */
 .rating-stars {
   font-size: 1.2rem;
   color: #ffc107;
+  /* Tạo khoảng cách giữa các ngôi sao */
   letter-spacing: 2px;
 }
 
+/* Nhóm chứa các dòng thông tin meta (Tác giả, Thể loại...) */
 .chitiet-meta {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
+/* Từng dòng thông tin meta */
 .chitiet-meta-dong {
   display: flex;
+  /* Căn lề trên đỉnh khi thông tin xuống dòng */
   align-items: flex-start;
   gap: 10px;
   font-size: 14px;
 }
 
+/* Dòng chứa các số liệu thống kê trong phần meta */
 .meta-stats-row {
   margin-top: 5px;
 }
 
+/* Nhãn thông tin (Tác giả:, Thể loại:...) */
 .meta-label {
+  /* Không bị co lại khi thiếu diện tích */
   flex-shrink: 0;
+  /* Độ rộng tối thiểu 90px để các nhãn thẳng hàng */
   min-width: 90px;
   color: rgb(248, 248, 248);
   font-size: 13px;
 }
 
+/* Giá trị tương ứng của nhãn */
 .meta-value {
   color: #eee;
 }
 
+/* Danh sách chứa các thẻ thể loại (Tags) */
 .tag-list {
   display: flex;
+  /* Tự xuống dòng khi hết chỗ */
   flex-wrap: wrap;
   gap: 8px;
 }
 
+/* Từng thẻ thể loại */
 .tag {
   padding: 4px 12px;
+  /* Bo tròn dạng viên thuốc */
   border-radius: 20px;
   border: 1px solid rgba(134, 98, 242, 0.4);
   background: rgba(134, 98, 242, 0.2);
@@ -232,11 +334,13 @@ body {
   transition: all 0.3s ease;
 }
 
+/* Hiệu ứng hover vào thể loại */
 .tag:hover {
   background: rgb(134, 98, 242);
   color: #fff;
 }
 
+/* Huy hiệu hiển thị tình trạng truyện (Đang ra, Hoàn thành...) */
 .tinh-trang-badge {
   display: inline-block;
   padding: 4px 14px;
@@ -245,30 +349,35 @@ body {
   font-weight: 600;
 }
 
+/* Huy hiệu khi truyện đang ra - Tông màu xanh lá */
 .tinh-trang-badge.dang-ra {
   border: 1px solid #3ecf8e;
   background: rgba(62, 207, 142, 0.15);
   color: rgba(11, 242, 69, 0.9);
 }
 
+/* Huy hiệu khi truyện đã hoàn thành - Tông màu tím */
 .tinh-trang-badge.hoan-thanh {
   border: 1px solid rgb(196, 181, 253);
   background: rgba(134, 98, 242, 0.15);
   color: rgb(196, 181, 253);
 }
 
+/* Huy hiệu khi truyện sắp ra mắt - Tông màu vàng */
 .tinh-trang-badge.sap-ra-mat {
   border: 1px solid rgb(250, 204, 21);
   background: rgba(250, 204, 21, 0.15);
   color: rgb(250, 204, 21);
 }
 
+/* Khu vực hiển thị số lượt xem, lượt thích... */
 .chitiet-stats {
   display: flex;
   flex-wrap: wrap;
   gap: 25px;
 }
 
+/* Từng mục thống kê */
 .stat-item {
   display: flex;
   align-items: center;
@@ -277,27 +386,33 @@ body {
   color: rgba(248, 248, 248, 0.9);
 }
 
+/* Khoảng cách lề trái riêng cho biểu tượng trái tim/lượt thích */
 .stat-heart-spacing {
   margin-left: 15px;
 }
 
+/* Biểu tượng lượt xem */
 .icon-view {
   color: #ccc;
   margin-right: 5px;
 }
 
+/* Biểu tượng trái tim / yêu thích */
 .icon-heart {
   color: #c32837;
   margin-right: 5px;
 }
 
+/* Đoạn văn bản mô tả nội dung truyện */
 .chitiet-mota {
   color: rgb(248, 248, 248);
   font-size: 14px;
   line-height: 1.8;
+  /* Căn đều hai bên dòng chữ */
   text-align: justify;
 }
 
+/* Lớp dùng để rút gọn mô tả ngắn gọn (chỉ hiện 2 dòng, có dấu ...) */
 .synopsis-hidden {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -306,6 +421,7 @@ body {
   overflow: hidden;
 }
 
+/* Nút bấm Đọc thêm / Rút gọn phần mô tả */
 .btn-synopsis-toggle {
   border: none;
   margin-top: 10px;
@@ -316,13 +432,16 @@ body {
   padding: 0;
 }
 
+/* Khung danh sách chương truyện */
 .chapter-section {
   margin-top: 20px;
   padding: 20px;
   border-radius: 10px;
+  /* Nền tối xám */
   background: #1d1d1d;
 }
 
+/* Thanh tiêu đề của phần danh sách chương */
 .chapter-header {
   display: flex;
   justify-content: space-between;
@@ -332,35 +451,43 @@ body {
   margin-bottom: 20px;
 }
 
+/* Tiêu đề h2 phần chương */
 .chapter-header h2 {
   color: #fff;
   font-size: 1.4rem;
   margin: 0;
 }
 
+/* Hiển thị số lượng chương (ví dụ: (100 chapters)) */
 .chapter-dem {
   margin-left: 8px;
   color: #aaa;
   font-size: 14px;
   font-weight: 400;
 }
+
 /* Mặc định ẩn icon tăng dần */
 #btnDaoNguoc .status-asc {
   display: none;
 }
 
-/* Khi chuyển sang trạng thái asc */
+/* Khi chuyển sang trạng thái asc: ẩn icon giảm dần */
 #btnDaoNguoc[data-order="asc"] .status-desc {
   display: none;
 }
+
+/* Khi chuyển sang trạng thái asc: hiện icon tăng dần */
 #btnDaoNguoc[data-order="asc"] .status-asc {
   display: inline-block;
 }
+
+/* Khung chứa nút sắp xếp chương */
 .chapter-sort {
   display: flex;
   gap: 8px;
 }
 
+/* Kiểu dáng cho các nút sắp xếp chương */
 .chapter-sort button {
   padding: 6px 16px;
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -372,6 +499,7 @@ body {
   transition: all 0.3s ease;
 }
 
+/* Trạng thái nút sắp xếp đang chọn hoặc khi hover */
 .chapter-sort button.active,
 .chapter-sort button:hover {
   border-color: rgb(134, 98, 242);
@@ -379,30 +507,40 @@ body {
   color: #fff;
 }
 
+/* Lưới / Khung cuộn chứa các chương truyện */
 .chapter-grid {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  /* Chiều cao tối đa 600px, quá sẽ xuất hiện thanh cuộn */
   max-height: 600px;
   overflow-y: auto;
   padding-right: 5px;
 }
 
+/* Tùy chỉnh độ rộng thanh cuộn (Scrollbar) cho danh sách chương */
 .chapter-grid::-webkit-scrollbar {
   width: 6px;
 }
+
+/* Đường rãnh của thanh cuộn */
 .chapter-grid::-webkit-scrollbar-track {
   background: rgba(255, 255, 255, 0.03);
   border-radius: 10px;
 }
+
+/* Con cuộn (Thumb) màu tím mờ */
 .chapter-grid::-webkit-scrollbar-thumb {
   background: rgba(134, 98, 242, 0.4);
   border-radius: 10px;
 }
+
+/* Đậm màu con cuộn khi rê chuột vào thanh cuộn */
 .chapter-grid::-webkit-scrollbar-thumb:hover {
   background: rgba(134, 98, 242, 0.7);
 }
 
+/* Từng dòng/mục chương trong danh sách */
 .chapter-item {
   display: flex;
   justify-content: space-between;
@@ -416,23 +554,27 @@ body {
   transition: all 0.2s ease;
 }
 
+/* Hiệu ứng rê chuột vào tên chương */
 .chapter-item:hover {
   border-color: rgba(134, 98, 242, 0.4);
   background: rgba(134, 98, 242, 0.2);
 }
 
+/* Tên / Số chương (Tím nổi bật) */
 .chapter-so {
   color: rgb(134, 98, 242);
   font-size: 13px;
   font-weight: 700;
 }
 
+/* Ngày cập nhật chương */
 .chapter-ngay {
   flex-shrink: 0;
   color: #888;
   font-size: 12px;
 }
 
+/* Huy hiệu đánh dấu chương "Mới" */
 .chapter-moi-badge {
   margin-left: 6px;
   padding: 2px 7px;
@@ -444,11 +586,13 @@ body {
   font-weight: 700;
 }
 
+/* Khung chứa nút "Xem thêm chương" */
 #chapterXemThem {
   margin-top: 16px;
   text-align: center;
 }
 
+/* Định dạng nút "Xem thêm chương" */
 #chapterXemThem button {
   padding: 10px 30px;
   border: none;
@@ -461,10 +605,12 @@ body {
   transition: background 0.3s ease;
 }
 
+/* Hover nút xem thêm chương */
 #chapterXemThem button:hover {
   background: rgb(134, 98, 242);
 }
 
+/* Khu vực truyện liên quan / đề xuất */
 #sectionLQuan {
   margin-top: 25px;
   padding: 25px;
@@ -472,6 +618,7 @@ body {
   background: rgba(255, 255, 255, 0.05);
 }
 
+/* Tiêu đề khu vực truyện liên quan */
 #sectionLQuan h2 {
   color: #fff;
   font-size: 1.4rem;
@@ -479,12 +626,14 @@ body {
   margin-bottom: 20px;
 }
 
+/* Lưới hiển thị danh sách truyện liên quan (chia 4 cột) */
 .lien-quan-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 
+/* Thẻ (Card) từng truyện liên quan */
 .lien-quan-card {
   display: block;
   border-radius: 16px;
@@ -496,10 +645,12 @@ body {
   transition: transform 0.3s ease;
 }
 
+/* Phóng nhẹ card khi rê chuột vào */
 .lien-quan-card:hover {
   transform: scale(1.03);
 }
 
+/* Ảnh của truyện liên quan */
 .lien-quan-card img {
   display: block;
   width: 100%;
@@ -507,6 +658,7 @@ body {
   object-fit: cover;
 }
 
+/* Khung hiển thị mặc định nếu truyện liên quan không có ảnh */
 .lien-quan-placeholder {
   display: flex;
   align-items: center;
@@ -517,10 +669,12 @@ body {
   font-size: 48px;
 }
 
+/* Khung thông tin phía dưới card truyện liên quan */
 .lien-quan-info {
   padding: 12px;
 }
 
+/* Tên truyện liên quan (Rút gọn tối đa 3 dòng, dư hiện dấu ...) */
 .lien-quan-ten {
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -533,11 +687,13 @@ body {
   font-weight: 700;
 }
 
+/* Tác giả truyện liên quan */
 .lien-quan-tacgia {
   color: #555;
   font-size: 12px;
 }
 
+/* Khu vực bình luận */
 #sectionBLuan {
   margin-top: 25px;
   padding: 25px;
@@ -545,6 +701,7 @@ body {
   background: rgba(255, 255, 255, 0.05);
 }
 
+/* Tiêu đề mục bình luận */
 #sectionBLuan h2 {
   color: #fff;
   font-size: 1.4rem;
@@ -552,6 +709,7 @@ body {
   margin-bottom: 20px;
 }
 
+/* Khung chọn điểm/sao đánh giá trong Form bình luận */
 .bl-form .danh-gia-box {
   display: flex;
   align-items: center;
@@ -563,22 +721,26 @@ body {
   background: rgba(255, 255, 255, 0.04);
 }
 
+/* Nhãn hướng dẫn đánh giá */
 .danh-gia-label {
   color: #aaa;
   font-size: 14px;
 }
 
+/* Dãy ngôi sao để người dùng bấm chọn */
 .chitiet-stars {
   display: flex;
   gap: 4px;
 }
 
+/* Từng ngôi sao có thể click được */
 .star-pick {
   background: transparent;
   border: none;
   padding: 0;
   color: #555;
   font-size: 26px;
+  /* Tránh người dùng bôi đen (select) ký tự ngôi sao */
   user-select: none;
   cursor: pointer;
   transition:
@@ -586,20 +748,24 @@ body {
     color 0.2s ease;
 }
 
+/* Ngôi sao được kích hoạt/chọn */
 .star-pick.active {
   color: gold;
 }
 
+/* Phóng to sao khi rê chuột để chọn */
 .star-pick:hover {
   transform: scale(1.2);
 }
 
+/* Điểm số đánh giá bằng số (ví dụ: 5/5) */
 .chitiet-diem {
   color: gold;
   font-size: 18px;
   font-weight: 700;
 }
 
+/* Thông báo yêu cầu đăng nhập trước khi bình luận */
 .bl-thongbao-dangnhap {
   margin-bottom: 20px;
   padding: 15px;
@@ -610,17 +776,20 @@ body {
   font-size: 14px;
 }
 
+/* Liên kết đăng nhập trong thông báo */
 .bl-thongbao-dangnhap a {
   color: #c4b5fd;
   font-weight: 700;
   text-decoration: underline;
 }
 
+/* Hiển thị dòng chữ: "Đang bình luận với tên: ..." */
 .bl-dang-binh-luan-voi {
   color: #aaa;
   font-size: 13px;
 }
 
+/* Form nhập nội dung bình luận */
 .bl-form {
   display: flex;
   flex-direction: column;
@@ -630,6 +799,7 @@ body {
   background: #1d1d1d;
 }
 
+/* Định dạng các ô input và textarea nhập liệu */
 .bl-form input,
 .bl-form textarea {
   width: 100%;
@@ -644,21 +814,27 @@ body {
   transition: border-color 0.2s ease;
 }
 
+/* Màu chữ của Placeholder (chữ gợi ý) */
 .bl-form input::placeholder,
 .bl-form textarea::placeholder {
   color: #777;
 }
 
+/* Đổi màu viền khi người dùng click/con trỏ nằm trong ô nhập */
 .bl-form input:focus,
 .bl-form textarea:focus {
   border-color: rgb(134, 98, 242);
 }
 
+/* Ô nhập nội dung bình luận dài */
 .bl-form textarea {
+  /* Chiều cao tối thiểu 80px */
   min-height: 80px;
+  /* Kéo thả đổi kích thước ô text bị tắt */
   resize: none;
 }
 
+/* Chân Form chứa nút gửi */
 .bl-form-footer {
   display: flex;
   justify-content: space-between;
@@ -667,6 +843,7 @@ body {
   gap: 10px;
 }
 
+/* Nút Gửi bình luận */
 .bl-gui-btn {
   padding: 10px 25px;
   border: none;
@@ -679,11 +856,13 @@ body {
   transition: all 0.3s ease;
 }
 
+/* Hover nút gửi bình luận */
 .bl-gui-btn:hover {
   background: rgb(110, 75, 210);
   transform: translateY(-2px);
 }
 
+/* Từng bình luận hiển thị trong danh sách */
 .binh-luan-item {
   display: flex;
   gap: 14px;
@@ -691,10 +870,12 @@ body {
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
 
+/* Bình luận cuối cùng không cần đường gạch chân */
 .binh-luan-item:last-child {
   border-bottom: none;
 }
 
+/* Ảnh đại diện (Avatar) của người bình luận */
 .bl-avatar {
   display: flex;
   align-items: center;
@@ -703,6 +884,7 @@ body {
   width: 40px;
   height: 40px;
   border: 2px solid rgba(134, 98, 242, 0.5);
+  /* Bo tròn thành hình tròn */
   border-radius: 50%;
   background: rgba(134, 98, 242, 0.3);
   color: #c4b5fd;
@@ -710,10 +892,13 @@ body {
   font-weight: 700;
 }
 
+/* Khung chứa nội dung chi tiết bình luận */
 .bl-noidung {
+  /* Tự động chiếm khoảng trống còn lại */
   flex: 1;
 }
 
+/* Thanh thông tin người đăng bình luận (Tên, sao, thời gian) */
 .bl-meta {
   display: flex;
   align-items: center;
@@ -722,27 +907,32 @@ body {
   margin-bottom: 5px;
 }
 
+/* Tên người bình luận */
 .bl-meta strong {
   color: #fff;
   font-size: 14px;
 }
 
+/* Sao đánh giá hiển thị trên bình luận */
 .bl-stars {
   color: gold;
   font-size: 13px;
 }
 
+/* Thời gian đăng bình luận */
 .bl-time {
   color: #fff;
   font-size: 12px;
 }
 
+/* Nội dung chữ của bình luận */
 .bl-noidung p {
   color: #ccc;
   font-size: 14px;
   line-height: 1.7;
 }
-/* cho đánh dấu chapter*/
+
+/* Nhãn huy hiệu đánh dấu chương mà người dùng đang bình luận (cho đánh dấu chapter) */
 .bl-chapter-badge {
   background-color: rgba(255, 152, 0, 0.15);
   color: #ff9800;
@@ -752,7 +942,8 @@ body {
   margin-left: 6px;
   display: inline-block;
 }
-/*=============*/
+
+/* Phần bản quyền / Chân trang cuối cùng */
 .footer-copy {
   padding: 20px;
   border-top: 1px solid rgba(134, 98, 242, 0.4);
@@ -761,21 +952,30 @@ body {
   text-align: center;
 }
 
+/* ========================================== */
+/* RESPONSIVE DESIGN (RESPONSIVE CHO CÁC MÀN HÌNH) */
+/* ========================================== */
+
+/* Màn hình Tablet lớn / Laptop nhỏ (Tối đa 1024px) */
 @media (max-width: 1024px) {
+  /* Thu nhỏ cột chứa bìa xuống 220px */
   .chitiet-container {
     grid-template-columns: 220px 1fr;
     gap: 25px;
   }
 
+  /* Chuyển lưới truyện liên quan về 3 cột */
   .lien-quan-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 
+  /* Giảm kích thước tiêu đề truyện */
   .chitiet-title {
     font-size: 1.9rem;
   }
 }
 
+/* Màn hình Tablet / Máy tính bảng (Tối đa 768px) */
 @media (max-width: 768px) {
   header {
     gap: 15px;
@@ -798,10 +998,12 @@ body {
     gap: 20px;
   }
 
+  /* Đổi bố cục chi tiết sang 1 cột duy nhất */
   .chitiet-container {
     grid-template-columns: 1fr;
   }
 
+  /* Căn giữa cột ảnh bìa và giới hạn chiều rộng tối đa 280px */
   .chitiet-cover-col {
     width: 100%;
     max-width: 280px;
@@ -812,10 +1014,12 @@ body {
     font-size: 1.6rem;
   }
 
+  /* Giảm danh sách truyện liên quan xuống còn 2 cột */
   .lien-quan-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  /* Bố cục Chân trang (Footer) về 1 cột và căn giữa văn bản */
   .footer {
     grid-template-columns: 1fr;
     gap: 30px;
@@ -827,6 +1031,7 @@ body {
   }
 }
 
+/* Màn hình Điện thoại di động (Tối đa 480px) */
 @media (max-width: 480px) {
   .section {
     padding: 15px 4%;
@@ -842,16 +1047,19 @@ body {
     font-size: 1.4rem;
   }
 
+  /* Chuyển các thông số thống kê thành dòng dọc */
   .chitiet-stats {
     flex-direction: column;
     gap: 8px;
   }
 
+  /* Chuyển nhóm nút bấm thành lưới 2 cột */
   .chitiet-btns {
     display: grid;
     grid-template-columns: 1fr 1fr;
   }
 
+  /* Nút dạng outline chiếm trọn cả dòng (từ cột 1 đến hết) */
   .chitiet-btns .btn-doc-outline {
     grid-column: 1 / -1;
   }
@@ -861,6 +1069,7 @@ body {
     font-size: 15px;
   }
 
+  /* Truyện liên quan hiển thị 1 cột duy nhất */
   .lien-quan-grid {
     grid-template-columns: 1fr;
   }
