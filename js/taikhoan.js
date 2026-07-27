@@ -98,9 +98,3 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.href = "trangchu.html";
     });
 });
-
-// Lắng nghe sự kiện DOMContentLoaded lần 2 để gọi hàm ganTaiKhoan()
-document.addEventListener("DOMContentLoaded", function () {
-    // Gọi hàm ganTaiKhoan() (Lưu ý: Bạn cần đảm bảo hàm ganTaiKhoan đã được định nghĩa ở một file hoặc đoạn code khác)
-    ganTaiKhoan();
-});
