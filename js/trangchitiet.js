@@ -1,5 +1,5 @@
 // ============================================================================
-// HÀM BỔ TRỢ (UTILITIES & LOCALSTORAGE)
+// KHỞI TẠO TIỆN ÍCH CHUNG & XỬ LÝ LỖI (404)
 // ============================================================================
 
 const layThamSoURL = (tenThamSo) => {
@@ -10,10 +10,7 @@ const layThamSoURL = (tenThamSo) => {
 const safeParseJSON = (key, fallback = null) => {
   try {
     const item = localStorage.getItem(key);
-    if (item) {
-      return JSON.parse(item);
-    }
-    return fallback;
+    return item ? JSON.parse(item) : fallback;
   } catch (e) {
     console.error(`Lỗi đọc LocalStorage key "${key}":`, e);
     return fallback;
@@ -27,49 +24,43 @@ const xoaHetCon = (element) => {
   }
 };
 
-const taoTextNode = (text) => document.createTextNode(String(text));
-
-// ============================================================================
-// KHO BÌNH LUẬN TRONG RAM (BẮT ĐẦU VỚI MẢNG RỖNG)
-// ============================================================================
-
-const khoBinhLuanInMem = {};
-
-// ============================================================================
-// KIỂM TRA LỖI TRUYỆN KHÔNG TỒN TẠI (404)
-// ============================================================================
+const taoTextNode = (text) => document.createTextNode(String(text ?? ''));
 
 const idThamSo = layThamSoURL("id");
-const idTruyen = idThamSo && idThamSo.trim() !== "" ? Number(idThamSo) : NaN;
-const idHopLe = !isNaN(idTruyen) && Number.isInteger(idTruyen) && idTruyen > 0;
+const idTruyen = Number(idThamSo);
 
-const truyen =
-  idHopLe && typeof layTruyenTheoId === "function"
-    ? layTruyenTheoId(idTruyen)
-    : null;
+const idHopLe = Number.isInteger(idTruyen) && idTruyen > 0;
+
+const truyen = (idHopLe && typeof layTruyenTheoId === "function") 
+  ? layTruyenTheoId(idTruyen) 
+  : null;
+
+const xuLyHienThiLoi404 = () => {
+  const containerChinh = document.getElementById("container-truyen");
+  const khungLoi = document.getElementById("khung-loi");
+  const lblNoiDungLoi = document.getElementById("lblNoiDungLoi");
+  const breadcrumb = document.querySelector(".breadcrumb");
+
+  if (containerChinh) containerChinh.classList.add("error-hidden");
+  if (breadcrumb) breadcrumb.style.display = "none";
+
+  if (khungLoi) {
+    khungLoi.classList.remove("error-hidden");
+    if (lblNoiDungLoi) {
+      xoaHetCon(lblNoiDungLoi);
+      lblNoiDungLoi.appendChild(
+        taoTextNode("Không tìm thấy truyện hoặc ID không hợp lệ trong hệ thống!")
+      );
+    }
+  }
+};
 
 if (!truyen) {
-  document.addEventListener("DOMContentLoaded", () => {
-    const containerChinh = document.getElementById("container-truyen");
-    const khungLoi = document.getElementById("khung-loi");
-    const lblNoiDungLoi = document.getElementById("lblNoiDungLoi");
-    const breadcrumb = document.querySelector(".breadcrumb");
-
-    if (containerChinh) containerChinh.classList.add("error-hidden");
-    if (breadcrumb) breadcrumb.style.display = "none";
-    if (khungLoi) {
-      khungLoi.classList.remove("error-hidden");
-      if (lblNoiDungLoi) {
-        xoaHetCon(lblNoiDungLoi);
-        lblNoiDungLoi.appendChild(
-          taoTextNode(
-            "Không tìm thấy truyện hoặc ID không hợp lệ trong hệ thống!",
-          ),
-        );
-      }
-    }
-  });
-  throw new Error("LỖI 404: Không tìm thấy truyện.");
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", xuLyHienThiLoi404);
+  } else {
+    xuLyHienThiLoi404();
+  }
 }
 
 // ============================================================================
@@ -85,27 +76,6 @@ let saoDangChon = 0;
 // CHỨC NĂNG: MÀN HÌNH CHI TIẾT TRUYỆN & MENU
 // ============================================================================
 
-const thietLapMenu = () => {
-  const khuChuaDangNhap = document.getElementById("khuChuaDangNhap");
-  const khuDaDangNhap = document.getElementById("khuDaDangNhap");
-  const tenTaiKhoan = document.getElementById("tenTaiKhoan");
-
-  if (currentUser) {
-    if (khuChuaDangNhap) khuChuaDangNhap.classList.add("tai-khoan-an");
-    if (khuDaDangNhap) {
-      khuDaDangNhap.classList.remove("tai-khoan-an");
-      if (tenTaiKhoan) {
-        xoaHetCon(tenTaiKhoan);
-        const { fullname, email } = currentUser;
-        tenTaiKhoan.appendChild(taoTextNode(fullname || email || "Độc giả"));
-      }
-    }
-  } else {
-    if (khuChuaDangNhap) khuChuaDangNhap.classList.remove("tai-khoan-an");
-    if (khuDaDangNhap) khuDaDangNhap.classList.add("tai-khoan-an");
-  }
-};
-
 const capNhatHienThiDiemDanhGia = () => {
   const lblDiemTb = document.getElementById("lblDiemTb");
   const dungTichSao = document.getElementById("dungTichSao");
@@ -115,22 +85,18 @@ const capNhatHienThiDiemDanhGia = () => {
     xoaHetCon(lblDiemTb);
     lblDiemTb.appendChild(taoTextNode(diemSo.toFixed(1)));
   }
-
   if (dungTichSao) {
     xoaHetCon(dungTichSao);
     const lamTronSao = Math.round(diemSo);
-    const chuoiSao = "★".repeat(lamTronSao) + "☆".repeat(5 - lamTronSao);
-    dungTichSao.appendChild(taoTextNode(chuoiSao));
+    dungTichSao.appendChild(taoTextNode("★".repeat(lamTronSao) + "☆".repeat(5 - lamTronSao)));
   }
 };
 
 const capNhatDiemDanhGiaTrungBinh = (dsBinhLuan) => {
   const coDanhGia = dsBinhLuan.filter((bl) => bl.saoDanhGia > 0);
   if (coDanhGia.length === 0) return;
-
   const tong = coDanhGia.reduce((acc, bl) => acc + bl.saoDanhGia, 0);
   truyen.diemDanhGia = tong / coDanhGia.length;
-
   capNhatHienThiDiemDanhGia();
 };
 
@@ -157,14 +123,12 @@ const hienThiChiTietTruyen = () => {
 
   const boxTenKhac = document.getElementById("boxTenKhac");
   const lblTenKhac = document.getElementById("lblTenKhac");
-  if (Array.isArray(truyen.tenKhac) && truyen.tenKhac.length > 0) {
-    if (boxTenKhac) boxTenKhac.classList.remove("alias-hidden");
-    if (lblTenKhac) {
-      xoaHetCon(lblTenKhac);
-      lblTenKhac.appendChild(taoTextNode(truyen.tenKhac.join(", ")));
-    }
-  } else if (boxTenKhac) {
-    boxTenKhac.classList.add("alias-hidden");
+  const coTenKhac = Array.isArray(truyen.tenKhac) && truyen.tenKhac.length > 0;
+
+  if (boxTenKhac) boxTenKhac.classList.toggle("alias-hidden", !coTenKhac);
+  if (lblTenKhac && coTenKhac) {
+    xoaHetCon(lblTenKhac);
+    lblTenKhac.appendChild(taoTextNode(truyen.tenKhac.join(", ")));
   }
 
   const lblTacGia = document.getElementById("lblTacGia");
@@ -196,19 +160,16 @@ const hienThiChiTietTruyen = () => {
 
   const lblSynopsis = document.getElementById("lblSynopsis");
   const btnDocThemSynopsis = document.getElementById("btnDocThemSynopsis");
-  const noiDungMoTa =
-    truyen.moTa && truyen.moTa.trim() !== ""
-      ? truyen.moTa
-      : "Không có tóm tắt cho truyện này.";
+  const noiDungMoTa = (truyen.moTa && truyen.moTa.trim() !== "") 
+    ? truyen.moTa 
+    : "Không có tóm tắt cho truyện này.";
 
   if (lblSynopsis) {
     xoaHetCon(lblSynopsis);
     lblSynopsis.appendChild(taoTextNode(noiDungMoTa));
     lblSynopsis.classList.add("synopsis-hidden");
-  }
 
-  if (btnDocThemSynopsis && lblSynopsis) {
-    setTimeout(() => {
+    if (btnDocThemSynopsis) {
       const chieuCaoThuGon = lblSynopsis.clientHeight;
       lblSynopsis.classList.remove("synopsis-hidden");
       const chieuCaoThucTe = lblSynopsis.scrollHeight;
@@ -216,35 +177,30 @@ const hienThiChiTietTruyen = () => {
 
       if (chieuCaoThucTe > chieuCaoThuGon) {
         btnDocThemSynopsis.style.display = "inline-block";
-
         btnDocThemSynopsis.addEventListener("click", () => {
-          const expanded = lblSynopsis.classList.toggle("synopsis-hidden");
+          const thuGon = lblSynopsis.classList.toggle("synopsis-hidden");
           xoaHetCon(btnDocThemSynopsis);
-          btnDocThemSynopsis.appendChild(
-            taoTextNode(!expanded ? "Thu gọn" : "Đọc thêm"),
-          );
+          btnDocThemSynopsis.appendChild(taoTextNode(thuGon ? "Đọc thêm" : "Thu gọn"));
         });
       } else {
         btnDocThemSynopsis.style.display = "none";
         lblSynopsis.classList.remove("synopsis-hidden");
       }
-    }, 50);
+    }
   }
 
   const boxTheLoai = document.getElementById("boxTheLoai");
-  if (boxTheLoai) {
+  if (boxTheLoai && Array.isArray(truyen.theLoai)) {
     xoaHetCon(boxTheLoai);
-    if (Array.isArray(truyen.theLoai)) {
-      const fragment = document.createDocumentFragment();
-      truyen.theLoai.forEach((tl) => {
-        const tag = document.createElement("a");
-        tag.className = "tag";
-        tag.href = `theloai.html?theloai=${encodeURIComponent(tl)}`;
-        tag.appendChild(taoTextNode(tl));
-        fragment.appendChild(tag);
-      });
-      boxTheLoai.appendChild(fragment);
-    }
+    const fragment = document.createDocumentFragment();
+    truyen.theLoai.forEach((tl) => {
+      const tag = document.createElement("a");
+      tag.className = "tag";
+      tag.href = `theloai.html?theloai=${encodeURIComponent(tl)}`;
+      tag.appendChild(taoTextNode(tl));
+      fragment.appendChild(tag);
+    });
+    boxTheLoai.appendChild(fragment);
   }
 };
 
@@ -256,44 +212,51 @@ const capNhatGiaoDienTheoDoi = (daTheoDoi) => {
   const btnTheoDoi = document.getElementById("btnTheoDoi");
   const lblLuotTheoDoi = document.getElementById("lblLuotTheoDoi");
 
-  // 1. Cập nhật trạng thái nút bấm
   if (btnTheoDoi) {
     xoaHetCon(btnTheoDoi);
+
+    const icon = document.createElement("i");
+    btnTheoDoi.classList.toggle("da-theo-doi", daTheoDoi);
+
     if (daTheoDoi) {
-      btnTheoDoi.classList.add("da-theo-doi");
-      btnTheoDoi.innerHTML = `<i class="bi bi-heart-fill" style="color: #e74c3c;"></i> Đã theo dõi`;
+      icon.className = "bi bi-heart-fill";
+      icon.style.color = "#e74c3c";
+      btnTheoDoi.appendChild(icon);
+      btnTheoDoi.appendChild(taoTextNode(" Đã theo dõi"));
     } else {
-      btnTheoDoi.classList.remove("da-theo-doi");
-      btnTheoDoi.innerHTML = `<i class="bi bi-heart"></i> Theo dõi`;
+      icon.className = "bi bi-heart";
+      btnTheoDoi.appendChild(icon);
+      btnTheoDoi.appendChild(taoTextNode(" Theo dõi"));
     }
   }
 
-  // 2. Cập nhật số lượt theo dõi hiển thị tự động bằng hàm layLuotTheoThucTe
   if (lblLuotTheoDoi) {
     xoaHetCon(lblLuotTheoDoi);
-    const soLuotTheo = typeof layLuotTheoThucTe === "function" 
+
+    const soLuotGocStr = typeof layLuotTheoThucTe === "function" 
       ? layLuotTheoThucTe(idTruyen) 
       : truyen.luotTheo || "0";
-    lblLuotTheoDoi.appendChild(taoTextNode(soLuotTheo));
+
+    let soLuotSo = Number(String(soLuotGocStr).replace(/,/g, "")) || 0;
+    if (daTheoDoi) soLuotSo += 1;
+
+    const soLuotHienThi = soLuotSo.toLocaleString("en-US");
+    lblLuotTheoDoi.appendChild(taoTextNode(soLuotHienThi));
   }
 };
 
 const thietLapChucNangTheoDoi = () => {
   const btnTheoDoi = document.getElementById("btnTheoDoi");
   if (!btnTheoDoi) return;
-
-  // Kiểm tra trạng thái ban đầu
-  const daTheoDoi =
-    typeof kiemTraDaTheoDoi === "function" ? kiemTraDaTheoDoi(idTruyen) : false;
+  const daTheoDoi = typeof kiemTraDaTheoDoi === "function" 
+    ? kiemTraDaTheoDoi(idTruyen) 
+    : false;
 
   capNhatGiaoDienTheoDoi(daTheoDoi);
 
-  // Bắt sự kiện Click nút
   btnTheoDoi.addEventListener("click", () => {
     if (typeof toggleTheoDoiId === "function") {
       const ketQuaToggle = toggleTheoDoiId(idTruyen);
-      
-      // Nếu là boolean (user đã đăng nhập và bấm thành công)
       if (typeof ketQuaToggle === "boolean") {
         capNhatGiaoDienTheoDoi(ketQuaToggle);
       }
@@ -309,8 +272,8 @@ const renderDanhSachChapter = () => {
   const listEl = document.getElementById("danhSachChapter");
   const btnXemThem = document.getElementById("btnXemThemChapter");
   const chapterDem = document.getElementById("chapterDem");
-  if (!listEl) return;
 
+  if (!listEl) return;
   xoaHetCon(listEl);
 
   const mangChapter = Array.isArray(truyen.danhSachChapter)
@@ -322,29 +285,25 @@ const renderDanhSachChapter = () => {
     chapterDem.appendChild(taoTextNode(`(${mangChapter.length})`));
   }
 
-  mangChapter.sort((a, b) =>
-    thuTuChapter === "desc" ? b.so - a.so : a.so - b.so,
-  );
+  if (mangChapter.length === 0) return;
 
-  if (mangChapter.length > 0) {
-    const mangGocTangDan = [...mangChapter].sort((a, b) => a.so - b.so);
-    const btnDocTuDau = document.getElementById("btnDocTuDau");
-    const btnDocMoiNhat = document.getElementById("btnDocMoiNhat");
+  const btnDocTuDau = document.getElementById("btnDocTuDau");
+  const btnDocMoiNhat = document.getElementById("btnDocMoiNhat");
 
-    if (btnDocTuDau) {
-      btnDocTuDau.href = `doctruyen.html?id=${idTruyen}&chapter=${mangGocTangDan[0].so}`;
-    }
-    if (btnDocMoiNhat) {
-      btnDocMoiNhat.href = `doctruyen.html?id=${idTruyen}&chapter=${mangGocTangDan[mangGocTangDan.length - 1].so}`;
-    }
-  }
+  const chapDau = mangChapter.reduce((min, c) => (c.so < min.so ? c : min), mangChapter[0]);
+  const chapMoiNhat = mangChapter.reduce((max, c) => (c.so > max.so ? c : max), mangChapter[0]);
+
+  if (btnDocTuDau) btnDocTuDau.href = `doctruyen.html?id=${idTruyen}&chapter=${chapDau.so}`;
+  if (btnDocMoiNhat) btnDocMoiNhat.href = `doctruyen.html?id=${idTruyen}&chapter=${chapMoiNhat.so}`;
+
+  mangChapter.sort((a, b) => (thuTuChapter === "desc" ? b.so - a.so : a.so - b.so));
 
   const soLuongHienThi = chapterMoRong ? mangChapter.length : 5;
+  const dsHienThi = mangChapter.slice(0, soLuongHienThi);
+
   const fragment = document.createDocumentFragment();
 
-  for (let i = 0; i < Math.min(mangChapter.length, soLuongHienThi); i++) {
-    const chap = mangChapter[i];
-
+  dsHienThi.forEach((chap) => {
     const link = document.createElement("a");
     link.className = "chapter-item";
     link.href = `doctruyen.html?id=${idTruyen}&chapter=${chap.so}`;
@@ -367,16 +326,15 @@ const renderDanhSachChapter = () => {
     link.appendChild(spanSo);
     link.appendChild(spanNgay);
     fragment.appendChild(link);
-  }
+  });
 
   listEl.appendChild(fragment);
 
   if (btnXemThem) {
-    btnXemThem.style.display =
-      mangChapter.length <= 5 ? "none" : "inline-block";
+    btnXemThem.style.display = mangChapter.length <= 5 ? "none" : "inline-block";
     xoaHetCon(btnXemThem);
     btnXemThem.appendChild(
-      taoTextNode(chapterMoRong ? "Thu gọn danh sách" : "Xem thêm chương"),
+      taoTextNode(chapterMoRong ? "Thu gọn danh sách" : "Xem thêm chương")
     );
   }
 };
@@ -394,9 +352,7 @@ const thietLapTuongTacChapter = () => {
       if (textNode) {
         xoaHetCon(textNode);
         textNode.appendChild(
-          taoTextNode(
-            thuTuChapter === "desc" ? "Mới nhất trước" : "Cũ nhất trước",
-          ),
+          taoTextNode(thuTuChapter === "desc" ? "Mới nhất trước" : "Cũ nhất trước")
         );
       }
       renderDanhSachChapter();
@@ -412,8 +368,17 @@ const thietLapTuongTacChapter = () => {
 };
 
 // ============================================================================
-// CHỨC NĂNG: ĐÁNH GIÁ SAO VÀ BÌNH LUẬN (THUẦN OBJECT/ARRAY TRONG RAM)
+// CHỨC NĂNG: ĐÁNH GIÁ SAO VÀ BÌNH LUẬN
 // ============================================================================
+
+const khoBinhLuan = {};
+
+const layKhoBinhLuan = () => {
+  if (!khoBinhLuan[idTruyen]) {
+    khoBinhLuan[idTruyen] = [];
+  }
+  return khoBinhLuan[idTruyen];
+};
 
 const thietLapDanhGiaSao = () => {
   const stars = document.querySelectorAll("#starsGroup .star-pick");
@@ -422,23 +387,18 @@ const thietLapDanhGiaSao = () => {
   stars.forEach((star) => {
     star.addEventListener("click", function () {
       saoDangChon = Number(this.getAttribute("data-value")) || 0;
+
       stars.forEach((s) => {
         const val = Number(s.getAttribute("data-value"));
         s.classList.toggle("active", val <= saoDangChon);
       });
+
       if (lblDiem) {
         xoaHetCon(lblDiem);
         lblDiem.appendChild(taoTextNode(`${saoDangChon}/5`));
       }
     });
   });
-};
-
-const layKhoBinhLuan = () => {
-  if (!khoBinhLuanInMem[idTruyen]) {
-    khoBinhLuanInMem[idTruyen] = [];
-  }
-  return khoBinhLuanInMem[idTruyen];
 };
 
 const renderDanhSachBinhLuan = () => {
@@ -453,9 +413,7 @@ const renderDanhSachBinhLuan = () => {
     const emptyP = document.createElement("p");
     emptyP.className = "empty-comment-text";
     emptyP.appendChild(
-      taoTextNode(
-        "Chưa có bình luận nào. Hãy là người đầu tiên bình luận và đánh giá!",
-      ),
+      taoTextNode("Chưa có bình luận nào. Hãy là người đầu tiên bình luận và đánh giá!")
     );
     khuBinhLuan.appendChild(emptyP);
     return;
@@ -467,9 +425,10 @@ const renderDanhSachBinhLuan = () => {
     const card = document.createElement("div");
     card.className = "binh-luan-item";
 
+    const tenHienThi = bl.fullname || bl.email || "Độc giả";
+
     const avatar = document.createElement("div");
     avatar.className = "bl-avatar";
-    const tenHienThi = bl.fullname || bl.email || "Độc giả";
     avatar.appendChild(taoTextNode(tenHienThi.trim().charAt(0).toUpperCase()));
 
     const body = document.createElement("div");
@@ -486,7 +445,7 @@ const renderDanhSachBinhLuan = () => {
       const starsSpan = document.createElement("span");
       starsSpan.className = "bl-stars";
       starsSpan.appendChild(
-        taoTextNode(" ★".repeat(bl.saoDanhGia) + "☆".repeat(5 - bl.saoDanhGia)),
+        taoTextNode(" ★".repeat(bl.saoDanhGia) + "☆".repeat(5 - bl.saoDanhGia))
       );
       meta.appendChild(starsSpan);
     }
@@ -501,6 +460,7 @@ const renderDanhSachBinhLuan = () => {
 
     body.appendChild(meta);
     body.appendChild(content);
+
     card.appendChild(avatar);
     card.appendChild(body);
 
@@ -521,7 +481,7 @@ const thietLapFormBinhLuan = () => {
     const linkLogin = thongBaoDangNhapBL.querySelector("a");
     if (linkLogin) {
       const duongDanHienTai = encodeURIComponent(
-        window.location.pathname + window.location.search,
+        window.location.pathname + window.location.search
       );
       linkLogin.href = `login.html?quaylai=${duongDanHienTai}`;
     }
@@ -577,7 +537,7 @@ const thietLapFormBinhLuan = () => {
 };
 
 // ============================================================================
-// CHỨC NĂNG: GỢI Ý TRUYỆN LIÊN QUAN
+// CHỨC NĂNG: GỢI Ý TRUYỆN LIÊN QUAN & TIỆN ÍCH TRANG
 // ============================================================================
 
 const renderTruyenLQuan = () => {
@@ -658,7 +618,7 @@ const ganNutQuayLai = () => {
   });
 };
 
-function ganTimKiem() {
+const ganTimKiem = () => {
   const input = document.getElementById("inputsearch");
   const goiY = document.getElementById("goiYTimKiem");
 
@@ -667,7 +627,7 @@ function ganTimKiem() {
   input.addEventListener("input", function () {
     const tuKhoa = input.value.trim().toLowerCase();
 
-    goiY.replaceChildren();
+    xoaHetCon(goiY);
 
     if (tuKhoa === "") {
       goiY.style.display = "none";
@@ -690,10 +650,12 @@ function ganTimKiem() {
 
     if (ketQua.length === 0) {
       const p = document.createElement("p");
-      p.textContent = "Không tìm thấy truyện";
       p.style.padding = "12px";
+      p.appendChild(taoTextNode("Không tìm thấy truyện"));
       goiY.appendChild(p);
     } else {
+      const fragment = document.createDocumentFragment();
+
       ketQua.forEach((truyen) => {
         const link = document.createElement("a");
         link.href = `trangchitiet.html?id=${truyen.id}`;
@@ -704,11 +666,14 @@ function ganTimKiem() {
         img.alt = truyen.ten;
 
         const ten = document.createElement("span");
-        ten.textContent = truyen.ten;
+        ten.appendChild(taoTextNode(truyen.ten));
 
-        link.append(img, ten);
-        goiY.appendChild(link);
+        link.appendChild(img);
+        link.appendChild(ten);
+        fragment.appendChild(link);
       });
+
+      goiY.appendChild(fragment);
     }
 
     goiY.style.display = "block";
@@ -720,7 +685,7 @@ function ganTimKiem() {
       goiY.style.display = "none";
     }
   });
-}
+};
 
 // ============================================================================
 // KHỞI TẠO ỨNG DỤNG (ENTRY POINT)
@@ -730,9 +695,8 @@ document.addEventListener("DOMContentLoaded", () => {
   ganMenu();
   ganTimKiem();
   ganNutQuayLai();
-  thietLapMenu();
   hienThiChiTietTruyen();
-  thietLapChucNangTheoDoi(); // Gọi khởi tạo chức năng Theo dõi
+  thietLapChucNangTheoDoi();
   renderDanhSachChapter();
   thietLapTuongTacChapter();
   renderTruyenLQuan();

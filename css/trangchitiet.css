@@ -206,9 +206,8 @@ body {
   color: rgb(58, 58, 80);
 }
 
-/* Hiệu ứng hover cho nút phụ và nút dạng viền */
-.btn-doc-secondary:hover,
-.btn-doc-outline:hover {
+/* Hiệu ứng hover cho nút phụ */
+.btn-doc-secondary:hover {
   background: rgb(134, 98, 242);
   color: #fff;
   transform: translateY(-2px);
@@ -224,6 +223,9 @@ body {
 /* Hover viền đổi sang màu tím */
 .btn-doc-outline:hover {
   border-color: rgb(134, 98, 242);
+  background: rgb(134, 98, 242);
+  color: #fff;
+  transform: translateY(-2px);
 }
 
 /* Trạng thái khi nút Theo dõi đã được click (Đang theo dõi) */
@@ -257,7 +259,6 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: sans-serif;
 }
 
 /* Số điểm đánh giá (ví dụ: 4.5/5) */
@@ -466,17 +467,12 @@ body {
   font-weight: 400;
 }
 
-/* Mặc định ẩn icon tăng dần */
-#btnDaoNguoc .status-asc {
-  display: none;
-}
-
-/* Khi chuyển sang trạng thái asc: ẩn icon giảm dần */
+/* Điều khiển icon ẩn/hiện #btnDaoNguoc */
+#btnDaoNguoc .status-asc,
 #btnDaoNguoc[data-order="asc"] .status-desc {
   display: none;
 }
 
-/* Khi chuyển sang trạng thái asc: hiện icon tăng dần */
 #btnDaoNguoc[data-order="asc"] .status-asc {
   display: inline-block;
 }
@@ -919,158 +915,90 @@ body {
   font-size: 13px;
 }
 
-/* Thời gian đăng bình luận */
-.bl-time {
-  color: #fff;
+/* Thời gian gửi bình luận */
+.bl-thoigian {
+  color: #888;
   font-size: 12px;
 }
 
-/* Nội dung chữ của bình luận */
-.bl-noidung p {
-  color: #ccc;
+/* Chữ hiển thị nội dung bình luận */
+.bl-text {
+  color: #ddd;
   font-size: 14px;
-  line-height: 1.7;
+  line-height: 1.5;
+  margin: 0;
 }
 
-/* Nhãn huy hiệu đánh dấu chương mà người dùng đang bình luận (cho đánh dấu chapter) */
-.bl-chapter-badge {
-  background-color: rgba(255, 152, 0, 0.15);
-  color: #ff9800;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 0.85em;
-  margin-left: 6px;
-  display: inline-block;
+/* Khung hiển thị danh sách các bình luận */
+.binh-luan-list {
+  display: flex;
+  flex-direction: column;
 }
 
-/* Phần bản quyền / Chân trang cuối cùng */
-.footer-copy {
-  padding: 20px;
-  border-top: 1px solid rgba(134, 98, 242, 0.4);
-  color: #cbd5e1;
+/* Khung hiển thị khi không có bình luận nào */
+.binh-luan-trong {
+  padding: 30px;
+  color: #888;
   font-size: 14px;
   text-align: center;
 }
 
-/* ========================================== */
-/* RESPONSIVE DESIGN (RESPONSIVE CHO CÁC MÀN HÌNH) */
-/* ========================================== */
+/* Khung thông báo lỗi chung trên trang */
+.chitiet-error {
+  padding: 40px 20px;
+  margin: 40px auto;
+  /* Giới hạn rộng tối đa 500px */
+  max-width: 500px;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 16px;
+  background: rgba(239, 68, 68, 0.1);
+  color: #fca5a5;
+  font-size: 15px;
+  text-align: center;
+}
 
-/* Màn hình Tablet lớn / Laptop nhỏ (Tối đa 1024px) */
-@media (max-width: 1024px) {
-  /* Thu nhỏ cột chứa bìa xuống 220px */
+/* responsive */
+
+/* Màn hình máy tính bảng và thiết bị nhỏ hơn (Dưới 900px) */
+@media (max-width: 900px) {
+  /* Chuyển bố cục sang 1 cột duy nhất */
   .chitiet-container {
-    grid-template-columns: 220px 1fr;
+    grid-template-columns: 1fr;
     gap: 25px;
   }
 
-  /* Chuyển lưới truyện liên quan về 3 cột */
-  .lien-quan-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  /* Giảm kích thước tiêu đề truyện */
-  .chitiet-title {
-    font-size: 1.9rem;
-  }
-}
-
-/* Màn hình Tablet / Máy tính bảng (Tối đa 768px) */
-@media (max-width: 768px) {
-  header {
-    gap: 15px;
-    padding: 10px 18px;
-  }
-
-  .logo {
-    margin-right: 10px;
-  }
-
-  .logo img {
-    width: 55px;
-    height: 55px;
-  }
-
-  .menu {
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 20px;
-  }
-
-  /* Đổi bố cục chi tiết sang 1 cột duy nhất */
-  .chitiet-container {
-    grid-template-columns: 1fr;
-  }
-
-  /* Căn giữa cột ảnh bìa và giới hạn chiều rộng tối đa 280px */
+  /* Ảnh bìa giới hạn rộng 220px và căn giữa màn hình */
   .chitiet-cover-col {
-    width: 100%;
-    max-width: 280px;
+    max-width: 220px;
     margin: 0 auto;
   }
 
+  /* Đổi danh sách truyện liên quan thành 2 cột */
+  .lien-quan-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Màn hình điện thoại (Dưới 600px) */
+@media (max-width: 600px) {
+  /* Giảm tiêu đề xuống 1.6rem cho vừa màn hình điện thoại */
   .chitiet-title {
     font-size: 1.6rem;
   }
 
-  /* Giảm danh sách truyện liên quan xuống còn 2 cột */
-  .lien-quan-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  /* Bố cục Chân trang (Footer) về 1 cột và căn giữa văn bản */
-  .footer {
-    grid-template-columns: 1fr;
-    gap: 30px;
-    text-align: center;
-  }
-
-  .social {
-    justify-content: center;
-  }
-}
-
-/* Màn hình Điện thoại di động (Tối đa 480px) */
-@media (max-width: 480px) {
-  .section {
-    padding: 15px 4%;
-  }
-
-  .chapter-section,
-  #sectionLQuan,
-  #sectionBLuan {
-    padding: 15px;
-  }
-
-  .chitiet-title {
-    font-size: 1.4rem;
-  }
-
-  /* Chuyển các thông số thống kê thành dòng dọc */
+  /* Giảm khoảng cách thống kê lượt xem/thích */
   .chitiet-stats {
-    flex-direction: column;
-    gap: 8px;
+    gap: 15px;
   }
 
-  /* Chuyển nhóm nút bấm thành lưới 2 cột */
-  .chitiet-btns {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-
-  /* Nút dạng outline chiếm trọn cả dòng (từ cột 1 đến hết) */
-  .chitiet-btns .btn-doc-outline {
-    grid-column: 1 / -1;
-  }
-
-  nav a,
-  .menu a {
-    font-size: 15px;
-  }
-
-  /* Truyện liên quan hiển thị 1 cột duy nhất */
+  /* Chuyển danh sách truyện liên quan về 1 cột duy nhất */
   .lien-quan-grid {
     grid-template-columns: 1fr;
+  }
+
+  /* Bố cục header phần danh sách chương xếp theo chiều dọc */
+  .chapter-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

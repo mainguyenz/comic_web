@@ -1,7 +1,3 @@
-/* ============================================================================
-   XỬ LÝ HIỂN THỊ VÀ TƯƠNG TÁC TRANG THEO DÕI (THEODOI.JS)
-   ============================================================================ */
-
 // ==================================================
 // 1. CẤU HÌNH TRANG THEO DÕI
 // ==================================================
@@ -12,7 +8,7 @@ const CAU_HINH_THEO_DOI = Object.freeze({
   viTriHienNutQuayLai: 300,
 });
 
-// Kiểm tra dữ liệu truyện nạp từ datachitiet.js
+// Dữ liệu từ datachitiet.js (dùng làm dự phòng nếu cần)
 const duLieuTruyen =
   typeof danhSachTruyen !== "undefined" && Array.isArray(danhSachTruyen)
     ? danhSachTruyen
@@ -62,52 +58,40 @@ function renderDanhSachTheoDoi(tuKhoa = "") {
     link.appendChild(document.createTextNode("đăng nhập"));
     thongBaoRong.appendChild(link);
     thongBaoRong.appendChild(
-      document.createTextNode(" để xem danh sách truyện đang theo dõi."),
+      document.createTextNode(" để xem danh sách truyện đang theo dõi.")
     );
     return;
   }
 
-  // Lấy danh sách ID truyện theo dõi từ luutru.js
-  const dsId =
-    typeof layDanhSachTheoDoi === "function" ? layDanhSachTheoDoi() : [];
+  // Lấy thẳng mảng Object truyện từ LocalStorage (cơ chế giỏ hàng)
+  const dsTheoDoi = typeof layDanhSachTheoDoi === "function" ? layDanhSachTheoDoi() : [];
   const tuKhoaThuong = String(tuKhoa).trim().toLowerCase();
 
-  const dsTruyen = duLieuTruyen.filter((truyen) => {
+  // Lọc truyện theo từ khóa (Tên hoặc Tác giả)
+  const dsLoc = dsTheoDoi.filter((truyen) => {
     if (!truyen) return false;
-    const daTheoDoi = dsId.includes(Number(truyen.id));
-
     const ten = String(truyen.ten || "").toLowerCase();
     const tacGia = String(truyen.tacGia || "").toLowerCase();
-    const theLoai = Array.isArray(truyen.theLoai)
-      ? truyen.theLoai.join(" ").toLowerCase()
-      : "";
-
-    const dungTuKhoa =
-      tuKhoaThuong === "" ||
-      ten.includes(tuKhoaThuong) ||
-      tacGia.includes(tuKhoaThuong) ||
-      theLoai.includes(tuKhoaThuong);
-
-    return daTheoDoi && dungTuKhoa;
+    return tuKhoaThuong === "" || ten.includes(tuKhoaThuong) || tacGia.includes(tuKhoaThuong);
   });
 
   // 2. Chưa theo dõi truyện nào
-  if (dsId.length === 0) {
+  if (dsTheoDoi.length === 0) {
     xoaNoiDungPhanTu(grid);
     xoaNoiDungPhanTu(thongBaoRong);
     thongBaoRong.style.display = "block";
     thongBaoRong.appendChild(
       document.createTextNode(
-        'Bạn chưa theo dõi truyện nào. Hãy vào một truyện và bấm nút " Theo Dõi" nhé!',
-      ),
+        'Bạn chưa theo dõi truyện nào. Hãy vào một truyện và bấm nút " Theo Dõi" nhé!'
+      )
     );
     return;
   }
 
   thongBaoRong.style.display = "none";
 
-  // 3. Có theo dõi nhưng lọc/tìm kiếm không tìm thấy
-  if (dsTruyen.length === 0) {
+  // 3. Có theo dõi nhưng tìm kiếm không khớp
+  if (dsLoc.length === 0) {
     xoaNoiDungPhanTu(grid);
     const p = document.createElement("p");
     p.textContent = "Không tìm thấy truyện phù hợp.";
@@ -116,15 +100,15 @@ function renderDanhSachTheoDoi(tuKhoa = "") {
     return;
   }
 
-  // 4. Render danh sách các thẻ truyện
+  // 4. Render danh sách truyện
   xoaNoiDungPhanTu(grid);
   const fragment = document.createDocumentFragment();
 
-  dsTruyen.forEach((truyen) => {
+  dsLoc.forEach((truyen) => {
     const khung = document.createElement("div");
     khung.className = "khungtruyenrieng td-the";
 
-    // Nút Xóa / Bỏ theo dõi
+    // Nút Bỏ theo dõi (X)
     const nut = document.createElement("button");
     nut.type = "button";
     nut.className = "td-nut-bo";
@@ -132,7 +116,7 @@ function renderDanhSachTheoDoi(tuKhoa = "") {
     nut.title = "Bỏ theo dõi";
     nut.appendChild(document.createTextNode("✕"));
 
-    // Thẻ liên kết chuyển sang trang chi tiết
+    // Link đến trang chi tiết
     const link = document.createElement("a");
     link.href = `${CAU_HINH_THEO_DOI.trangChiTiet}?id=${truyen.id}`;
 
@@ -146,12 +130,9 @@ function renderDanhSachTheoDoi(tuKhoa = "") {
     link.appendChild(img);
     link.appendChild(h3);
 
-    // Hiển thị thể loại
+    // Hiển thị tác giả
     const span = document.createElement("span");
-    const chuoiTheLoai = Array.isArray(truyen.theLoai)
-      ? truyen.theLoai.join(" - ")
-      : "";
-    span.appendChild(document.createTextNode(chuoiTheLoai));
+    span.appendChild(document.createTextNode(truyen.tacGia || "Đang cập nhật"));
 
     khung.appendChild(nut);
     khung.appendChild(link);
@@ -164,7 +145,7 @@ function renderDanhSachTheoDoi(tuKhoa = "") {
 }
 
 // ==================================================
-// 4. SỰ KIỆN TƯƠNG TÁC
+// 4. SỰ KIỆN TƯƠNG TÁC DỮ LIỆU
 // ==================================================
 
 function ganSuKienDanhSachTheoDoi() {
@@ -178,7 +159,7 @@ function ganSuKienDanhSachTheoDoi() {
 
       const idTruyen = Number(nut.dataset.id);
 
-      // Gọi hàm bỏ theo dõi từ luutru.js
+      // Gọi hàm xóa khỏi LocalStorage
       if (typeof toggleTheoDoiId === "function") {
         toggleTheoDoiId(idTruyen);
       }
@@ -204,14 +185,12 @@ function ganTimKiem() {
       return;
     }
 
-    const dsId =
-      typeof layDanhSachTheoDoi === "function" ? layDanhSachTheoDoi() : [];
-
+    // Lấy danh sách truyện từ LocalStorage để gợi ý
+    const dsTheoDoi = typeof layDanhSachTheoDoi === "function" ? layDanhSachTheoDoi() : [];
     let dem = 0;
 
-    duLieuTruyen.forEach((truyen) => {
-      if (!dsId.includes(Number(truyen.id))) return;
-
+    dsTheoDoi.forEach((truyen) => {
+      if (!truyen) return;
       const ten = String(truyen.ten || "").toLowerCase();
 
       if (ten.includes(tuKhoa)) {
@@ -220,7 +199,7 @@ function ganTimKiem() {
         link.className = "item-goi-y";
 
         const img = document.createElement("img");
-        img.src = truyen.anhBia;
+        img.src = truyen.anhBia || "";
 
         const span = document.createElement("span");
         span.textContent = truyen.ten;
@@ -250,6 +229,10 @@ function ganTimKiem() {
     }
   });
 }
+
+// ==================================================
+// 5. GIAO DIỆN & TIỆN ÍCH Trang (Menu, Scroll)
+// ==================================================
 
 function ganNutQuayLai() {
   const nut = document.getElementById("quaylai");
@@ -288,13 +271,13 @@ function ganMenu() {
 }
 
 // ==================================================
-// 5. KHỞI CHẠY TRANG
+// 6. KHỞI CHẠY TRANG
 // ==================================================
 
 document.addEventListener("DOMContentLoaded", () => {
   renderDanhSachTheoDoi();
   ganSuKienDanhSachTheoDoi();
+  ganTimKiem();
   ganNutQuayLai();
   ganMenu();
-  ganTimKiem();
 });

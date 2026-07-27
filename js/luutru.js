@@ -1,9 +1,9 @@
 /* ============================================================================
-   XỬ LÝ LƯU TRỮ TÀI KHOẢN & THEO DÕI (LOCALSTORAGE)
+   XỬ LÝ LƯU TRỮ TÀI KHOẢN & THEO DÕI (LUUTRU.JS)
    ============================================================================ */
 
 // ==================================================
-// 1. TÀI KHOẢN HIỆN TẠI
+// 1. QUẢN LÝ TÀI KHOẢN HẠN ĐỊNH
 // ==================================================
 
 function layTaiKhoanLuuTruHienTai() {
@@ -11,6 +11,7 @@ function layTaiKhoanLuuTruHienTai() {
     const chuoi = localStorage.getItem("currentUser");
     return chuoi ? JSON.parse(chuoi) : null;
   } catch (error) {
+    console.warn("Lỗi đọc currentUser từ localStorage:", error);
     return null;
   }
 }
@@ -24,38 +25,42 @@ function layMaTaiKhoanTheoDoi() {
 }
 
 // ==================================================
-// 2. THEO DÕI (LƯU TRỰC TIẾP OBJECT CHI TIẾT TRUYỆN)
+// 2. TRUY XUẤT LOCALSTORAGE THEO DÕI (CƠ CHẾ GIỎ HÀNG)
 // ==================================================
 
 const KHOA_THEO_DOI_PREFIX = "theoDoi_";
 
 function layKhoaTheoDoi() {
   return KHOA_THEO_DOI_PREFIX + layMaTaiKhoanLuuTru(); 
-  // Kết quả cố định luôn là: "theoDoi_comic_user"
+  // Kết quả cố định: "theoDoi_comic_user"
 }
 
 function layDanhSachTheoDoi() {
   const khoa = layKhoaTheoDoi();
-
   try {
     const chuoi = localStorage.getItem(khoa);
     const danhSach = chuoi ? JSON.parse(chuoi) : [];
-
-    if (!Array.isArray(danhSach)) {
-      return [];
-    }
-
-    return danhSach;
+    return Array.isArray(danhSach) ? danhSach : [];
   } catch (error) {
+    console.warn("Lỗi đọc danh sách theo dõi:", error);
     return [];
   }
 }
 
 function luuDanhSachTheoDoi(danhSach) {
-  const khoa = layKhoaTheoDoi();
-  localStorage.setItem(khoa, JSON.stringify(danhSach));
-  return true;
+  try {
+    const khoa = layKhoaTheoDoi();
+    localStorage.setItem(khoa, JSON.stringify(danhSach));
+    return true;
+  } catch (error) {
+    console.error("Lỗi lưu danh sách theo dõi:", error);
+    return false;
+  }
 }
+
+// ==================================================
+// 3. THAO TÁC THEO DÕI (KIỂM TRA / THÊM / XÓA OBJECT)
+// ==================================================
 
 function kiemTraDaTheoDoi(idTruyen) {
   const idNum = Number(idTruyen);
@@ -65,6 +70,7 @@ function kiemTraDaTheoDoi(idTruyen) {
 }
 
 function toggleTheoDoiId(idTruyen) {
+  // 1. Kiểm tra đăng nhập
   if (!layTaiKhoanLuuTruHienTai()) {
     alert("Bạn cần đăng nhập để theo dõi truyện!");
     return false;
@@ -74,35 +80,35 @@ function toggleTheoDoiId(idTruyen) {
   let danhSach = layDanhSachTheoDoi();
   const index = danhSach.findIndex((item) => Number(item.id) === idNum);
 
+  // 2. Nếu đã có -> Xóa khỏi danh sách (Bỏ theo dõi)
   if (index !== -1) {
-    // Đã có trong danh sách -> Xóa (Bỏ theo dõi)
     danhSach.splice(index, 1);
     luuDanhSachTheoDoi(danhSach);
     alert("Đã bỏ theo dõi truyện!");
     return false;
-  } else {
-    // Chưa có -> Lấy chi tiết truyện để lưu Object đầy đủ thông tin
-    const truyenChiTiet =
-      typeof layTruyenTheoId === "function" ? layTruyenTheoId(idNum) : null;
+  } 
 
-    if (!truyenChiTiet) {
-      alert("Lỗi: Không tìm thấy thông tin truyện!");
-      return false;
-    }
+  // 3. Nếu chưa có -> Lấy Object chi tiết và lưu vào mảng
+  const truyenChiTiet =
+    typeof layTruyenTheoId === "function" ? layTruyenTheoId(idNum) : null;
 
-    const thongTinLuu = {
-      id: truyenChiTiet.id,
-      ten: truyenChiTiet.ten,
-      anhBia: truyenChiTiet.anhBia,
-      tacGia: truyenChiTiet.tacGia || "Đang cập nhật",
-      tinhTrang: truyenChiTiet.tinhTrang || "Đang ra",
-      moTa: truyenChiTiet.moTa || "Chưa có mô tả cho truyện này.",
-      ngayTheoDoi: new Date().toISOString(),
-    };
-
-    danhSach.push(thongTinLuu);
-    luuDanhSachTheoDoi(danhSach);
-    alert("Đã thêm truyện vào danh sách theo dõi!");
-    return true;
+  if (!truyenChiTiet) {
+    alert("Lỗi: Không tìm thấy thông tin truyện!");
+    return false;
   }
+
+  const thongTinLuu = {
+    id: truyenChiTiet.id,
+    ten: truyenChiTiet.ten,
+    anhBia: truyenChiTiet.anhBia,
+    tacGia: truyenChiTiet.tacGia || "Đang cập nhật",
+    tinhTrang: truyenChiTiet.tinhTrang || "Đang ra",
+    moTa: truyenChiTiet.moTa || "Chưa có mô tả cho truyện này.",
+    ngayTheoDoi: new Date().toISOString(),
+  };
+
+  danhSach.push(thongTinLuu);
+  luuDanhSachTheoDoi(danhSach);
+  alert("Đã thêm truyện vào danh sách theo dõi!");
+  return true;
 }
