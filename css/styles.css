@@ -1,127 +1,193 @@
+/* ==========================================
+   NÚT CUỘN LÊN ĐẦU TRANG (#btnScrollTop)
+   ========================================== */
 #btnScrollTop {
+  /* Cố định vị trí nút khi cuộn trang */
   position: fixed;
+  /* Cách đáy màn hình 30px */
   bottom: 30px;
+  /* Cách mép phải màn hình 30px */
   right: 30px;
+  /* Hiển thị trên cùng, đè lên mọi phần tử khác (lớp phủ cao nhất) */
   z-index: 9999;
 
+  /* Chiều rộng nút 50px */
   width: 50px;
+  /* Chiều cao nút 50px */
   height: 50px;
+  /* Màu nền xanh dương (Tailwind blue-500) */
   background-color: #3b82f6;
+  /* Bỏ đường viền mặc định của nút */
   border: none;
+  /* Bo tròn 50% để tạo thành hình tròn hoàn hảo */
   border-radius: 50%;
 
+  /* Căn giữa nội dung bên trong theo trục ngang (Cần display: flex để hoạt động) */
   justify-content: center;
+  /* Căn giữa nội dung bên trong theo trục dọc (Cần display: flex để hoạt động) */
   align-items: center;
 
+  /* Đổi con trỏ chuột thành hình bàn tay khi di chuột vào */
   cursor: pointer;
+  /* Tạo bóng đổ mềm quanh nút để nổi bật hơn */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  /* Tạo hiệu ứng mượt mà (smooth) khi thay đổi vị trí, màu sắc, độ mờ */
   transition:
     transform 0.2s ease,
     background-color 0.2s,
     opacity 0.3s;
 }
 
+/* Ghi đè bắt buộc cho thẻ header */
 header {
+  /* Ép header dùng vị trí tĩnh mặc định, không cuộn dính hay cố định */
   position: static !important;
 }
 
+/* Ghi đè bắt buộc cho thẻ body */
 body {
+  /* Ép bỏ toàn bộ khoảng đệm phía trên của trang */
   padding-top: 0 !important;
 }
 
+/* Icon (thẻ i) nằm bên trong nút Scroll Top */
 #btnScrollTop i {
+  /* Màu icon trắng */
   color: #ffffff;
+  /* Kích thước font icon 20px */
   font-size: 20px;
+  /* Chữ/icon in đậm */
   font-weight: bold;
+  /* Hiển thị dưới dạng khối nội dòng để nhận các thuộc tính kích thước/transform */
   display: inline-block;
+  /* Hiệu ứng mượt cho các chuyển động transform của icon */
   transition: transform 0.2s;
 }
 
+/* Hiệu ứng khi rê chuột vào nút Scroll Top */
 #btnScrollTop:hover {
+  /* Đổi sang màu xanh dương đậm hơn */
   background-color: #2563eb;
+  /* Nổi/bay nhẹ lên trên 5px */
   transform: translateY(-5px);
 }
 
+/* Hiệu ứng khi nhấn giữ nút Scroll Top */
 #btnScrollTop:active {
+  /* Hạ xuống chút và thu nhỏ còn 90% kích thước để tạo cảm giác bấm real */
   transform: translateY(-2px) scale(0.9);
 }
 
-/* KHUNG CHÍNH */
+/* ==========================================
+   KHUNG CHÍNH (MAIN CONTENT)
+   ========================================== */
 main {
+  /* Chiều rộng tối đa của khung chính là 950px */
   max-width: 950px;
+  /* Căn giữa khung main ra giữa màn hình (trên/dưới 20px, trái/phải tự động) */
   margin: 20px auto;
+  /* Khoảng đệm trái/phải 15px để tránh dính sát mép màn hình nhỏ */
   padding: 0 15px;
+  /* Màu nền xám đen/tối */
   background-color: #2b2b2b;
 }
 
-/* THANH ĐIỀU HƯỚNG */
+/* ==========================================
+   THANH ĐIỀU HƯỚNG VÀ BỐ CỤC NAV
+   ========================================== */
 .div_main {
+  /* Sử dụng Flexbox để xếp các phần tử con theo hàng/cột */
   display: flex;
+  /* Căn giữa các item con theo trục ngang */
   justify-content: center;
+  /* Căn giữa các item con theo trục dọc */
   align-items: center;
+  /* Tự động xuống dòng khi thiếu khoảng trống */
   flex-wrap: wrap;
+  /* Khoảng cách giữa các item con là 12px */
   gap: 12px;
 
+  /* Màu nền xám đen */
   background-color: #2b2b2b;
 
+  /* Khoảng đệm: trên/dưới 8px, trái/phải 20px */
   padding: 8px 20px;
 
+  /* Bo tròn góc thanh điều hướng 12px */
   border-radius: 12px;
+  /* Chiều rộng chiếm toàn bộ khung chứa */
   width: 100%;
+  /* Chiều rộng tối đa là 900px */
   max-width: 900px;
+  /* Căn giữa khối này ra ngoài */
   margin: auto;
 
+  /* Tạo bóng đổ xung quanh thanh điều hướng */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* NAV CHÍNH */
 .navigation--main {
+  /* Bố cụ Flexbox cho khối nav chính */
   display: flex;
+  /* Căn giữa theo trục dọc */
   align-items: center;
+  /* Khoảng cách giữa các item nav là 12px */
   gap: 12px;
+  /* Xuống dòng khi hết chỗ */
   flex-wrap: wrap;
 }
 
-/* KHUNG CHỌN TRANG */
+/* KHUNG CHỌN TRANG INLINE */
 .nav_inline {
+  /* Bố cục Flexbox */
   display: flex;
+  /* Căn giữa theo trục dọc */
   align-items: center;
+  /* Khoảng cách giữa các phần tử nhỏ là 8px */
   gap: 8px;
 
+  /* Màu nền xám sáng hơn tone nền chính chút */
   background-color: #3a3a3a;
 
+  /* Khoảng đệm trong: trên/dưới 6px, trái/phải 10px */
   padding: 6px 10px;
 
+  /* Bo tròn góc 10px */
   border-radius: 10px;
 }
 
-/* LINK CHUNG */
+/* LINK CHUNG (THẺ A) */
 .a-main {
+  /* Bỏ gạch chân mặc định của liên kết */
   text-decoration: none;
   color: white;
 
   transition: 0.25s;
 }
 
-/* HOME - MENU - CHỌN TRANG - YÊU THÍCH */
+/* CÁC NÚT: HOME - MENU - CHỌN TRANG - YÊU THÍCH */
 .home,
 .menus,
 .check__line {
+  /* Dùng Flexbox để căn giữa chữ/icon bên trong */
   display: flex;
   justify-content: center;
   align-items: center;
 
+  /* Chiều rộng tối thiểu của nút là 45px */
   min-width: 45px;
   height: 40px;
 
   padding: 0 15px;
 
+  /* Bo tròn góc nút 8px */
   border-radius: 8px;
 
   background-color: #3b3b3b;
 }
 
-/* NÚT MŨI TÊN */
+/* NÚT MŨI TÊN CHUYỂN TRANG */
 .arrow-box {
   display: flex;
   justify-content: center;
@@ -138,19 +204,20 @@ main {
   font-weight: bold;
 }
 
-/* HIỆU ỨNG */
+/* HIỆU ỨNG RÊ CHUỘT LÊN NÚT NAV */
 .home:hover,
 .menus:hover,
 .check__line:hover,
 .arrow-box:hover {
   background-color: #3b82f6;
 
+  /* Nổi nhẹ lên trên 5px */
   transform: translateY(-5px);
 
   color: white;
 }
 
-/* KHU VỰC TRUYỆN */
+/* KHU VỰC TRUYỆN (NƠI HIỂN THỊ ĐỌC TRUYỆN) */
 .sction__main {
   text-align: center;
 }
@@ -169,154 +236,84 @@ main {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
-/* THANH CUỘN */
+/* ==========================================
+   TÙY CHỈNH THANH CUỘN (SCROLLBAR)
+   ========================================== */
+/* Kích thước thanh cuộn trình duyệt (Webkit) */
 ::-webkit-scrollbar {
   width: 10px;
 }
 
+/* Khung nền chứa thanh cuộn */
 ::-webkit-scrollbar-track {
   background: #2b2b2b;
 }
 
+/* Tay kéo thanh cuộn */
 ::-webkit-scrollbar-thumb {
   background: #555;
   border-radius: 10px;
 }
 
-/* thanh cuộn */
+/* Hiệu ứng khi rê chuột vào tay kéo thanh cuộn */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
 
+/* NAV CỐ ĐỊNH PHÍA TRÊN */
 .fixed-top {
   position: fixed;
   top: 0;
-  /* thấp hơn header */
   left: 50%;
+  /* Dịch ngược lại 50% kích thước bản thân để căn giữa chuẩn */
   transform: translateX(-50%);
   width: 830px;
+  /* Chiều rộng tối đa không vượt quá màn hình trừ đi 30px lề */
   max-width: calc(100% - 30px);
+  /* Lớp hiển thị cao (nằm dưới Scroll Top nhưng trên nội dung) */
   z-index: 999;
 }
 
+/* NAV CỐ ĐỊNH PHÍA DƯỚI */
 .fixed-bottom {
   position: fixed;
+  /* Dính sát đáy màn hình (0px) */
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 830px;
+  /* Chiều rộng tối đa không vượt quá màn hình trừ đi 30px lề */
   max-width: calc(100% - 30px);
+  /* Lớp hiển thị cao */
   z-index: 999;
 }
 
 
 
-/*Thong báo đăng nhập mới bình luận*/
-.bl-thongbao-dangnhap {
-  background: rgba(134, 98, 242, 0.15);
-  border: 1px solid rgba(134, 98, 242, 0.4);
-  border-radius: 12px;
-  padding: 15px;
-  margin-bottom: 20px;
-  color: #c4b5fd;
-  font-size: 14px;
-}
 
-.bl-thongbao-dangnhap a {
-  color: #c4b5fd;
-  font-weight: 700;
-  text-decoration: underline;
-}
 
-.comment-section {
-  background-color: #2b2b2b;
-  padding: 20px;
-  border-radius: 12px;
-  margin-top: 30px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
 
-.comment-section h3 {
-  margin-bottom: 15px;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
 
-#commentForm {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 25px;
-}
 
-#commentInput {
-  width: 100%;
-  height: 100px;
-  background-color: #3a3a3a;
-  border: 1px solid #4a4a4a;
-  border-radius: 8px;
-  color: white;
-  padding: 12px;
-  font-family: inherit;
-  resize: none;
-  outline: none;
-  transition: border-color 0.2s;
-}
 
-#commentInput:focus {
-  border-color: #3b82f6;
-}
 
-#btnSubmitComment {
-  align-self: flex-end;
-  background-color: #3b82f6;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: 0.2s;
-}
 
-#btnSubmitComment:hover {
-  background-color: #2563eb;
-  transform: translateY(-2px);
-}
-
-.comment-item {
-  background-color: #3a3a3a;
-  padding: 12px 15px;
-  border-radius: 8px;
-  margin-bottom: 12px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.comment-item .comment-time {
-  display: block;
-  font-size: 11px;
-  color: #f5f1f1;
-  margin-bottom: 5px;
-}
-
-.comment-item .comment-text {
-  font-size: 14px;
-  line-height: 1.5;
-  word-break: break-word;
-}
-
+/* ==========================================
+   DANH SÁCH CHỌN CHƯƠNG (CHAPTER DROPDOWN)
+   ========================================== */
+/* Phần tử chứa Popup danh sách chương */
 .check__line {
   position: relative;
 }
 
+/* Menu danh sách các chương (Menu xổ xuống) */
 .chapter-list {
   display: none;
   position: absolute;
 
+  /* Nằm ngay bên dưới nút gốc cách 5px */
   top: calc(100% + 5px);
-  transform: translateX(-50%);
+
 
   z-index: 1000;
   background: #2b2b2b;
@@ -326,39 +323,51 @@ main {
   border-radius: 8px;
   box-shadow: 0 0 5px gray;
 
+  /* Bật cuộn dọc nếu danh sách chương quá dài */
   overflow-y: auto;
+  /* Ẩn cuộn ngang */
   overflow-x: hidden;
 }
 
+/* Đường dẫn liên kết từng chương */
 .chapter-list a {
   display: block;
   padding: 10px;
-  text-decoration: none;
+  /* Bỏ gạch chân link */
   color: #f2f0f0;
 }
 
+/* Hiệu ứng rê chuột lên từng chương */
 .chapter-list a:hover {
   background: #3b82f6;
 }
 
+/* Class kích hoạt hiển thị danh sách chương khi click nút */
 .chapter-list.show {
   display: block;
 }
 
+/* Xử lý hiển thị xổ lên trên nếu hết chỗ phía dưới */
 .check__line.open-up .chapter-list {
   top: auto;
   bottom: calc(100% + 5px);
 }
 
+/* Thanh cuộn riêng cho menu danh sách chương */
 .chapter-list::-webkit-scrollbar {
   width: 8px;
 }
 
+/* Tay kéo thanh cuộn menu danh sách chương */
 .chapter-list::-webkit-scrollbar-thumb {
   background: #666;
   border-radius: 10px;
 }
 
+/* ==========================================
+   RESPONSIVE (THIẾT BỊ DI ĐỘNG & MÀN HÌNH NHỎ)
+   ========================================== */
+/* Màn hình có độ rộng tối đa 600px (Máy tính bảng nhỏ/điện thoại lớn) */
 @media (max-width: 600px) {
   .div_main {
     gap: 6px;
@@ -366,7 +375,6 @@ main {
     flex-wrap: nowrap;
     border-radius: 8px;
     overflow: visible;
-    /* đổi dòng này */
   }
 
   .navigation--main {
@@ -404,6 +412,7 @@ main {
   }
 }
 
+/* Màn hình cực nhỏ (Điện thoại độ rộng dưới 480px) */
 @media (max-width: 480px) {
   .div_main {
     display: flex;

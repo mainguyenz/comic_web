@@ -1,13 +1,17 @@
+/* ============================================================================
+   XỬ LÝ LƯU TRỮ TÀI KHOẢN & THEO DÕI (LUUTRU.JS)
+   ============================================================================ */
+
 // ==================================================
-// TÀI KHOẢN HIỆN TẠI
+// 1. QUẢN LÝ TÀI KHOẢN HẠN ĐỊNH
 // ==================================================
 
 function layTaiKhoanLuuTruHienTai() {
   try {
     const chuoi = localStorage.getItem("currentUser");
-
     return chuoi ? JSON.parse(chuoi) : null;
   } catch (error) {
+    console.warn("Lỗi đọc currentUser từ localStorage:", error);
     return null;
   }
 }
@@ -16,190 +20,95 @@ function layMaTaiKhoanLuuTru() {
   return "comic_user";
 }
 
-// Giữ tên này để tương thích với mã trước đó
 function layMaTaiKhoanTheoDoi() {
   return layMaTaiKhoanLuuTru();
 }
 
 // ==================================================
-// THEO DÕI THEO TÀI KHOẢN
+// 2. TRUY XUẤT LOCALSTORAGE THEO DÕI (CƠ CHẾ GIỎ HÀNG)
 // ==================================================
 
 const KHOA_THEO_DOI_PREFIX = "theoDoi_";
 
 function layKhoaTheoDoi() {
-  const maTaiKhoan = layMaTaiKhoanLuuTru();
-
-  if (!maTaiKhoan) return null;
-
-  return KHOA_THEO_DOI_PREFIX + String(maTaiKhoan).toLowerCase();
+  return KHOA_THEO_DOI_PREFIX + layMaTaiKhoanLuuTru(); 
+  // Kết quả cố định: "theoDoi_comic_user"
 }
 
 function layDanhSachTheoDoi() {
   const khoa = layKhoaTheoDoi();
-
-  if (!khoa) return [];
-
   try {
     const chuoi = localStorage.getItem(khoa);
-
     const danhSach = chuoi ? JSON.parse(chuoi) : [];
-
-    if (!Array.isArray(danhSach)) {
-      return [];
-    }
-
-    return danhSach.map(Number).filter(Number.isFinite);
+    return Array.isArray(danhSach) ? danhSach : [];
   } catch (error) {
+    console.warn("Lỗi đọc danh sách theo dõi:", error);
     return [];
   }
 }
 
 function luuDanhSachTheoDoi(danhSach) {
-  const khoa = layKhoaTheoDoi();
-
-  if (!khoa) return false;
-
-  localStorage.setItem(khoa, JSON.stringify(danhSach));
-
-  return true;
+  try {
+    const khoa = layKhoaTheoDoi();
+    localStorage.setItem(khoa, JSON.stringify(danhSach));
+    return true;
+  } catch (error) {
+    console.error("Lỗi lưu danh sách theo dõi:", error);
+    return false;
+  }
 }
 
+// ==================================================
+// 3. THAO TÁC THEO DÕI (KIỂM TRA / THÊM / XÓA OBJECT)
+// ==================================================
+
 function kiemTraDaTheoDoi(idTruyen) {
-  return layDanhSachTheoDoi().includes(Number(idTruyen));
+  const idNum = Number(idTruyen);
+  const danhSach = layDanhSachTheoDoi();
+  // Kiểm tra id nằm trong mảng các Object truyện
+  return danhSach.some((item) => Number(item.id) === idNum);
 }
 
 function toggleTheoDoiId(idTruyen) {
+  // 1. Kiểm tra đăng nhập
   if (!layTaiKhoanLuuTruHienTai()) {
     alert("Bạn cần đăng nhập để theo dõi truyện!");
-
     return false;
   }
 
-  idTruyen = Number(idTruyen);
-
+  const idNum = Number(idTruyen);
   let danhSach = layDanhSachTheoDoi();
+  const index = danhSach.findIndex((item) => Number(item.id) === idNum);
 
-  const dangTheoDoi = danhSach.includes(idTruyen);
+  // 2. Nếu đã có -> Xóa khỏi danh sách (Bỏ theo dõi)
+  if (index !== -1) {
+    danhSach.splice(index, 1);
+    luuDanhSachTheoDoi(danhSach);
+    alert("Đã bỏ theo dõi truyện!");
+    return false;
+  } 
 
-  if (dangTheoDoi) {
-    danhSach = danhSach.filter((id) => id !== idTruyen);
-  } else {
-    danhSach.push(idTruyen);
-  }
+  // 3. Nếu chưa có -> Lấy Object chi tiết và lưu vào mảng
+  const truyenChiTiet =
+    typeof layTruyenTheoId === "function" ? layTruyenTheoId(idNum) : null;
 
-  luuDanhSachTheoDoi(danhSach);
-
-  return !dangTheoDoi;
-}
-
-// ==================================================
-// ĐỌC TIẾP THEO TÀI KHOẢN
-// ==================================================
-
-const KHOA_TIEN_DO_DOC_PREFIX = "tienDoDoc_";
-
-function layKhoaTienDoDoc() {
-  const maTaiKhoan = layMaTaiKhoanLuuTru();
-
-  if (!maTaiKhoan) return null;
-
-  return KHOA_TIEN_DO_DOC_PREFIX + String(maTaiKhoan).toLowerCase();
-}
-
-function layTatCaTienDoDoc() {
-  const khoa = layKhoaTienDoDoc();
-
-  if (!khoa) return {};
-
-  try {
-    const chuoi = localStorage.getItem(khoa);
-
-    const tienDo = chuoi ? JSON.parse(chuoi) : {};
-
-    if (!tienDo || typeof tienDo !== "object" || Array.isArray(tienDo)) {
-      return {};
-    }
-
-    return tienDo;
-  } catch (error) {
-    return {};
-  }
-}
-
-function luuTienDoDoc(idTruyen, soChapter) {
-  const khoa = layKhoaTienDoDoc();
-
-  // Chưa đăng nhập thì không lưu
-  if (!khoa) return false;
-
-  idTruyen = Number(idTruyen);
-  soChapter = Number(soChapter);
-
-  if (!Number.isFinite(idTruyen) || !Number.isFinite(soChapter)) {
+  if (!truyenChiTiet) {
+    alert("Lỗi: Không tìm thấy thông tin truyện!");
     return false;
   }
 
-  const tienDo = layTatCaTienDoDoc();
+  const thongTinLuu = {
+    id: truyenChiTiet.id,
+    ten: truyenChiTiet.ten,
+    anhBia: truyenChiTiet.anhBia,
+    tacGia: truyenChiTiet.tacGia || "Đang cập nhật",
+    tinhTrang: truyenChiTiet.tinhTrang || "Đang ra",
+    moTa: truyenChiTiet.moTa || "Chưa có mô tả cho truyện này.",
+    ngayTheoDoi: new Date().toISOString(),
+  };
 
-  tienDo[idTruyen] = soChapter;
-
-  localStorage.setItem(khoa, JSON.stringify(tienDo));
-
+  danhSach.push(thongTinLuu);
+  luuDanhSachTheoDoi(danhSach);
+  alert("Đã thêm truyện vào danh sách theo dõi!");
   return true;
-}
-
-function layChapterDangDocDo(idTruyen) {
-  const tienDo = layTatCaTienDoDoc();
-
-  const chapter = Number(tienDo[Number(idTruyen)]);
-
-  if (Number.isFinite(chapter) && chapter > 0) {
-    return chapter;
-  }
-
-  return null;
-}
-
-// ==================================================
-// BÌNH LUẬN
-// ==================================================
-
-const KHOA_BINH_LUAN_PREFIX = "binhLuan_";
-
-function layBinhLuanTruyen(idTruyen, binhLuanGocTuData) {
-  const khoa = KHOA_BINH_LUAN_PREFIX + idTruyen;
-
-  const daLuu = localStorage.getItem(khoa);
-
-  if (daLuu) {
-    try {
-      const danhSach = JSON.parse(daLuu);
-
-      return Array.isArray(danhSach) ? danhSach : [];
-    } catch (error) {
-      return [];
-    }
-  }
-
-  const danhSachBanDau = (binhLuanGocTuData || []).map((binhLuan) => ({
-    ...binhLuan,
-    chapterSo: null,
-  }));
-
-  localStorage.setItem(khoa, JSON.stringify(danhSachBanDau));
-
-  return danhSachBanDau;
-}
-
-function themBinhLuan(idTruyen, binhLuanMoi) {
-  const khoa = KHOA_BINH_LUAN_PREFIX + idTruyen;
-
-  const danhSach = layBinhLuanTruyen(idTruyen, []);
-
-  danhSach.unshift(binhLuanMoi);
-
-  localStorage.setItem(khoa, JSON.stringify(danhSach));
-
-  return danhSach;
 }

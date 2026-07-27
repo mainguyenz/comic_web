@@ -1,35 +1,39 @@
+/* Styling cho phần hiển thị thông báo "trống" (khi không có dữ liệu) */
 .td-rong {
-  color: #fefdfd;
-  text-align: center;
-  padding: 60px 20px;
-  font-size: 18px;
+  color: #fefdfd;          /* Màu chữ (trắng hơi ngả đục nhẹ) */
+  text-align: center;      /* Căn giữa chữ theo chiều ngang */
+  padding: 60px 20px;      /* Khoảng cách nội dung: trên/dưới 60px, trái/phải 20px */
+  font-size: 18px;         /* Kích thước phông chữ 18px */
 }
 
+/* Khung chứa thẻ (Card) - đóng vai trò làm mốc tọa độ */
 .td-the {
-  position: relative;
+  position: relative;      /* Đặt làm mốc tọa độ cho các phần tử con dùng position: absolute */
 }
 
+/* Styling cho nút "Bỏ/Xóa" (ví dụ: nút hình tròn đóng/xóa thẻ) */
 .td-nut-bo {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 5;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(0, 0, 0, 0.55);
-  color: white;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: 0.25s;
+  position: absolute;      /* Định vị tuyệt đối theo khung cha (.td-the) */
+  top: 10px;               /* Cách mép trên của khung cha 10px */
+  right: 10px;             /* Cách mép phải của khung cha 10px */
+  z-index: 5;              /* Độ ưu tiên hiển thị (nằm đè lên các phần tử khác bên dưới) */
+  width: 30px;             /* Chiều rộng nút 30px */
+  height: 30px;            /* Chiều cao nút 30px */
+  border-radius: 50%;      /* Bo tròn 50% để tạo thành nút hình tròn */
+  border: none;            /* Xóa đường viền mặc định của nút */
+  background: rgba(0, 0, 0, 0.55); /* Màu nền đen bán trong suốt (độ đục 55%) */
+  color: white;            /* Màu icon hoặc chữ bên trong nút (màu trắng) */
+  font-size: 15px;         /* Kích thước chữ/icon trong nút 15px */
+  font-weight: 700;        /* Độ đậm của chữ/icon (Bold) */
+  cursor: pointer;         /* Đổi con trỏ chuột thành hình bàn tay khi rê vào */
+  display: flex;           /* Bật Flexbox để căn chỉnh icon bên trong nút */
+  align-items: center;     /* Căn giữa icon theo chiều dọc */
+  justify-content: center; /* Căn giữa icon theo chiều ngang */
+  transition: 0.25s;       /* Thời gian mượt mà khi chuyển đổi hiệu ứng hover (0.25 giây) */
 }
 
+/* Hiệu ứng khi rê chuột (hover) vào nút "Bỏ/Xóa" */
 .td-nut-bo:hover {
-  background: rgb(239, 68, 68);
-  transform: scale(1.1);
+  background: rgb(239, 68, 68); /* Đổi màu nền sang màu đỏ tươi */
+  transform: scale(1.1);         /* Phóng to nút lên 110% (tăng 10% kích thước) */
 }

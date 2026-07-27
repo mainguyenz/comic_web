@@ -1,5 +1,5 @@
 // ==================================================
-// 1. CẤU HINH TRANG THEO DÕI
+// 1. CẤU HÌNH TRANG THEO DÕI
 // ==================================================
 
 const CAU_HINH_THEO_DOI = Object.freeze({
@@ -8,7 +8,7 @@ const CAU_HINH_THEO_DOI = Object.freeze({
   viTriHienNutQuayLai: 300,
 });
 
-// Kiểm tra danh sách truyện đã được nạp từ datachitiet.js hay chưa
+// Dữ liệu từ datachitiet.js (dùng làm dự phòng nếu cần)
 const duLieuTruyen =
   typeof danhSachTruyen !== "undefined" && Array.isArray(danhSachTruyen)
     ? danhSachTruyen
@@ -18,7 +18,6 @@ const duLieuTruyen =
 // 2. HÀM HỖ TRỢ DOM VÀ STORAGE
 // ==================================================
 
-// Xóa sạch toàn bộ node con của một phần tử thuần DOM
 function xoaNoiDungPhanTu(phanTu) {
   if (!phanTu) return;
   while (phanTu.firstChild) {
@@ -26,7 +25,6 @@ function xoaNoiDungPhanTu(phanTu) {
   }
 }
 
-// Lấy thông tin tài khoản đang đăng nhập
 function layTaiKhoanHienTai() {
   try {
     const chuoi = localStorage.getItem("currentUser");
@@ -41,9 +39,7 @@ function layTaiKhoanHienTai() {
 // 3. RENDER DANH SÁCH TRUYỆN THEO DÕI
 // ==================================================
 
-function renderDanhSachTheoDoi(tuKhoa) {
-  if (tuKhoa === undefined) tuKhoa = "";
-
+function renderDanhSachTheoDoi(tuKhoa = "") {
   const grid = document.getElementById("tdDanhSach");
   const thongBaoRong = document.getElementById("tdRong");
   if (!grid || !thongBaoRong) return;
@@ -57,77 +53,58 @@ function renderDanhSachTheoDoi(tuKhoa) {
     thongBaoRong.style.display = "block";
 
     thongBaoRong.appendChild(document.createTextNode("Bạn cần "));
-
     const link = document.createElement("a");
     link.href = CAU_HINH_THEO_DOI.trangDangNhap;
     link.appendChild(document.createTextNode("đăng nhập"));
     thongBaoRong.appendChild(link);
-
     thongBaoRong.appendChild(
-      document.createTextNode(" để xem danh sách truyện đang theo dõi."),
+      document.createTextNode(" để xem danh sách truyện đang theo dõi.")
     );
     return;
   }
 
-  // Lấy danh sách ID truyện theo dõi từ luutru.js
-  const dsId =
-    typeof layDanhSachTheoDoi === "function" ? layDanhSachTheoDoi() : [];
+  // Lấy thẳng mảng Object truyện từ LocalStorage (cơ chế giỏ hàng)
+  const dsTheoDoi = typeof layDanhSachTheoDoi === "function" ? layDanhSachTheoDoi() : [];
   const tuKhoaThuong = String(tuKhoa).trim().toLowerCase();
 
-  const dsTruyen = duLieuTruyen.filter(function (truyen) {
+  // Lọc truyện theo từ khóa (Tên hoặc Tác giả)
+  const dsLoc = dsTheoDoi.filter((truyen) => {
     if (!truyen) return false;
-    const daTheoDoi = dsId.includes(Number(truyen.id));
-
     const ten = String(truyen.ten || "").toLowerCase();
     const tacGia = String(truyen.tacGia || "").toLowerCase();
-    const theLoai = Array.isArray(truyen.theLoai)
-      ? truyen.theLoai.join(" ").toLowerCase()
-      : "";
-
-    const dungTuKhoa =
-      tuKhoaThuong === "" ||
-      ten.includes(tuKhoaThuong) ||
-      tacGia.includes(tuKhoaThuong) ||
-      theLoai.includes(tuKhoaThuong);
-
-    return daTheoDoi && dungTuKhoa;
+    return tuKhoaThuong === "" || ten.includes(tuKhoaThuong) || tacGia.includes(tuKhoaThuong);
   });
 
-  // 2. Trường hợp tài khoản chưa theo dõi truyện nào
-  if (dsId.length === 0) {
+  // 2. Chưa theo dõi truyện nào
+  if (dsTheoDoi.length === 0) {
     xoaNoiDungPhanTu(grid);
     xoaNoiDungPhanTu(thongBaoRong);
     thongBaoRong.style.display = "block";
     thongBaoRong.appendChild(
       document.createTextNode(
-        'Bạn chưa theo dõi truyện nào. Hãy vào một truyện và bấm nút "🔔 Theo Dõi" nhé!',
-      ),
+        'Bạn chưa theo dõi truyện nào. Hãy vào một truyện và bấm nút " Theo Dõi" nhé!'
+      )
     );
     return;
   }
 
   thongBaoRong.style.display = "none";
 
-  // 3. Có truyện theo dõi nhưng tìm kiếm không ra kết quả
-  if (dsTruyen.length === 0) {
+  // 3. Có theo dõi nhưng tìm kiếm không khớp
+  if (dsLoc.length === 0) {
     xoaNoiDungPhanTu(grid);
-
     const p = document.createElement("p");
-    p.appendChild(document.createTextNode("Không tìm thấy truyện phù hợp."));
-    p.style.color = "white";
-    p.style.textAlign = "center";
-    p.style.gridColumn = "1 / -1";
-    p.style.padding = "40px";
-
+    p.textContent = "Không tìm thấy truyện phù hợp.";
+    p.style.cssText = "color: white; text-align: center; grid-column: 1 / -1; padding: 40px;";
     grid.appendChild(p);
     return;
   }
 
-  // 4. Render danh sách thẻ truyện theo dõi
+  // 4. Render danh sách truyện
   xoaNoiDungPhanTu(grid);
   const fragment = document.createDocumentFragment();
 
-  dsTruyen.forEach(function (truyen) {
+  dsLoc.forEach((truyen) => {
     const khung = document.createElement("div");
     khung.className = "khungtruyenrieng td-the";
 
@@ -139,9 +116,9 @@ function renderDanhSachTheoDoi(tuKhoa) {
     nut.title = "Bỏ theo dõi";
     nut.appendChild(document.createTextNode("✕"));
 
-    // Link thẻ truyện
+    // Link đến trang chi tiết
     const link = document.createElement("a");
-    link.href = CAU_HINH_THEO_DOI.trangChiTiet + "?id=" + String(truyen.id);
+    link.href = `${CAU_HINH_THEO_DOI.trangChiTiet}?id=${truyen.id}`;
 
     const img = document.createElement("img");
     img.src = String(truyen.anhBia || "");
@@ -153,12 +130,9 @@ function renderDanhSachTheoDoi(tuKhoa) {
     link.appendChild(img);
     link.appendChild(h3);
 
-    // Thể loại
+    // Hiển thị tác giả
     const span = document.createElement("span");
-    const chuoiTheLoai = Array.isArray(truyen.theLoai)
-      ? truyen.theLoai.join(" - ")
-      : "";
-    span.appendChild(document.createTextNode(chuoiTheLoai));
+    span.appendChild(document.createTextNode(truyen.tacGia || "Đang cập nhật"));
 
     khung.appendChild(nut);
     khung.appendChild(link);
@@ -171,7 +145,7 @@ function renderDanhSachTheoDoi(tuKhoa) {
 }
 
 // ==================================================
-// 4. SỰ KIỆN TƯƠNG TÁC
+// 4. SỰ KIỆN TƯƠNG TÁC DỮ LIỆU
 // ==================================================
 
 function ganSuKienDanhSachTheoDoi() {
@@ -179,13 +153,13 @@ function ganSuKienDanhSachTheoDoi() {
   const inputTimKiem = document.getElementById("inputsearch");
 
   if (grid) {
-    grid.addEventListener("click", function (event) {
+    grid.addEventListener("click", (event) => {
       const nut = event.target.closest(".td-nut-bo");
       if (!nut) return;
 
       const idTruyen = Number(nut.dataset.id);
 
-      // Gọi hàm bỏ/thêm theo dõi từ luutru.js
+      // Gọi hàm xóa khỏi LocalStorage
       if (typeof toggleTheoDoiId === "function") {
         toggleTheoDoiId(idTruyen);
       }
@@ -202,9 +176,8 @@ function ganTimKiem() {
 
   if (!input || !goiY) return;
 
-  input.addEventListener("input", function () {
+  input.addEventListener("input", () => {
     const tuKhoa = input.value.trim().toLowerCase();
-
     goiY.replaceChildren();
 
     if (tuKhoa === "") {
@@ -212,35 +185,27 @@ function ganTimKiem() {
       return;
     }
 
-    const dsId =
-      typeof layDanhSachTheoDoi === "function" ? layDanhSachTheoDoi() : [];
-
+    // Lấy danh sách truyện từ LocalStorage để gợi ý
+    const dsTheoDoi = typeof layDanhSachTheoDoi === "function" ? layDanhSachTheoDoi() : [];
     let dem = 0;
 
-    duLieuTruyen.forEach(function (truyen) {
-      // chỉ tìm truyện đang theo dõi
-      if (!dsId.includes(Number(truyen.id))) return;
-
-      const ten = truyen.ten.toLowerCase();
+    dsTheoDoi.forEach((truyen) => {
+      if (!truyen) return;
+      const ten = String(truyen.ten || "").toLowerCase();
 
       if (ten.includes(tuKhoa)) {
         const link = document.createElement("a");
-
-        link.href = "trangchitiet.html?id=" + truyen.id;
-
+        link.href = `${CAU_HINH_THEO_DOI.trangChiTiet}?id=${truyen.id}`;
         link.className = "item-goi-y";
 
         const img = document.createElement("img");
-
-        img.src = truyen.anhBia;
+        img.src = truyen.anhBia || "";
 
         const span = document.createElement("span");
-
         span.textContent = truyen.ten;
 
         link.appendChild(img);
         link.appendChild(span);
-
         goiY.appendChild(link);
 
         dem++;
@@ -249,34 +214,36 @@ function ganTimKiem() {
 
     if (dem === 0) {
       const p = document.createElement("p");
-
       p.textContent = "Không tìm thấy truyện";
-
       p.style.padding = "12px";
-
       goiY.appendChild(p);
     }
 
     goiY.style.display = "block";
   });
 
-  document.addEventListener("click", function (e) {
-    if (!document.querySelector(".search").contains(e.target)) {
+  document.addEventListener("click", (e) => {
+    const searchContainer = document.querySelector(".search");
+    if (searchContainer && !searchContainer.contains(e.target)) {
       goiY.style.display = "none";
     }
   });
 }
 
+// ==================================================
+// 5. GIAO DIỆN & TIỆN ÍCH Trang (Menu, Scroll)
+// ==================================================
+
 function ganNutQuayLai() {
   const nut = document.getElementById("quaylai");
   if (!nut) return;
 
-  window.addEventListener("scroll", function () {
+  window.addEventListener("scroll", () => {
     nut.style.display =
       window.scrollY > CAU_HINH_THEO_DOI.viTriHienNutQuayLai ? "block" : "none";
   });
 
-  nut.addEventListener("click", function () {
+  nut.addEventListener("click", () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -289,28 +256,28 @@ function ganMenu() {
   const menu = document.querySelector(".menu");
   if (!menuToggle || !menu) return;
 
-  menuToggle.addEventListener("click", function (e) {
+  menuToggle.addEventListener("click", (e) => {
     e.stopPropagation();
     menu.classList.toggle("active");
   });
 
-  menu.addEventListener("click", function (e) {
+  menu.addEventListener("click", (e) => {
     e.stopPropagation();
   });
 
-  document.addEventListener("click", function () {
+  document.addEventListener("click", () => {
     menu.classList.remove("active");
   });
 }
 
 // ==================================================
-// 5. KHỞI CHẠY TRANG
+// 6. KHỞI CHẠY TRANG
 // ==================================================
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
   renderDanhSachTheoDoi();
   ganSuKienDanhSachTheoDoi();
+  ganTimKiem();
   ganNutQuayLai();
   ganMenu();
-  ganTimKiem();
 });
