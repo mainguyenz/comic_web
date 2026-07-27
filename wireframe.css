@@ -1,0 +1,107 @@
+/* 1. Bật khung và vị trí cho tất cả thẻ HTML quan trọng */
+section,
+div,
+h3,
+p,
+a {
+    position: relative;
+    outline: 2px solid #000 !important;
+    /* Tạo viền đen bao quanh */
+    margin: 10px !important;
+    /* Khoảng cách để các khung không đè nhau */
+    padding: 15px 10px 10px 10px !important;
+    box-sizing: border-box;
+
+    /* CHỮ MÀU ĐEN cho toàn bộ nội dung */
+    color: #000000 !important;
+}
+
+/* 2. Đặt nền MÀU XANH ĐÁ DỊU ĐỤC CHUẨN ẢNH MẪU để che ảnh dưới */
+section {
+    background-color: #6082a6 !important;
+    /* Khối ngoài (section) màu Xanh Đá chuẩn ảnh */
+}
+
+div {
+    background-color: #688cb2 !important;
+    /* Các khối div màu Xanh Xám tươi nhẹ */
+}
+
+/* Các thẻ con bên trong để phân cấp màu dịu nhẹ hơn */
+div div {
+    background-color: #7195bc !important;
+    /* Div con màu Xanh Xám sáng dịu */
+}
+
+h3,
+p,
+a {
+    background-color: #82a4c9 !important;
+    /* Khối chữ, nút bấm màu Xanh Mờ */
+}
+
+/* Ẩn hoàn toàn ảnh/icon để giảm bóng/chói và hiện rõ wireframe */
+img,
+svg,
+video {
+    opacity: 0.05 !important;
+    filter: grayscale(100%) !important;
+}
+
+/* 3. Tự động hiển thị tên thẻ (tag name) ở góc phải dưới hoặc phải trên */
+section::after {
+    content: "section";
+}
+
+div::after {
+    content: "div";
+}
+
+h3::after {
+    content: "h3";
+}
+
+p::after {
+    content: "p";
+}
+
+a::after {
+    content: "a";
+}
+
+/* Định dạng nhãn tên thẻ: BỎ HỘP BAO QUANH, HIỂN THỊ CHỮ TRẦN */
+section::after,
+div::after,
+h3::after,
+p::after,
+a::after {
+    position: absolute;
+    right: 6px;
+    bottom: 2px;
+    font-family: Arial, sans-serif;
+    font-weight: 900;
+    /* Nét chữ đậm rõ */
+    font-size: 22px;
+    /* Kích thước chữ to giống mẫu */
+    color: #000000 !important;
+    /* Chữ đen hoàn toàn */
+
+    /* BỎ HỘP TRẮNG */
+    background: transparent !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+
+    pointer-events: none;
+    /* Tránh cản trở click chuột */
+    z-index: 9999 !important;
+}
+
+/* Điều chỉnh vị trí nhãn cho bớt đè chữ nội dung */
+h3::after,
+p::after {
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    bottom: auto;
+}
