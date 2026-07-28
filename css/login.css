@@ -43,7 +43,7 @@
 }
 
 .close-btn:hover {
-  color: #fff;
+  color: white;
   background: rgba(134, 98, 242, 0.4);
   transform: rotate(90deg);
 }
@@ -112,7 +112,7 @@
   border-radius: 12px;
   border: 1.5px solid rgba(255, 255, 255, 0.15);
   background: rgba(255, 255, 255, 0.07);
-  color: #fff;
+  color: white;
   font-size: 15px;
   transition:
     border-color 0.3s,
@@ -170,21 +170,21 @@
 
 /* Trạng thái lỗi */
 .form-row.failure {
-  border-color: #ef4444;
+  border-color: red;
   background: rgba(239, 68, 68, 0.06);
 }
 
 .form-row.failure label {
-  color: #ef4444;
+  color: red;
 }
 
 .form-row.failure input {
-  border-color: #ef4444;
+  border-color: red;
 }
 
 .form-row.failure .notification {
   visibility: visible;
-  color: #ef4444;
+  color: red;
 }
 
 /* Các tùy chọn */
@@ -194,7 +194,7 @@
   border: none;
   border-radius: 40px;
   background: rgb(134, 98, 242);
-  color: #fff;
+  color: white;
   font-size: 17px;
   font-weight: 700;
   cursor: pointer;
