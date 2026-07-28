@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const loginForm = document.getElementById("loginForm");
   const togglePassword = document.getElementById("togglePassword");
 
-  // Lấy tài khoản đã đăng ký (chỉ 1 object)
+  // Lấy tài khoản đã đăng ký 
   function getAccount() {
     const data = localStorage.getItem("account");
     return data ? JSON.parse(data) : null;
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Validation Email (sự kiện blur)
+  // Xác thực email (sự kiện blur)
   function validateEmailOnBlur() {
     const email = emailInput.value.trim();
     emailMsg.textContent = "";
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
     setSuccess(emailRow, emailMsg);
   }
 
-  //Validation Password (sự kiện blur)
+  // Xác thực mật khẩu (sự kiện blur)
   function validatePasswordOnBlur() {
     const password = passwordInput.value;
     passwordMsg.textContent = "";
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
   emailInput.addEventListener("blur", validateEmailOnBlur);
   passwordInput.addEventListener("blur", validatePasswordOnBlur);
 
-  //Toggle hiển thị mật khẩu
+  //Nút hiển thị/ẩn mật khẩu
   togglePassword.addEventListener("click", function () {
     const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
     passwordInput.setAttribute("type", type);
@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // So sánh email và mật khẩu với tài khoản
     if (account.email === email && account.password === password) {
-      // Lưu currentUser
+      // Lưu thông tin người dùng hiện tại (để hiển thị trên header)
       localStorage.setItem("currentUser", JSON.stringify({
         fullname: account.fullname,
         email: account.email,
@@ -133,6 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
       alert("Đăng nhập thành công! Chuyển hướng đến trang chủ!");
       window.location.href = "trangchu.html";
     } else {
+      // Nếu email đúng nhưng mật khẩu sai
       const userExists = account.email === email;
       if (userExists) {
         setError(passwordRow, "Mật khẩu không chính xác!", passwordMsg);
@@ -140,6 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
           setSuccess(emailRow, emailMsg);
         }
       } else {
+        // Email không tồn tại
         setError(emailRow, "Email chưa được đăng ký!", emailMsg);
         resetRow(passwordRow);
         passwordMsg.textContent = "";

@@ -17,28 +17,25 @@ document.addEventListener("DOMContentLoaded", function () {
   const togglePassword = document.getElementById("togglePassword");
   const toggleConfirm = document.getElementById("toggleConfirmPassword");
 
-  // Lấy tài khoản đã đăng ký (nếu có)
-  function getAccount() {
-    const data = localStorage.getItem("account");
-    return data ? JSON.parse(data) : null;
-  }
-
   // Lưu tài khoản
   function saveAccount(account) {
     localStorage.setItem("account", JSON.stringify(account));
   }
 
+  // Hàm kiểm tra định dạng email hợp lệ
   function isValidEmail(email) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
   }
 
+  // Xóa trạng thái lỗi/thành công của một hàng
   function resetRow(row) {
     row.classList.remove("success", "failure");
     const msg = row.querySelector(".notification");
     if (msg) msg.textContent = "";
   }
 
+  // Đánh dấu lỗi cho một hàng (màu đỏ, hiển thị thông báo)
   function setError(row, message, msgElement) {
     row.classList.remove("success");
     row.classList.add("failure");
@@ -47,6 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  // Đánh dấu thành công cho một hàng (màu xanh, hiển thị "Thành công!")
   function setSuccess(row, msgElement) {
     row.classList.remove("failure");
     row.classList.add("success");
@@ -55,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Validate Username
+  // Xác thực tên người dùng (sự kiện blur)
   function validateUsername() {
     const val = usernameInput.value.trim();
     usernameMsg.textContent = "";
@@ -71,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
     setSuccess(usernameRow, usernameMsg);
   }
 
-  // Validate Email
+  // Xác thực email (sự kiện blur)
   function validateEmail() {
     const val = emailInput.value.trim();
     emailMsg.textContent = "";
@@ -85,17 +83,10 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // Kiểm tra email đã tồn tại
-    const account = getAccount();
-    if (account && account.email === val) {
-      setError(emailRow, "Email đã được đăng ký!", emailMsg);
-      return;
-    }
-
     setSuccess(emailRow, emailMsg);
   }
 
-  // Validate Password
+  // Xác thực mật khẩu (sự kiện blur)
   function validatePassword() {
     const val = passwordInput.value;
     passwordMsg.textContent = "";
@@ -110,12 +101,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     setSuccess(passwordRow, passwordMsg);
 
+    // Nếu đã có xác nhận mật khẩu, kiểm tra lại luôn
     if (confirmInput.value) {
       validateConfirm();
     }
   }
 
-  // Validate Confirm Password
+  //  Xác thực xác nhận mật khẩu (sự kiện blur)
   function validateConfirm() {
     const pass = passwordInput.value;
     const confirm = confirmInput.value;
@@ -138,11 +130,13 @@ document.addEventListener("DOMContentLoaded", function () {
     setSuccess(confirmRow, confirmMsg);
   }
 
+  // Gán sự kiện blur cho các trường
   usernameInput.addEventListener("blur", validateUsername);
   emailInput.addEventListener("blur", validateEmail);
   passwordInput.addEventListener("blur", validatePassword);
   confirmInput.addEventListener("blur", validateConfirm);
 
+  // Nút hiển thị/ẩn mật khẩu
   togglePassword.addEventListener("click", function () {
     const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
     passwordInput.setAttribute("type", type);
@@ -151,6 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
     icon.classList.toggle("bi-eye-slash");
   });
 
+  // Xử lý sự kiện submit form
   toggleConfirm.addEventListener("click", function () {
     const type = confirmInput.getAttribute("type") === "password" ? "text" : "password";
     confirmInput.setAttribute("type", type);
@@ -162,11 +157,13 @@ document.addEventListener("DOMContentLoaded", function () {
   registerForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
+    // Gọi lại các hàm validation để cập nhật trạng thái mới nhất
     validateUsername();
     validateEmail();
     validatePassword();
     validateConfirm();
 
+    // Kiểm tra tất cả các trường đều hợp lệ
     const isUsernameValid = usernameRow.classList.contains("success");
     const isEmailValid = emailRow.classList.contains("success");
     const isPasswordValid = passwordRow.classList.contains("success");
@@ -186,7 +183,7 @@ document.addEventListener("DOMContentLoaded", function () {
       createdAt: new Date().toISOString()
     };
 
-    // Chỉ lưu account, KHÔNG lưu currentUser
+    // Lưu tài khoản (ghi đè)
     saveAccount(newAccount);
 
     alert("Form đã được gửi thành công! Chuyển hướng đến trang đăng nhập!");
