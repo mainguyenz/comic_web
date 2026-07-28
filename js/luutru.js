@@ -1,7 +1,3 @@
-/* ============================================================================
-   XỬ LÝ LƯU TRỮ TÀI KHOẢN & THEO DÕI (LUUTRU.JS)
-   ============================================================================ */
-
 // ==================================================
 // 1. QUẢN LÝ TÀI KHOẢN HẠN ĐỊNH
 // ==================================================
@@ -104,7 +100,8 @@ function toggleTheoDoiId(idTruyen) {
     tacGia: truyenChiTiet.tacGia || "Đang cập nhật",
     tinhTrang: truyenChiTiet.tinhTrang || "Đang ra",
     moTa: truyenChiTiet.moTa || "Chưa có mô tả cho truyện này.",
-    ngayTheoDoi: new Date().toISOString(),
+    // Lưu thẳng theo chuẩn ngày/giờ chuẩn Việt Nam (24h)
+    ngayTheoDoi: new Date().toLocaleString("sv-SE") 
   };
 
   danhSach.push(thongTinLuu);
