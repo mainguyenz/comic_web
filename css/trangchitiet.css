@@ -57,7 +57,7 @@ body {
 /* Bố cục chính (Bìa + Thông tin) */
 .chitiet-container {
   display: grid;
-  grid-template-columns: 260px minmax(0, 1fr); /* minmax(0, 1fr) giúp chống vỡ/tràn text */
+  grid-template-columns: 260px minmax(0, 1fr);
   gap: 40px;
   align-items: start;
 }
@@ -67,22 +67,25 @@ body {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  width: 100%;
 }
 
+/* Đồng bộ cơ chế co dãn ảnh giống Trang Chủ */
 .chitiet-cover {
   width: 100%;
-  aspect-ratio: 2 / 3;
+  aspect-ratio: 2 / 3; /* Tỉ lệ bìa chuẩn 2:3 */
   border-radius: 20px;
   border: 2px solid rgba(134, 98, 242, 0.4);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
   overflow: hidden;
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .chitiet-cover img {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover; /* Cắt vừa khung, không bao giờ méo hình */
   transition: transform 0.3s ease;
 }
 
@@ -141,7 +144,8 @@ body {
   color: rgb(58, 58, 80);
 }
 
-.btn-doc-secondary:hover {
+.btn-doc-secondary:hover,
+.btn-doc-outline:hover {
   background: rgb(134, 98, 242);
   color: #fff;
   transform: translateY(-2px);
@@ -155,9 +159,6 @@ body {
 
 .btn-doc-outline:hover {
   border-color: rgb(134, 98, 242);
-  background: rgb(134, 98, 242);
-  color: #fff;
-  transform: translateY(-2px);
 }
 
 .btn-doc-outline.dang-theo-doi {
@@ -171,7 +172,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  min-width: 0; /* Đảm bảo chữ tự gập dòng khi quá dài */
+  min-width: 0;
 }
 
 .chitiet-title {
@@ -309,7 +310,7 @@ body {
   font-size: 14px;
   line-height: 1.8;
   text-align: justify;
-  word-break: break-word; /* Tránh tràn chữ dài */
+  word-break: break-word;
 }
 
 .synopsis-hidden {
@@ -360,7 +361,10 @@ body {
   font-weight: 400;
 }
 
-#btnDaoNguoc .status-asc,
+#btnDaoNguoc .status-asc {
+  display: none;
+}
+
 #btnDaoNguoc[data-order="asc"] .status-desc {
   display: none;
 }
@@ -481,7 +485,7 @@ body {
   background: rgb(134, 98, 242);
 }
 
-/* Phần Truyện liên quan */
+/* Phần Truyện liên quan (4 cột ở Desktop) */
 #sectionLQuan {
   margin-top: 25px;
   padding: 25px;
@@ -495,16 +499,19 @@ body {
   margin-top: 0;
   margin-bottom: 20px;
 }
-
+/* Mặc định tự động tính toán cột theo độ rộng màn hình */
 .lien-quan-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); 
-  gap: 20px;
+  /* Tự động tạo cột có độ rộng tối thiểu 160px, tối đa co giãn 1fr */
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  width: 100%;
 }
 
 .lien-quan-card {
   display: flex;
   flex-direction: column;
+  width: 100%; /* Giúp card luôn lấp đầy cột */
   border-radius: 16px;
   background: rgb(202, 199, 199);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
@@ -518,10 +525,11 @@ body {
   transform: translateY(-5px);
 }
 
+/* Áp dụng tỉ lệ 2:3 chuẩn cho thẻ truyện liên quan */
 .lien-quan-card img {
   display: block;
   width: 100%;
-  aspect-ratio: 2 / 3; /* Chuẩn hóa tỷ lệ bìa truyện */
+  aspect-ratio: 2 / 3;
   object-fit: cover;
 }
 
@@ -536,7 +544,7 @@ body {
 }
 
 .lien-quan-info {
-  padding: 12px;
+  padding: 10px;
   flex: 1;
 }
 
@@ -548,13 +556,13 @@ body {
   overflow: hidden;
   margin-bottom: 4px;
   color: #1c1c24;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
 }
 
 .lien-quan-tacgia {
   color: #555;
-  font-size: 12px;
+  font-size: 11px;
 }
 
 /* Phần Bình luận */
@@ -750,115 +758,107 @@ body {
   font-size: 13px;
 }
 
-.bl-thoigian {
-  color: #888;
+.bl-time {
+  color: #aaa;
   font-size: 12px;
 }
 
-.bl-text {
-  color: #ddd;
+.bl-noidung p {
+  color: #ccc;
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 1.7;
   margin: 0;
 }
 
-.binh-luan-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.binh-luan-trong {
-  padding: 30px;
-  color: #888;
+.footer-copy {
+  padding: 20px;
+  border-top: 1px solid rgba(134, 98, 242, 0.4);
+  color: #cbd5e1;
   font-size: 14px;
   text-align: center;
 }
-
-.chitiet-error {
-  padding: 40px 20px;
-  margin: 40px auto;
-  max-width: 500px;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 16px;
-  background: rgba(239, 68, 68, 0.1);
-  color: #fca5a5;
-  font-size: 15px;
-  text-align: center;
-}
-
 /* ===================================================
-   RESPONSIVE (1024PX, 768PX, 480PX)
+   RESPONSIVE (3 MỐC KÍCH THƯỚC: 1024px, 768px, 480px)
    =================================================== */
 
+/* 1. Màn hình Laptop nhỏ / Tablet ngang (<= 1024px) */
 @media (max-width: 1024px) {
   .chitiet-container {
     grid-template-columns: 220px minmax(0, 1fr);
     gap: 25px;
   }
 
+  .chitiet-title {
+    font-size: 1.9rem;
+  }
+
+  /* Truyện liên quan: 3 Cột */
   .lien-quan-grid {
     grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
   }
 }
 
-/* Đã sửa lỗi thiếu 'px' tại đây */
+/* 2. Màn hình Tablet đứng (<= 768px) */
 @media (max-width: 768px) {
-  .breadcrumb {
-    padding: 12px 18px;
-    font-size: 13px;
+  .chitiet-hero {
+    padding-left: 4%;
+    padding-right: 4%;
   }
 
-  /* Đưa bố cục chính về dạng 1 cột dọc */
+  /* Bố cục chính chuyển thành 1 cột */
   .chitiet-container {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 25px;
   }
 
-  /* Bìa và nút chuyển xuống giữa màn hình */
   .chitiet-cover-col {
-    max-width: 250px;
-    margin: 0 auto;
     width: 100%;
+    max-width: 240px;
+    margin: 0 auto;
   }
 
   .chitiet-title {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     text-align: center;
   }
 
-  .rating-container {
+  .rating-container,
+  .chitiet-stats {
     justify-content: center;
   }
 
-  .chitiet-stats {
-    justify-content: center;
-    gap: 15px;
+  /* Truyện liên quan: Duy trì 3 Cột */
+  .lien-quan-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
   }
 
   .chapter-header {
     flex-direction: column;
     align-items: flex-start;
   }
-
-  #sectionLQuan,
-  #sectionBLuan {
-    padding: 20px 15px;
-  }
-
-  /* Chuyển truyện liên quan về 2 cột */
-  .lien-quan-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
 
-/* Màn hình Mobile nhỏ (<= 480px) */
+/* 3. Màn hình Điện thoại / Mobile (<= 480px) */
 @media (max-width: 480px) {
-  .chitiet-title {
-    font-size: 1.5rem;
+  .chitiet-hero {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .chapter-section,
+  #sectionLQuan,
+  #sectionBLuan {
+    padding: 15px;
   }
 
   .chitiet-cover-col {
     max-width: 200px;
+  }
+
+  .chitiet-title {
+    font-size: 1.4rem;
   }
 
   .chitiet-meta-dong {
@@ -870,8 +870,21 @@ body {
     min-width: auto;
   }
 
+  .chitiet-btns {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Truyện liên quan: 1 Cột căn giữa */
   .lien-quan-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns:  1fr;
+    gap: 15px;
+  }
+
+  .lien-quan-card {
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto;
   }
 
   .bl-form-footer {
