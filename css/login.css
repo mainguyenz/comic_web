@@ -128,7 +128,11 @@
   border-color: rgb(134, 98, 242);
   box-shadow: 0 0 0 3px rgba(134, 98, 242, 0.2);
 }
-
+/* Ẩn nút hiện mật khẩu mặc định trên Microsoft Edge / IE */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+    display: none;
+}
 /* Password wrapper */
 .password-wrapper {
   position: relative;
