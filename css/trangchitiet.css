@@ -50,12 +50,14 @@ body {
 /* Phần Hero / Đầu trang chi tiết */
 .chitiet-hero {
   padding-top: 20px;
+  padding-left: 6%;
+  padding-right: 6%;
 }
 
 /* Bố cục chính (Bìa + Thông tin) */
 .chitiet-container {
   display: grid;
-  grid-template-columns: 260px 1fr;
+  grid-template-columns: 260px minmax(0, 1fr); /* minmax(0, 1fr) giúp chống vỡ/tràn text */
   gap: 40px;
   align-items: start;
 }
@@ -169,6 +171,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  min-width: 0; /* Đảm bảo chữ tự gập dòng khi quá dài */
 }
 
 .chitiet-title {
@@ -306,6 +309,7 @@ body {
   font-size: 14px;
   line-height: 1.8;
   text-align: justify;
+  word-break: break-word; /* Tránh tràn chữ dài */
 }
 
 .synopsis-hidden {
@@ -499,7 +503,8 @@ body {
 }
 
 .lien-quan-card {
-  display: block;
+  display: flex;
+  flex-direction: column;
   border-radius: 16px;
   background: rgb(202, 199, 199);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
@@ -510,13 +515,13 @@ body {
 }
 
 .lien-quan-card:hover {
-  transform: scale(1.03);
+  transform: translateY(-5px);
 }
 
 .lien-quan-card img {
   display: block;
   width: 100%;
-  height: 280px;
+  aspect-ratio: 2 / 3; /* Chuẩn hóa tỷ lệ bìa truyện */
   object-fit: cover;
 }
 
@@ -525,13 +530,14 @@ body {
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 200px;
+  aspect-ratio: 2 / 3;
   background: rgb(90, 78, 121);
   font-size: 48px;
 }
 
 .lien-quan-info {
   padding: 12px;
+  flex: 1;
 }
 
 .lien-quan-ten {
@@ -779,11 +785,14 @@ body {
   font-size: 15px;
   text-align: center;
 }
-   RESPONSIVE - ĐỒNG BỘ MỐC THEO TRANGCHU.CSS (1024PX, 1000PX, 480PX)
+
+/* ===================================================
+   RESPONSIVE (1024PX, 768PX, 480PX)
+   =================================================== */
 
 @media (max-width: 1024px) {
   .chitiet-container {
-    grid-template-columns: 220px 1fr;
+    grid-template-columns: 220px minmax(0, 1fr);
     gap: 25px;
   }
 
@@ -792,7 +801,8 @@ body {
   }
 }
 
-@media (max-width: 768) {
+/* Đã sửa lỗi thiếu 'px' tại đây */
+@media (max-width: 768px) {
   .breadcrumb {
     padding: 12px 18px;
     font-size: 13px;
@@ -841,7 +851,7 @@ body {
   }
 }
 
-/* 3. Màn hình Mobile nhỏ (<= 480px) */
+/* Màn hình Mobile nhỏ (<= 480px) */
 @media (max-width: 480px) {
   .chitiet-title {
     font-size: 1.5rem;
