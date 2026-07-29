@@ -21,58 +21,51 @@ function ganNutQuayLai() {
 function ganTimKiem() {
   const input = document.getElementById("inputsearch");
   const goiY = document.getElementById("goiYTimKiem");
-
   input.addEventListener("input", function () {
     const tuKhoa = input.value.trim().toLowerCase();
-
-    goiY.replaceChildren();
-
+    goiY.replaceChildren(); //xóa toàn bộ kết quả cũ
+    //Nếu người dùng ko nhập gì theo ẩn hộp gợi ý
     if (tuKhoa === "") {
       goiY.style.display = "none";
       return;
     }
-
-    const tatCaTruyen = document.querySelectorAll(".khungtruyenrieng");
+    const tatCaTruyen = document.querySelectorAll(".khungtruyenrieng"); //Lấy tên truyện
     const daThem = new Set();
     let dem = 0;
-
     tatCaTruyen.forEach(function (truyen) {
       const ten = truyen.querySelector("h3").textContent.trim();
-
       if (daThem.has(ten.toLowerCase())) return;
-
       if (ten.toLowerCase().includes(tuKhoa)) {
+        //Kiểm tra tên truyện có chứa từ khóa
         daThem.add(ten.toLowerCase());
-
+        //tạo đường dẫn
         const link = document.createElement("a");
         link.href = truyen.querySelector("a").href;
         link.className = "item-goi-y";
-
+        //Lấy ảnh bìa từ truyện gốc r đưa vào danh sách gợi ý
         const img = document.createElement("img");
         img.src = truyen.querySelector("img").src;
         img.alt = ten;
-
+        //tạo tên truyện
         const tenTruyen = document.createElement("span");
         tenTruyen.textContent = ten;
-
         link.appendChild(img);
         link.appendChild(tenTruyen);
-
         goiY.appendChild(link);
         dem++;
       }
     });
-
+    //Nếu ko tìm thấy truyện
     if (dem === 0) {
       const p = document.createElement("p");
       p.textContent = "Không tìm thấy truyện";
       p.style.padding = "12px";
       goiY.appendChild(p);
     }
-
+    //Hiển thị hợp gợi ý
     goiY.style.display = "block";
   });
-
+  //Ẩn hợp gợi ý khi nhấn ra ngoài
   document.addEventListener("click", function (e) {
     if (!document.querySelector(".search").contains(e.target)) {
       goiY.style.display = "none";
