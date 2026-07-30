@@ -252,24 +252,34 @@ const thietLapChucNangTheoDoi = () => {
 };
 
 // CHỨC NĂNG: QUẢN LÝ DANH SÁCH CHAPTER
+// CHỨC NĂNG: QUẢN LÝ DANH SÁCH CHAPTER
+
+// Hàm phụ bọc thẻ <a> bên trong nút bằng JS thuần (không innerHTML, không đổi thẻ button)
+const bienNutThanhLinkInner = (nutElement) => {
+  if (!nutElement) return null;
+
+  let link = nutElement.querySelector("a.btn-inner-link");
+  if (!link) {
+    link = document.createElement("a");
+    link.className = "btn-inner-link";
+    link.style.display = "flex";
+    link.style.alignItems = "center";
+    link.style.justifyContent = "center";
+    link.style.width = "100%";
+    link.style.height = "100%";
+    link.style.color = "inherit";
+    link.style.textDecoration = "none";
+
+    while (nutElement.firstChild) {
+      link.appendChild(nutElement.firstChild);
+    }
+    nutElement.appendChild(link);
+  }
+  return link;
+};
 
 const thietLapNutDocTruyen = () => {
-  const btnDocTuDau = document.getElementById("btnDocTuDau");
-  const btnDocMoiNhat = document.getElementById("btnDocMoiNhat");
-
-  const xuLyChuyenTrang = function () {
-    const url = this.dataset.url;
-    if (url) {
-      window.location.href = url;
-    }
-  };
-
-  if (btnDocTuDau) {
-    btnDocTuDau.addEventListener("click", xuLyChuyenTrang);
-  }
-  if (btnDocMoiNhat) {
-    btnDocMoiNhat.addEventListener("click", xuLyChuyenTrang);
-  }
+  // Đã xử lý tự động trong renderDanhSachChapter
 };
 
 const renderDanhSachChapter = () => {
@@ -292,17 +302,21 @@ const renderDanhSachChapter = () => {
 
   if (mangChapter.length === 0) return;
 
+  // Bọc thẻ <a> bên trong 2 nút đọc
   const btnDocTuDau = document.getElementById("btnDocTuDau");
   const btnDocMoiNhat = document.getElementById("btnDocMoiNhat");
+  const linkTuDau = bienNutThanhLinkInner(btnDocTuDau);
+  const linkMoiNhat = bienNutThanhLinkInner(btnDocMoiNhat);
 
   const chapDau = mangChapter.reduce((min, c) => (c.so < min.so ? c : min), mangChapter[0]);
   const chapMoiNhat = mangChapter.reduce((max, c) => (c.so > max.so ? c : max), mangChapter[0]);
 
-  if (btnDocTuDau && chapDau) {
-    btnDocTuDau.dataset.url = `doctruyen.html?id=${idTruyen}&chapter=${chapDau.so}`;
+  // Gán href cho thẻ link nội bộ (Trình duyệt sẽ tự hiện URL góc dưới màn hình)
+  if (linkTuDau && chapDau) {
+    linkTuDau.href = `doctruyen.html?id=${idTruyen}&chapter=${chapDau.so}`;
   }
-  if (btnDocMoiNhat && chapMoiNhat) {
-    btnDocMoiNhat.dataset.url = `doctruyen.html?id=${idTruyen}&chapter=${chapMoiNhat.so}`;
+  if (linkMoiNhat && chapMoiNhat) {
+    linkMoiNhat.href = `doctruyen.html?id=${idTruyen}&chapter=${chapMoiNhat.so}`;
   }
 
   mangChapter.sort((a, b) => (thuTuChapter === "desc" ? b.so - a.so : a.so - b.so));
