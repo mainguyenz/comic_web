@@ -1,4 +1,3 @@
-
 // 1. QUẢN LÝ TÀI KHOẢN 
 
 function layTaiKhoanLuuTruHienTai() {
@@ -25,7 +24,6 @@ const KHOA_THEO_DOI_PREFIX = "theoDoi_";
 
 function layKhoaTheoDoi() {
   return KHOA_THEO_DOI_PREFIX + layMaTaiKhoanLuuTru(); 
-  // Kết quả cố định: "theoDoi_comic_user"
 }
 
 function layDanhSachTheoDoi() {
@@ -56,7 +54,6 @@ function luuDanhSachTheoDoi(danhSach) {
 function kiemTraDaTheoDoi(idTruyen) {
   const idNum = Number(idTruyen);
   const danhSach = layDanhSachTheoDoi();
-  // Kiểm tra id nằm trong mảng các Object truyện
   return danhSach.some((item) => Number(item.id) === idNum);
 }
 
@@ -89,13 +86,12 @@ function toggleTheoDoiId(idTruyen) {
   }
 
   const thongTinLuu = {
-    id: truyenChiTiet.id,
-    ten: truyenChiTiet.ten,
-    anhBia: truyenChiTiet.anhBia,
+    id: Number(truyenChiTiet.id),
+    ten: truyenChiTiet.ten || truyenChiTiet.tenTruyen,
+    anhBia: truyenChiTiet.anhBia || truyenChiTiet.hinhAnh,
     tacGia: truyenChiTiet.tacGia || "Đang cập nhật",
     tinhTrang: truyenChiTiet.tinhTrang || "Đang ra",
     moTa: truyenChiTiet.moTa || "Chưa có mô tả cho truyện này.",
-    // Lưu thẳng theo chuẩn ngày/giờ chuẩn Việt Nam (24h)
     ngayTheoDoi: new Date().toLocaleString("vi-VN") 
   };
 
@@ -104,7 +100,8 @@ function toggleTheoDoiId(idTruyen) {
   alert("Đã thêm truyện vào danh sách theo dõi!");
   return true;
 }
-// THÊM Nhiều truyện
+
+// 4. THÊM NHIỀU TRUYỆN HÀNG LOẠT
 function themNhieuTheoDoi(danhSachId) {
   if (!layTaiKhoanLuuTruHienTai()) {
     alert("Bạn cần đăng nhập để theo dõi truyện!");
@@ -120,13 +117,11 @@ function themNhieuTheoDoi(danhSachId) {
 
     if (!daCo) {
       const truyenChiTiet = typeof layTruyenTheoId === "function" ? layTruyenTheoId(idNum) : null;
-      
-      // Nếu không có hàm layTruyenTheoId, lấy trực tiếp từ duLieuTruyen/danhSachTruyen
       const truyen = truyenChiTiet || (typeof duLieuTruyen !== "undefined" ? duLieuTruyen.find(t => Number(t.id) === idNum) : null);
 
       if (truyen) {
         danhSach.push({
-          id: truyen.id,
+          id: Number(truyen.id),
           ten: truyen.ten || truyen.tenTruyen,
           anhBia: truyen.anhBia || truyen.hinhAnh,
           tacGia: truyen.tacGia || "Đang cập nhật",
