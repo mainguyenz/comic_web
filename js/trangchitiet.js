@@ -252,9 +252,7 @@ const thietLapChucNangTheoDoi = () => {
 };
 
 // CHỨC NĂNG: QUẢN LÝ DANH SÁCH CHAPTER
-// CHỨC NĂNG: QUẢN LÝ DANH SÁCH CHAPTER
 
-// Hàm phụ bọc thẻ <a> bên trong nút bằng JS thuần (không innerHTML, không đổi thẻ button)
 const bienNutThanhLinkInner = (nutElement) => {
   if (!nutElement) return null;
 
