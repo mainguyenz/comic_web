@@ -1,3 +1,12 @@
+/* 
+ Họ tên: Phạm Đoàn Minh Nhựt 
+ MSSV: B2407543 
+ Email: nhutB2407543@student.ctu.edu.vn
+ Tài liệu tham khảo: 
+ + BGR 
+ + TLTK3 
+ + w3school
+ */
 //Nút Cuộn Lên Đầu Trang
 function ganNutQuayLai() {
   const nutQuayLai = document.querySelector(".quaylai");
