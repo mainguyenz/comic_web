@@ -1,6 +1,5 @@
-// ==================================================
-// 1. QUẢN LÝ TÀI KHOẢN HẠN ĐỊNH
-// ==================================================
+
+// 1. QUẢN LÝ TÀI KHOẢN 
 
 function layTaiKhoanLuuTruHienTai() {
   try {
@@ -20,9 +19,7 @@ function layMaTaiKhoanTheoDoi() {
   return layMaTaiKhoanLuuTru();
 }
 
-// ==================================================
 // 2. TRUY XUẤT LOCALSTORAGE THEO DÕI (CƠ CHẾ GIỎ HÀNG)
-// ==================================================
 
 const KHOA_THEO_DOI_PREFIX = "theoDoi_";
 
@@ -54,9 +51,7 @@ function luuDanhSachTheoDoi(danhSach) {
   }
 }
 
-// ==================================================
 // 3. THAO TÁC THEO DÕI (KIỂM TRA / THÊM / XÓA OBJECT)
-// ==================================================
 
 function kiemTraDaTheoDoi(idTruyen) {
   const idNum = Number(idTruyen);

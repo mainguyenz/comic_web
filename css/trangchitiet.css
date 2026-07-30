@@ -777,9 +777,7 @@ body {
   font-size: 14px;
   text-align: center;
 }
-/* ===================================================
-   RESPONSIVE (3 MỐC KÍCH THƯỚC: 1024px, 768px, 480px)
-   =================================================== */
+   /*RESPONSIVE (3 MỐC KÍCH THƯỚC: 1024px, 768px, 480px)*/
 
 /* 1. Màn hình Laptop nhỏ / Tablet ngang (<= 1024px) */
 @media (max-width: 1024px) {

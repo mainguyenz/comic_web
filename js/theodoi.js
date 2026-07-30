@@ -1,6 +1,5 @@
-// ==================================================
+
 // 1. CẤU HÌNH TRANG THEO DÕI
-// ==================================================
 
 const CAU_HINH_THEO_DOI = Object.freeze({
   trangDangNhap: "login.html",
@@ -13,10 +12,6 @@ const duLieuTruyen =
   typeof danhSachTruyen !== "undefined" && Array.isArray(danhSachTruyen)
     ? danhSachTruyen
     : [];
-
-// ==================================================
-// 2. HÀM HỖ TRỢ DOM VÀ STORAGE
-// ==================================================
 
 function xoaNoiDungPhanTu(phanTu) {
   if (!phanTu) return;
@@ -35,9 +30,7 @@ function layTaiKhoanHienTai() {
   }
 }
 
-// ==================================================
 // 3. RENDER DANH SÁCH TRUYỆN THEO DÕI
-// ==================================================
 
 function renderDanhSachTheoDoi(tuKhoa = "") {
   const grid = document.getElementById("tdDanhSach");
@@ -144,9 +137,8 @@ function renderDanhSachTheoDoi(tuKhoa = "") {
   grid.appendChild(fragment);
 }
 
-// ==================================================
-// 4. SỰ KIỆN TƯƠNG TÁC DỮ LIỆU
-// ==================================================
+
+// SỰ KIỆN TƯƠNG TÁC DỮ LIỆU
 
 function ganSuKienDanhSachTheoDoi() {
   const grid = document.getElementById("tdDanhSach");
@@ -229,11 +221,7 @@ function ganTimKiem() {
     }
   });
 }
-
-// ==================================================
-// 5. GIAO DIỆN & TIỆN ÍCH Trang (Menu, Scroll)
-// ==================================================
-
+// TIỆN ÍCH TRANG
 function ganNutQuayLai() {
   const nut = document.getElementById("quaylai");
   if (!nut) return;
@@ -270,9 +258,6 @@ function ganMenu() {
   });
 }
 
-// ==================================================
-// 6. KHỞI CHẠY TRANG
-// ==================================================
 
 document.addEventListener("DOMContentLoaded", () => {
   renderDanhSachTheoDoi();

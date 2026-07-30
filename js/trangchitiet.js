@@ -1,7 +1,4 @@
-// ============================================================================
-// KHỞI TẠO TIỆN ÍCH CHUNG & XỬ LÝ LỖI (404)
-// ============================================================================
-
+// KHỞI TẠO TIỆN ÍCH CHUNG 
 const layThamSoURL = (tenThamSo) => {
   const params = new URLSearchParams(window.location.search);
   return params.get(tenThamSo);
@@ -35,6 +32,7 @@ const truyen = (idHopLe && typeof layTruyenTheoId === "function")
   ? layTruyenTheoId(idTruyen) 
   : null;
 
+//XỬ LÝ LỖI (404)
 const xuLyHienThiLoi404 = () => {
   const containerChinh = document.getElementById("container-truyen");
   const khungLoi = document.getElementById("khung-loi");
@@ -63,18 +61,12 @@ if (!truyen) {
   }
 }
 
-// ============================================================================
-// TRẠNG THÁI TOÀN CỤC (GLOBAL STATE)
-// ============================================================================
-
 let currentUser = safeParseJSON("currentUser", null);
 let thuTuChapter = "desc";
 let chapterMoRong = false;
 let saoDangChon = 0;
 
-// ============================================================================
 // CHỨC NĂNG: MÀN HÌNH CHI TIẾT TRUYỆN & MENU
-// ============================================================================
 
 const capNhatHienThiDiemDanhGia = () => {
   const lblDiemTb = document.getElementById("lblDiemTb");
@@ -204,9 +196,7 @@ const hienThiChiTietTruyen = () => {
   }
 };
 
-// ============================================================================
 // CHỨC NĂNG: THEO DÕI TRUYỆN
-// ============================================================================
 
 const capNhatGiaoDienTheoDoi = (daTheoDoi) => {
   const btnTheoDoi = document.getElementById("btnTheoDoi");
@@ -264,9 +254,7 @@ const thietLapChucNangTheoDoi = () => {
   });
 };
 
-// ============================================================================
 // CHỨC NĂNG: QUẢN LÝ DANH SÁCH CHAPTER
-// ============================================================================
 
 const renderDanhSachChapter = () => {
   const listEl = document.getElementById("danhSachChapter");
@@ -367,9 +355,7 @@ const thietLapTuongTacChapter = () => {
   }
 };
 
-// ============================================================================
 // CHỨC NĂNG: ĐÁNH GIÁ SAO VÀ BÌNH LUẬN
-// ============================================================================
 
 const khoBinhLuan = {};
 
@@ -536,9 +522,7 @@ const thietLapFormBinhLuan = () => {
   }
 };
 
-// ============================================================================
-// CHỨC NĂNG: GỢI Ý TRUYỆN LIÊN QUAN & TIỆN ÍCH TRANG
-// ============================================================================
+// CHỨC NĂNG: GỢI Ý TRUYỆN LIÊN QUAN 
 
 const renderTruyenLQuan = () => {
   const khuTruyenLQuan = document.getElementById("khuTruyenLQuan");
@@ -584,7 +568,7 @@ const renderTruyenLQuan = () => {
 
   khuTruyenLQuan.appendChild(fragment);
 };
-
+// TIỆN ÍCH TRANG
 const ganMenu = () => {
   const menuToggle = document.querySelector(".menu-toggle");
   const menu = document.querySelector(".menu");
@@ -686,10 +670,6 @@ const ganTimKiem = () => {
     }
   });
 };
-
-// ============================================================================
-// KHỞI TẠO ỨNG DỤNG (ENTRY POINT)
-// ============================================================================
 
 document.addEventListener("DOMContentLoaded", () => {
   ganMenu();
