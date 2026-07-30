@@ -1,6 +1,6 @@
 /* --- TRANG THEO DÕI TRUYỆN --- */
 
-/* Bố cục Lưới Lưới chứa danh sách truyện */
+/* Bố cục Lưới chứa danh sách truyện */
 .danh-sach-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
