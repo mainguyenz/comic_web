@@ -1,4 +1,4 @@
-//object
+
 const iconTieuChi = {
   luotXem: "👁",
   luotTheo: "❤",
@@ -37,11 +37,11 @@ function dinhDangChiSo(truyen, tieuChi) {
     chuoiSo = Number(giaTri).toFixed(1); //Ví dụ: 9->9.0 hoặc 9.75->9.8
   }
 
-  const spanIcon = document.createElement("span"); // tạo html span để hiển thị icon
+  const spanIcon = document.createElement("span"); 
   spanIcon.className = "xh-chiso-icon";
   spanIcon.textContent = iconTieuChi[tieuChi];
 
-  const spanText = document.createElement("span"); // tạo html để hiển thị số
+  const spanText = document.createElement("span"); 
   spanText.className = "xh-chiso-so";
   spanText.textContent = chuoiSo;
 

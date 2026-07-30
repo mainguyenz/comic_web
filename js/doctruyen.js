@@ -4,7 +4,6 @@ const duLieuChuong =
 
 
 
-
 // Kiểm tra danh sách truyện đã được nạp từ datachitiet.js hay chưa.
 const duLieuTruyen =
   typeof danhSachTruyen !== "undefined" && Array.isArray(danhSachTruyen)
@@ -405,6 +404,99 @@ function ganTimKiem() {
   });
 }
 
+const KHOA_GIAO_DIEN = "darkMode";
+
+const nutDoiMau = document.querySelector(".btnToggleDark");
+
+// Đổi giao diện
+function doiCheDoMau() {
+  document.body.classList.toggle("dark-mode");
+
+  const dangToi = document.body.classList.contains("dark-mode");
+
+  localStorage.setItem(KHOA_GIAO_DIEN, dangToi);
+
+  nutDoiMau.textContent = dangToi
+    ? "☀️ Chế độ sáng"
+    : "🌙 Chế độ tối";
+}
+
+function khoiTaoCheDoMau() {
+  const dangToi = localStorage.getItem(KHOA_GIAO_DIEN) === "true";
+
+  if (dangToi) {
+    document.body.classList.add("dark-mode");
+    nutDoiMau.textContent = "☀️ Chế độ sáng";
+  } else {
+    nutDoiMau.textContent = "🌙 Chế độ tối";
+  }
+}
+
+// ==================================================
+// THEO DÕI TRUYỆN TRONG TRANG ĐỌC
+// ==================================================
+
+// Cập nhật chữ, biểu tượng và màu sắc của tất cả nút theo dõi.
+function capNhatNutTheoDoiTrangDoc() {
+  const danhSachNut = document.querySelectorAll(".btn-theo-doi");
+
+  if (danhSachNut.length === 0) return;
+
+  // Kiểm tra truyện hiện tại đã nằm trong danh sách theo dõi hay chưa.
+  const daTheoDoi = kiemTraDaTheoDoi(idTruyen);
+
+  danhSachNut.forEach((nut) => {
+    const icon = nut.querySelector("i");
+    const noiDung = nut.querySelector("span");
+
+    // Thêm class khi đã theo dõi để CSS đổi màu nút.
+    nut.classList.toggle("da-theo-doi", daTheoDoi);
+
+    // Hỗ trợ trình đọc màn hình.
+    nut.setAttribute("aria-pressed", String(daTheoDoi));
+
+    // Đổi nội dung nút.
+    if (noiDung) {
+      noiDung.textContent = daTheoDoi
+        ? "Đã theo dõi"
+        : "Theo dõi";
+    }
+
+    // Đổi trái tim rỗng thành trái tim đặc.
+    if (icon) {
+      icon.classList.toggle("fa-regular", !daTheoDoi);
+      icon.classList.toggle("fa-solid", daTheoDoi);
+      icon.classList.add("fa-heart");
+    }
+  });
+}
+
+// Gắn sự kiện nhấn nút theo dõi.
+function khoiTaoNutTheoDoiTrangDoc() {
+  const danhSachNut = document.querySelectorAll(".btn-theo-doi");
+
+  if (danhSachNut.length === 0) return;
+
+  // Hiển thị trạng thái ban đầu khi vừa mở trang.
+  capNhatNutTheoDoiTrangDoc();
+
+  danhSachNut.forEach((nut) => {
+    nut.addEventListener("click", function () {
+      // Hàm này đã có trong file lưu trữ.
+      toggleTheoDoiId(idTruyen);
+
+      // Cập nhật lại nút sau khi thêm hoặc bỏ theo dõi.
+      capNhatNutTheoDoiTrangDoc();
+    });
+  });
+}
+
+
+
+nutDoiMau.addEventListener("click", doiCheDoMau);
+
+// Khởi tạo khi mở trang
+khoiTaoCheDoMau();
 // Hàm chính khởi tạo toàn bộ chức năng của trang đọc truyện. 
 //Tránh khởi tạo menu chapter, thanh điều hướng và chức năng khác khi truyện hoặc chapter không tồn tại.
 function khoiTaoTrangDocTruyen() {
@@ -427,6 +519,8 @@ function khoiTaoTrangDocTruyen() {
   ganDieuHuongChapter();
   renderNoiDungChapter();
   renderDanhSachChapter();
+  // Khởi tạo nút theo dõi sau khi đã tìm thấy truyện.
+  khoiTaoNutTheoDoiTrangDoc();
 }
 
 document.addEventListener("DOMContentLoaded", khoiTaoTrangDocTruyen);

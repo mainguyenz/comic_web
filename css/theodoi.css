@@ -1,39 +1,314 @@
-/* Styling cho phần hiển thị thông báo "trống" (khi không có dữ liệu) */
-.td-rong {
-  color: #fefdfd;          /* Màu chữ (trắng hơi ngả đục nhẹ) */
-  text-align: center;      /* Căn giữa chữ theo chiều ngang */
-  padding: 60px 20px;      /* Khoảng cách nội dung: trên/dưới 60px, trái/phải 20px */
-  font-size: 18px;         /* Kích thước phông chữ 18px */
+/* --- TRANG THEO DÕI TRUYỆN --- */
+
+/* Bố cục Lưới Lưới chứa danh sách truyện */
+.danh-sach-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+  padding: 10px 0;
 }
 
-/* Khung chứa thẻ (Card) - đóng vai trò làm mốc tọa độ */
+/* Thẻ Truyện */
 .td-the {
-  position: relative;      /* Đặt làm mốc tọa độ cho các phần tử con dùng position: absolute */
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgb(202, 199, 199); 
+  border: 1px solid rgba(251, 251, 251, 0.25);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Styling cho nút "Bỏ/Xóa" (ví dụ: nút hình tròn đóng/xóa thẻ) */
+.td-the:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 25px rgba(134, 98, 242, 0.35);
+  border-color: rgba(134, 98, 242, 0.6);
+}
+
+.td-the a {
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.td-the img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.td-the:hover img {
+  transform: scale(1.03);
+}
+
+/* Tên truyện và Tác giả */
+.td-the h3 {
+  margin: 10px 12px 4px 12px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #0e0e0e !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.td-the span {
+  margin: 0 12px 12px 12px;
+  font-size: 12px;
+  color: #0d0d0e !important;
+  opacity: 0.8;
+  display: block;
+}
+
+/* Nút Bỏ Theo Dõi (✕) */
 .td-nut-bo {
-  position: absolute;      /* Định vị tuyệt đối theo khung cha (.td-the) */
-  top: 10px;               /* Cách mép trên của khung cha 10px */
-  right: 10px;             /* Cách mép phải của khung cha 10px */
-  z-index: 5;              /* Độ ưu tiên hiển thị (nằm đè lên các phần tử khác bên dưới) */
-  width: 30px;             /* Chiều rộng nút 30px */
-  height: 30px;            /* Chiều cao nút 30px */
-  border-radius: 50%;      /* Bo tròn 50% để tạo thành nút hình tròn */
-  border: none;            /* Xóa đường viền mặc định của nút */
-  background: rgba(0, 0, 0, 0.55); /* Màu nền đen bán trong suốt (độ đục 55%) */
-  color: white;            /* Màu icon hoặc chữ bên trong nút (màu trắng) */
-  font-size: 15px;         /* Kích thước chữ/icon trong nút 15px */
-  font-weight: 700;        /* Độ đậm của chữ/icon (Bold) */
-  cursor: pointer;         /* Đổi con trỏ chuột thành hình bàn tay khi rê vào */
-  display: flex;           /* Bật Flexbox để căn chỉnh icon bên trong nút */
-  align-items: center;     /* Căn giữa icon theo chiều dọc */
-  justify-content: center; /* Căn giữa icon theo chiều ngang */
-  transition: 0.25s;       /* Thời gian mượt mà khi chuyển đổi hiệu ứng hover (0.25 giây) */
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
 }
 
-/* Hiệu ứng khi rê chuột (hover) vào nút "Bỏ/Xóa" */
 .td-nut-bo:hover {
-  background: rgb(239, 68, 68); /* Đổi màu nền sang màu đỏ tươi */
-  transform: scale(1.1);         /* Phóng to nút lên 110% (tăng 10% kích thước) */
+  background: #ef4444;
+  transform: scale(1.15) rotate(90deg);
+}
+
+.td-rong {
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  padding: 50px 20px;
+  font-size: 15px;
+}
+
+/* --- Thanh Tìm Kiếm Thêm Nhanh Truyện --- */
+.tim-kiem-theo-doi-container {
+  position: relative;
+  max-width: 460px;
+  margin: 0 auto 25px auto;
+}
+
+.o-nhap-tim-kiem {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.o-nhap-tim-kiem .icon-tim {
+  position: absolute;
+  left: 14px;
+  color: rgb(196, 181, 253);
+  font-size: 15px;
+  pointer-events: none;
+}
+
+#inputTimKiemToanBo {
+  width: 100%;
+  padding: 10px 16px 10px 38px;
+  border-radius: 25px;
+  border: 1px solid rgba(134, 98, 242, 0.4);
+  outline: none;
+  font-size: 14px;
+  font-family: inherit;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+}
+
+#inputTimKiemToanBo::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+#inputTimKiemToanBo:focus {
+  border-color: rgb(134, 98, 242);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 15px rgba(134, 98, 242, 0.35);
+}
+
+/* --- Menu Gợi Ý Kết Quả Thả Xuống (Dark Theme Đồng Bộ) --- */
+.dropdown-theo-doi-ketqua,
+#dropdownKetQuaTheoDoi {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: #1d1d1d;
+  border: 1px solid rgba(134, 98, 242, 0.35);
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 100;
+  padding: 0;
+}
+
+/* Thanh cuộn nhỏ gọn màu tím */
+#dropdownKetQuaTheoDoi::-webkit-scrollbar {
+  width: 5px;
+}
+
+#dropdownKetQuaTheoDoi::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 10px;
+}
+
+#dropdownKetQuaTheoDoi::-webkit-scrollbar-thumb {
+  background: rgba(134, 98, 242, 0.5);
+  border-radius: 10px;
+}
+
+#dropdownKetQuaTheoDoi::-webkit-scrollbar-thumb:hover {
+  background: rgb(134, 98, 242);
+}
+
+/* Từng item truyện */
+.dropdown-item-truyen {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-item-truyen:last-child {
+  border-bottom: none;
+}
+
+.dropdown-item-truyen:hover {
+  background: rgba(134, 98, 242, 0.18);
+}
+
+/* Thông tin bên trái */
+.item-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  flex: 1;
+  min-width: 0;
+}
+
+.item-info img {
+  width: 34px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid rgba(134, 98, 242, 0.3);
+  flex-shrink: 0;
+}
+
+.item-text {
+  min-width: 0;
+}
+
+.item-text .item-ten {
+  font-weight: 600;
+  font-size: 13.5px;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Khối bên phải (Checkbox / Badge) */
+.item-right-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 10px;
+  flex-shrink: 0;
+}
+
+.item-right-action input[type="checkbox"],
+.chk-truyen {
+  width: 17px;
+  height: 17px;
+  cursor: pointer;
+  accent-color: rgb(134, 98, 242);
+}
+
+.badge-da-theo-doi {
+  background: rgba(134, 98, 242, 0.25);
+  border: 1px solid rgba(134, 98, 242, 0.4);
+  color: rgb(196, 181, 253);
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.dropdown-rong {
+  padding: 16px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+}
+
+/* --- Footer cố định ở đáy Dropdown --- */
+.dropdown-footer-actions {
+  position: sticky;
+  bottom: 0;
+  background: #181818;
+  padding: 8px 14px;
+  border-top: 1px solid rgba(134, 98, 242, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+}
+
+#thongBaoSoLuongChon {
+  color: rgb(196, 181, 253) !important;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.btn-them-tat-ca {
+  background: rgb(134, 98, 242);
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-them-tat-ca:hover:not(:disabled) {
+  background: rgb(110, 75, 210);
+  box-shadow: 0 3px 10px rgba(134, 98, 242, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-them-tat-ca:disabled {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.3);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }

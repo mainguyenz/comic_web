@@ -9,7 +9,7 @@
     />
     <link rel="shortcut icon" href="img/logo.png" type="image/x-icon" />
     <link rel="stylesheet" href="css/taikhoan.css" />
-    <title>Comic_web</title>
+    <title>Comic_web - Theo Dõi Truyện</title>
     <link rel="stylesheet" href="css/trangchu.css" />
     <link rel="stylesheet" href="css/theodoi.css" />
   </head>
@@ -58,6 +58,7 @@
         <input type="text" id="inputsearch" placeholder="Tìm truyện...." />
         <div id="goiYTimKiem" class="goi-y-tim-kiem"></div>
       </div>
+
       <!-- Hiện khi chưa đăng nhập -->
       <nav id="khuChuaDangNhap">
         <a href="login.html">Đăng Nhập</a>
@@ -75,24 +76,19 @@
         <div id="bangTaiKhoan" class="bang-tai-khoan tai-khoan-an">
           <h3>Thông tin tài khoản</h3>
           <hr />
-
           <p>
             <strong>Họ tên:</strong>
             <span id="hoTenTaiKhoan"></span>
           </p>
-
           <p>
             <strong>Email:</strong>
             <span id="emailTaiKhoan"></span>
           </p>
-
           <p>
             <strong>Ngày tham gia:</strong>
             <span id="ngayTaoTaiKhoan"></span>
           </p>
-
           <hr />
-
           <button id="nutDangXuat" class="nut-dang-xuat" type="button">
             <i class="bi bi-box-arrow-right"></i>
             Đăng xuất
@@ -105,12 +101,21 @@
       <section class="section">
         <h2>🔔 Truyện Đang Theo Dõi</h2>
 
-        <p id="tdRong" class="td-rong" style="display: none">
-          Bạn chưa theo dõi truyện nào. Hãy vào 1 truyện và bấm nút "🔔 Theo
-          Dõi" nhé!
-        </p>
+        <!-- Thanh tìm kiếm truyện để thêm vào theo dõi -->
+        <div class="tim-kiem-theo-doi-container">
+          <div class="o-nhap-tim-kiem">
+            <i class="bi bi-search icon-tim"></i>
+            <input type="text" id="inputTimKiemToanBo" placeholder="Tìm kiếm tất cả truyện để thêm vào theo dõi..." />
+          </div>
+          <div id="dropdownKetQuaTheoDoi"></div>
+        </div>
 
-        <div class="khungtruyen" id="tdDanhSach"></div>
+        <!-- Lưới hiển thị danh sách truyện đã theo dõi -->
+        <div id="tdDanhSach" class="danh-sach-grid"></div>
+
+        <p id="tdRong" class="td-rong" style="display: none">
+          Bạn chưa theo dõi truyện nào. Hãy chọn truyện từ thanh tìm kiếm trên hoặc vào trang chi tiết để bấm nút "🔔 Theo Dõi" nhé!
+        </p>
       </section>
     </main>
 
@@ -144,7 +149,8 @@
         </div>
       </div>
     </footer>
-    <button class="quaylai" id="quaylai">⬆</button>
+
+    <button type="button" id="quaylai" class="quaylai">⬆</button>
 
     <script src="js/datachitiet.js"></script>
     <script src="js/luutru.js"></script>

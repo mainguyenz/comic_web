@@ -1,7 +1,4 @@
-// ============================================================================
-// KHỞI TẠO TIỆN ÍCH CHUNG & XỬ LÝ LỖI (404)
-// ============================================================================
-
+// KHỞI TẠO TIỆN ÍCH CHUNG 
 const layThamSoURL = (tenThamSo) => {
   const params = new URLSearchParams(window.location.search);
   return params.get(tenThamSo);
@@ -35,6 +32,7 @@ const truyen = (idHopLe && typeof layTruyenTheoId === "function")
   ? layTruyenTheoId(idTruyen) 
   : null;
 
+// XỬ LÝ LỖI (404)
 const xuLyHienThiLoi404 = () => {
   const containerChinh = document.getElementById("container-truyen");
   const khungLoi = document.getElementById("khung-loi");
@@ -55,28 +53,15 @@ const xuLyHienThiLoi404 = () => {
   }
 };
 
-if (!truyen) {
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", xuLyHienThiLoi404);
-  } else {
-    xuLyHienThiLoi404();
-  }
-}
-
-// ============================================================================
-// TRẠNG THÁI TOÀN CỤC (GLOBAL STATE)
-// ============================================================================
-
 let currentUser = safeParseJSON("currentUser", null);
 let thuTuChapter = "desc";
 let chapterMoRong = false;
 let saoDangChon = 0;
 
-// ============================================================================
 // CHỨC NĂNG: MÀN HÌNH CHI TIẾT TRUYỆN & MENU
-// ============================================================================
 
 const capNhatHienThiDiemDanhGia = () => {
+  if (!truyen) return;
   const lblDiemTb = document.getElementById("lblDiemTb");
   const dungTichSao = document.getElementById("dungTichSao");
   const diemSo = Number(truyen.diemDanhGia) || 0.0;
@@ -93,6 +78,7 @@ const capNhatHienThiDiemDanhGia = () => {
 };
 
 const capNhatDiemDanhGiaTrungBinh = (dsBinhLuan) => {
+  if (!truyen) return;
   const coDanhGia = dsBinhLuan.filter((bl) => bl.saoDanhGia > 0);
   if (coDanhGia.length === 0) return;
   const tong = coDanhGia.reduce((acc, bl) => acc + bl.saoDanhGia, 0);
@@ -101,6 +87,7 @@ const capNhatDiemDanhGiaTrungBinh = (dsBinhLuan) => {
 };
 
 const hienThiChiTietTruyen = () => {
+  if (!truyen) return;
   document.title = `${truyen.ten} - Comic Web`;
 
   const brTenTruyen = document.getElementById("breadcrumbTenTruyen");
@@ -204,11 +191,10 @@ const hienThiChiTietTruyen = () => {
   }
 };
 
-// ============================================================================
 // CHỨC NĂNG: THEO DÕI TRUYỆN
-// ============================================================================
 
 const capNhatGiaoDienTheoDoi = (daTheoDoi) => {
+  if (!truyen) return;
   const btnTheoDoi = document.getElementById("btnTheoDoi");
   const lblLuotTheoDoi = document.getElementById("lblLuotTheoDoi");
 
@@ -246,6 +232,7 @@ const capNhatGiaoDienTheoDoi = (daTheoDoi) => {
 };
 
 const thietLapChucNangTheoDoi = () => {
+  if (!truyen) return;
   const btnTheoDoi = document.getElementById("btnTheoDoi");
   if (!btnTheoDoi) return;
   const daTheoDoi = typeof kiemTraDaTheoDoi === "function" 
@@ -264,11 +251,29 @@ const thietLapChucNangTheoDoi = () => {
   });
 };
 
-// ============================================================================
 // CHỨC NĂNG: QUẢN LÝ DANH SÁCH CHAPTER
-// ============================================================================
+
+const thietLapNutDocTruyen = () => {
+  const btnDocTuDau = document.getElementById("btnDocTuDau");
+  const btnDocMoiNhat = document.getElementById("btnDocMoiNhat");
+
+  const xuLyChuyenTrang = function () {
+    const url = this.dataset.url;
+    if (url) {
+      window.location.href = url;
+    }
+  };
+
+  if (btnDocTuDau) {
+    btnDocTuDau.addEventListener("click", xuLyChuyenTrang);
+  }
+  if (btnDocMoiNhat) {
+    btnDocMoiNhat.addEventListener("click", xuLyChuyenTrang);
+  }
+};
 
 const renderDanhSachChapter = () => {
+  if (!truyen) return;
   const listEl = document.getElementById("danhSachChapter");
   const btnXemThem = document.getElementById("btnXemThemChapter");
   const chapterDem = document.getElementById("chapterDem");
@@ -293,8 +298,12 @@ const renderDanhSachChapter = () => {
   const chapDau = mangChapter.reduce((min, c) => (c.so < min.so ? c : min), mangChapter[0]);
   const chapMoiNhat = mangChapter.reduce((max, c) => (c.so > max.so ? c : max), mangChapter[0]);
 
-  if (btnDocTuDau) btnDocTuDau.href = `doctruyen.html?id=${idTruyen}&chapter=${chapDau.so}`;
-  if (btnDocMoiNhat) btnDocMoiNhat.href = `doctruyen.html?id=${idTruyen}&chapter=${chapMoiNhat.so}`;
+  if (btnDocTuDau && chapDau) {
+    btnDocTuDau.dataset.url = `doctruyen.html?id=${idTruyen}&chapter=${chapDau.so}`;
+  }
+  if (btnDocMoiNhat && chapMoiNhat) {
+    btnDocMoiNhat.dataset.url = `doctruyen.html?id=${idTruyen}&chapter=${chapMoiNhat.so}`;
+  }
 
   mangChapter.sort((a, b) => (thuTuChapter === "desc" ? b.so - a.so : a.so - b.so));
 
@@ -367,9 +376,7 @@ const thietLapTuongTacChapter = () => {
   }
 };
 
-// ============================================================================
 // CHỨC NĂNG: ĐÁNH GIÁ SAO VÀ BÌNH LUẬN
-// ============================================================================
 
 const khoBinhLuan = {};
 
@@ -536,9 +543,7 @@ const thietLapFormBinhLuan = () => {
   }
 };
 
-// ============================================================================
-// CHỨC NĂNG: GỢI Ý TRUYỆN LIÊN QUAN & TIỆN ÍCH TRANG
-// ============================================================================
+// CHỨC NĂNG: GỢI Ý TRUYỆN LIÊN QUAN 
 
 const renderTruyenLQuan = () => {
   const khuTruyenLQuan = document.getElementById("khuTruyenLQuan");
@@ -585,6 +590,7 @@ const renderTruyenLQuan = () => {
   khuTruyenLQuan.appendChild(fragment);
 };
 
+// TIỆN ÍCH TRANG
 const ganMenu = () => {
   const menuToggle = document.querySelector(".menu-toggle");
   const menu = document.querySelector(".menu");
@@ -636,10 +642,10 @@ const ganTimKiem = () => {
 
     if (typeof danhSachTruyen === "undefined") return;
 
-    const ketQua = danhSachTruyen.filter((truyen) => {
-      const ten = (truyen.ten || "").toLowerCase();
-      const tacGia = (truyen.tacGia || "").toLowerCase();
-      const theLoai = (truyen.theLoai || []).join(" ").toLowerCase();
+    const ketQua = danhSachTruyen.filter((t) => {
+      const ten = (t.ten || "").toLowerCase();
+      const tacGia = (t.tacGia || "").toLowerCase();
+      const theLoai = (t.theLoai || []).join(" ").toLowerCase();
 
       return (
         ten.includes(tuKhoa) ||
@@ -656,17 +662,17 @@ const ganTimKiem = () => {
     } else {
       const fragment = document.createDocumentFragment();
 
-      ketQua.forEach((truyen) => {
+      ketQua.forEach((t) => {
         const link = document.createElement("a");
-        link.href = `trangchitiet.html?id=${truyen.id}`;
+        link.href = `trangchitiet.html?id=${t.id}`;
         link.className = "item-goi-y";
 
         const img = document.createElement("img");
-        img.src = truyen.anhBia;
-        img.alt = truyen.ten;
+        img.src = t.anhBia;
+        img.alt = t.ten;
 
         const ten = document.createElement("span");
-        ten.appendChild(taoTextNode(truyen.ten));
+        ten.appendChild(taoTextNode(t.ten));
 
         link.appendChild(img);
         link.appendChild(ten);
@@ -687,17 +693,20 @@ const ganTimKiem = () => {
   });
 };
 
-// ============================================================================
-// KHỞI TẠO ỨNG DỤNG (ENTRY POINT)
-// ============================================================================
-
 document.addEventListener("DOMContentLoaded", () => {
   ganMenu();
   ganTimKiem();
   ganNutQuayLai();
+
+  if (!truyen) {
+    xuLyHienThiLoi404();
+    return;
+  }
+
   hienThiChiTietTruyen();
   thietLapChucNangTheoDoi();
   renderDanhSachChapter();
+  thietLapNutDocTruyen();
   thietLapTuongTacChapter();
   renderTruyenLQuan();
   thietLapDanhGiaSao();
