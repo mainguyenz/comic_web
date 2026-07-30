@@ -170,7 +170,8 @@ main {
 .home,
 .menus,
 .check__line,
-.btnToggleDark {
+.btnToggleDark,
+.btn-theo-doi {
   /* Dùng Flexbox để căn giữa chữ/icon bên trong */
   display: flex;
   justify-content: center;
@@ -205,12 +206,24 @@ main {
   font-weight: bold;
 }
 
+/* PHẦN THEO DÕI */
+/* Trái tim khi chưa theo dõi */
+.btn-theo-doi i {
+  color: white;
+}
+
+/* Trái tim khi đã theo dõi */
+.btn-theo-doi.da-theo-doi i {
+  color: red;
+}
+
 /* HIỆU ỨNG RÊ CHUỘT LÊN NÚT NAV */
 .home:hover,
 .menus:hover,
 .check__line:hover,
 .arrow-box:hover,
-.btnToggleDark:hover {
+.btnToggleDark:hover,
+.btn-theo-doi.btn-theo-doi:hover {
   background-color: #3b82f6;
 
   /* Nổi nhẹ lên trên 5px */
@@ -397,7 +410,9 @@ body.dark-mode * {
   .home,
   .menus,
   .check__line,
-  .btnToggleDark {
+  .btnToggleDark,
+  .btn-theo-doi,
+  .btn-theo-doi {
     min-width: 35px;
     height: 35px;
     padding: 0 10px;
@@ -447,7 +462,9 @@ body.dark-mode * {
   .menus,
   .arrow-box,
   .check__line,
-  .btnToggleDark {
+  .btnToggleDark,
+  .btn-theo-doi,
+  .btn-theo-doi {
     min-width: 40px;
     height: 40px;
     font-size: 9px;
