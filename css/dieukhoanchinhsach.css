@@ -1,60 +1,109 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-body {
-  background: linear-gradient(rgb(169, 168, 168), rgb(90, 78, 121));
-  background-attachment: fixed;
-  min-height: 100vh;
-  color: white;
-}
-header {
-  background: rgb(58, 58, 80);
-  padding: 25px;
-  text-align: center;
-  border-bottom: 2px solid rgb(134, 98, 242);
-}
-header h1 {
-  font-size: 36px;
-  color: white;
-}
-section {
-  position: relative;
-  max-width: 550px;
-  margin: 50px auto;
+/*
+ Họ tên: Phạm Đoàn Minh Nhựt
+ MSSV: B2407543
+ Email: nhutB2407543@student.ctu.edu.vn
+ Tài liệu tham khảo:
+ + BGR
+ + TLTK3
+ + w3school
+ */
+main.chinh_sach {
+  flex: 1;
+  width: 90%;
+  max-width: 900px;
+  margin: 60px auto;
   padding: 40px;
   background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(10px);
   border-radius: 20px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
-section p {
+.tai-khoan {
+  position: relative;
+}
+.tai-khoan-an {
+  display: none !important;
+}
+.nut-tai-khoan {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+}
+.bang-tai-khoan {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 280px;
+  padding: 18px;
+  border-radius: 12px;
+  background: #202020;
+  color: #fff;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+  z-index: 9999;
+}
+.bang-tai-khoan h3 {
+  margin-bottom: 10px;
+}
+.bang-tai-khoan hr {
+  border: 0;
+  border-top: 1px solid #444;
+  margin: 14px 0;
+}
+.bang-tai-khoan p {
+  margin: 8px 0;
+}
+.nut-dang-xuat {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: rgb(134, 98, 242);
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+}
+.nut-dang-xuat:hover {
+  background: #c62828;
+}
+.chinh_sach h1 {
+  text-align: center;
+  color: #fff;
+  font-size: 40px;
+  margin-bottom: 30px;
+}
+.chinh_sach p {
+  color: #f1f5f9;
   font-size: 18px;
   line-height: 1.9;
-  color: #f1f5f9;
-  margin-bottom: 20px;
   text-align: justify;
+  margin-bottom: 18px;
 }
-section p:last-child {
+.chinh_sach p:last-child {
   margin-bottom: 0;
 }
-.back-home {
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  width: 45px;
-  height: 45px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgb(167, 142, 244);
-  color: white;
-  text-decoration: none;
-  border-radius: 50px;
-  transition: 0.3s;
-}
-.back-home:hover {
-  background: rgb(115, 80, 220);
+@media (max-width: 768px) {
+  main.chinh_sach {
+    width: 95%;
+    padding: 25px;
+    margin: 35px auto;
+  }
+  .chinh_sach {
+    width: 95%;
+    padding: 25px;
+    margin: 35px auto;
+  }
+
+  .chinh_sach h1 {
+    font-size: 30px;
+  }
+
+  .chinh_sach p {
+    font-size: 16px;
+  }
 }
