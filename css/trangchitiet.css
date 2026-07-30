@@ -525,12 +525,10 @@ body {
   transform: translateY(-5px);
 }
 
-/* Áp dụng tỉ lệ 2:3 chuẩn cho thẻ truyện liên quan */
 .lien-quan-card img{
     display:block;
     width:100%;
-    height:auto;
-    aspect-ratio:2/3;
+    height:320px;
     object-fit:cover;
 }
 
@@ -539,7 +537,6 @@ body {
   align-items: center;
   justify-content: center;
   width: 100%;
-  aspect-ratio: 2 / 3;
   background: rgb(90, 78, 121);
   font-size: 48px;
 }
@@ -558,7 +555,7 @@ body {
   margin-bottom: 4px;
   color: #1c1c24;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .lien-quan-tacgia {
@@ -871,11 +868,10 @@ body {
   /* Truyện liên quan: 1 cột */
   .lien-quan-grid {
     grid-template-columns: 1fr;
-    gap: 15px;
   }
 
   .lien-quan-card {
-    max-width: 280px;
+  
     width: 100%;
     margin: 0 auto;
   }
