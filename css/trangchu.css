@@ -29,7 +29,7 @@ main {
 
 header {
   position: sticky; /* Cố định header ở đỉnh màn hình */
-  top: 0; /* Dính chặt vào cạnh trên cùng */
+  top: 0;
   z-index: 1000; /* Đảm bảo header luôn nổi lên trên các thành phần khác */
   background: rgb(58, 58, 80);
   display: flex; /* Dùng Flexbox để dàn hàng ngang */
@@ -39,13 +39,11 @@ header {
   border-bottom: 2px solid rgb(134, 98, 242);
 }
 
-/* Khung chứa Logo */
 .logo {
   display: flex; /* Dùng flex để căn chỉnh ảnh bên trong */
   align-items: center; /* Căn giữa hình ảnh theo chiều dọc */
 }
 
-/* Hình ảnh Logo */
 .logo img {
   height: 70px;
   width: auto;
@@ -65,15 +63,13 @@ header {
   position: relative; /* Làm mốc tọa độ cho menu con (.theloai_content) căn chỉnh theo */
 }
 
-/* Thẻ liên kết của "Thể loại" */
 .theloai > a {
   font-weight: 500;
   color: white;
   text-decoration: none;
-  transition: 0.3s; /* Hiệu ứng mượt kéo dài 0.3 giây khi đổi trạng thái */
+  transition: 0.3s;
 }
 
-/* Hiệu ứng rê chuột vào liên kết "Thể loại" */
 .theloai > a:hover {
   color: #93c5fd;
 }
@@ -91,7 +87,7 @@ header {
   padding: 20px;
   background: rgb(202, 199, 199);
   border-radius: 10px;
-  display: none; /* Ẩn mặc định */
+  display: none; /* Ẩn */
   grid-template-columns: repeat(
     4,
     1fr
@@ -112,7 +108,7 @@ header {
   text-decoration: none;
   padding: 8px 10px;
   border-radius: 6px;
-  transition: 0.3s; /* Hiệu ứng chuyển màu mượt 0.3s */
+  transition: 0.3s;
 }
 
 /* Hiệu ứng rê chuột vào từng thể loại nhỏ */
@@ -132,17 +128,13 @@ nav a {
   font-weight: 500;
   color: white;
   text-decoration: none;
-  transition: 0.3s; /* Hiệu ứng chuyển màu 0.3s */
+  transition: 0.3s;
 }
 
-/* Rê chuột vào link điều hướng */
 nav a:hover {
   color: #93c5fd;
 }
-/* ==========================================================================
-   THANH TÌM KIẾM VÀ GỢI Ý TÌM KIẾM (SEARCH & SUGGESTIONS)
-   ========================================================================== */
-/* Khung chứa thanh tìm kiếm */
+
 .search {
   display: flex; /* Đặt dạng Flexbox */
   gap: 10px;
@@ -160,7 +152,7 @@ nav a:hover {
   border-radius: 10px;
   overflow-y: auto; /* Bật thanh cuộn dọc khi danh sách dài vượt max-height */
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-  display: none; /* Ẩn mặc định (chỉ hiển thị khi dùng JS trigger) */
+  display: none; /* Ẩn mặc định */
   z-index: 1000; /* Hiển thị nổi lên trên */
 }
 
@@ -172,10 +164,9 @@ nav a:hover {
   padding: 12px 15px;
   text-decoration: none;
   color: black;
-  border-bottom: 1px solid #ddd; /* Đường gạch xám phân cách các item */
+  border-bottom: 1px solid #ddd;
 }
 
-/* Hiệu ứng khi di chuột qua item gợi ý */
 .item-goi-y:hover {
   background: #f3f3f3;
 }
@@ -205,7 +196,7 @@ nav a:hover {
   padding: 15px 25px;
   border-radius: 30px;
   border: none;
-  outline: none; /* Bỏ đường viền xanh khi nhấp chuột vào (focus) */
+  outline: none; /* Bỏ đường viền xanh khi nhấp chuột vào */
   /* Đồng Bộ Hóa */
   width: 100%;
   max-width: 250px;
@@ -216,7 +207,7 @@ nav a:hover {
     linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
     url("../img/bg1.png"); /* Đường dẫn tới ảnh nền */
   background-position: center; /* Căn giữa ảnh nền */
-  background-size: cover; /* Co giãn ảnh phủ kín toàn bộ khung */
+  background-size: cover;
   display: flex; /* Flexbox để căn nội dung giữa banner */
   justify-content: center; /* Căn giữa theo chiều ngang */
   align-items: center; /* Căn giữa theo chiều dọc */
@@ -229,13 +220,11 @@ nav a:hover {
   /* -- */
 }
 
-/* Khung chứa văn bản nội dung trên Banner */
 .content_background {
   max-width: 900px;
   text-align: center;
 }
 
-/* Tiêu đề chính trên Banner */
 .content_background h1 {
   font-size: 60px;
   margin-bottom: 20px;
@@ -245,7 +234,6 @@ nav a:hover {
     "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif; /* Cấu hình bộ font chữ riêng cho tiêu đề */
 }
 
-/* Nút kêu gọi hành động (CTA) trên Banner */
 .content_background button {
   background: rgb(251, 251, 251);
   padding: 18px 40px;
@@ -253,25 +241,21 @@ nav a:hover {
   border-radius: 40px;
   font-size: 18px;
   font-weight: 600;
-  cursor: pointer; /* Đổi con trỏ chuột thành hình bàn tay khi trỏ vào */
-  transition: 0.3s; /* Hiệu ứng chuyển mượt 0.3s */
+  cursor: pointer;
+  transition: 0.3s;
   box-shadow: 0 2px 25px rgba(0, 0, 0, 0.35);
 }
 
-/* Hiệu ứng di chuột vào nút CTA */
 .content_background button:hover {
-  background: rgb(134, 98, 242); /* Đổi nền sang màu tím sáng */
-  color: white; /* Đổi chữ sang màu trắng */
+  background: rgb(134, 98, 242);
+  color: white;
 }
-/* ==========================================================================
-   BỐ CỤC CÁC SECTION VÀ DANH SÁCH DANH MỤC / NÚT
-   ========================================================================== */
+
 /* Định dạng chung cho một phân đoạn nội dung (Section) */
 .section {
   padding: 30px 6%;
 }
 
-/* Tiêu đề của từng Section */
 .section h2 {
   margin-bottom: 20px;
   font-size: 40px;
@@ -279,32 +263,25 @@ nav a:hover {
   text-shadow: 0px 2px 25px rgba(0, 0, 0, 0.35);
 }
 
-/* Danh sách nút lọc/thể loại dạng hàng ngang */
 .list {
   display: flex; /* Sắp xếp dạng hàng ngang */
-  gap: 20px; /* Khoảng cách giữa các nút là 20px */
+  gap: 20px;
 }
 
-/* Các thẻ liên kết dạng nút bấm trong danh sách */
 .list a {
-  border-radius: 30px; /* Bo góc tròn */
-  background: rgba(255, 255, 255, 0.2); /* Nền trắng trong suốt 20% (Kính mờ) */
-  border: 1px solid rgba(255, 255, 255, 0.2); /* Viền mờ nhẹ */
-  cursor: pointer; /* Bàn tay chỉ trỏ */
-  color: white; /* Chữ trắng */
-  padding: 10px 25px; /* Khoảng cách đệm trong nút */
-  transition: 0.3s; /* Hiệu ứng mượt 0.3s */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35); /* Đổ bóng nhẹ */
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  color: white;
+  padding: 10px 25px;
+  transition: 0.3s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
 }
 
-/* Di chuột vào nút trong danh sách */
 .list a:hover {
-  background: rgb(134, 98, 242); /* Chuyển nền sang màu tím */
+  background: rgb(134, 98, 242);
 }
-
-/* ==========================================================================
-   6. LƯỚI HIỂN THỊ DANH SÁCH TRUYỆN (GRID CARD)
-   ========================================================================== */
 
 /* Bố cục lưới tự động đáp ứng (Responsive Grid) */
 .khungtruyen {
@@ -313,137 +290,116 @@ nav a:hover {
     auto-fill,
     minmax(250px, 1fr)
   ); /* Tự động điền cột, kích thước tối thiểu mỗi thẻ là 250px, tự dãn tối đa 1fr */
-  gap: 20px; /* Khoảng cách giữa các phần tử card truyện là 20px */
+  gap: 20px;
 }
 
 /* Giới hạn chiều cao danh sách truyện đề xuất */
 .khungtruyen_decu {
-  max-height: 950px; /* Chiều cao tối đa 950px */
+  max-height: 950px;
   overflow: hidden; /* Giấu phần truyện vượt quá chiều cao */
-  transition: 0.5s; /* Hiệu ứng khi dùng JS mở rộng chiều cao */
+  transition: 0.5s;
 }
 
-/* Khung thẻ chứa thông tin của một bộ truyện */
 .khungtruyenrieng {
-  background: rgb(202, 199, 199); /* Màu nền thẻ màu xám nhạt */
-  border-radius: 20px; /* Bo góc thẻ 20px */
+  background: rgb(202, 199, 199);
+  border-radius: 20px;
   overflow: hidden; /* Cắt phần ảnh tràn góc bo */
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35); /* Bóng đổ đậm xung quanh thẻ */
-  transition: 0.3s; /* Hiệu ứng mượt cho transform */
-  width: 100%; /* Chiều rộng 100% ô Grid */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+  transition: 0.3s;
+  width: 100%;
 }
 
-/* Ảnh bìa của từng truyện */
 .khungtruyenrieng img {
-  width: 100%; /* Phủ kín chiều rộng thẻ */
-  height: 320px; /* Cao cố định 320px */
+  width: 100%;
+  height: 320px;
   object-fit: cover; /* Giữ tỉ lệ ảnh, tự cắt phần thừa */
   display: block; /* Loại bỏ khoảng hở đáy ảnh */
 }
 
-/* Hiệu ứng phóng to nhẹ khi rê chuột vào thẻ truyện */
 .khungtruyenrieng:hover {
   transform: scale(1.03); /* Phóng to 103% */
 }
 
-/* Tên truyện */
 .khungtruyenrieng h3 {
-  padding: 15px; /* Đệm 15px xung quanh */
-  font-size: 17px; /* Cỡ chữ 17px */
+  padding: 15px;
+  font-size: 17px;
 }
 
-/* Phụ đề/Chương/Tác giả bên dưới tên truyện */
 .khungtruyenrieng span {
-  padding: 0 15px 15px; /* Đệm trái/phải 15px, dưới 15px */
+  padding: 0 15px 15px;
   display: block; /* Ép xuống dòng riêng */
-  font-size: 13px; /* Cỡ chữ nhỏ 13px */
-  font-weight: 500; /* Đậm vừa */
+  font-size: 13px;
+  font-weight: 500;
 }
 
-/* Thẻ link bọc tiêu đề truyện */
 .khungtruyenrieng a {
-  text-decoration: none; /* Bỏ gạch chân */
-  color: rgb(77, 62, 124); /* Chữ màu tím than đậm */
+  text-decoration: none;
+  color: rgb(77, 62, 124);
 }
 
-/* ==========================================================================
-   7. NÚT XEM THÊM VÀ NÚT QUAY LẠI ĐẦU TRANG (BACK TO TOP)
-   ========================================================================== */
-
-/* Khung căn giữa cho nút xem thêm */
 .xemthem {
   text-align: center; /* Căn giữa nút */
-  margin-top: 30px; /* Cách danh sách truyện ở trên 30px */
+  margin-top: 30px;
 }
 
-/* Nút bấm "Xem thêm" */
 .xemthem button {
-  padding: 12px 30px; /* Khoảng đệm nút */
-  border: none; /* Bỏ viền */
-  border-radius: 30px; /* Bo tròn viên thuốc */
-  background: rgba(252, 236, 236, 0.2); /* Nền mờ nhạt */
-  color: white; /* Chữ trắng */
-  font-size: 16px; /* Cỡ chữ 16px */
-  font-weight: bold; /* Chữ in đậm */
-  cursor: pointer; /* Đổi trỏ chuột bàn tay */
-  transition: 0.3s; /* Hiệu ứng chuyển động mượt */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35); /* Bóng đổ nhẹ */
+  padding: 12px 30px;
+  border: none;
+  border-radius: 30px;
+  background: rgba(252, 236, 236, 0.2);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
 }
 
-/* Hiệu ứng di chuột vào nút xem thêm */
 .xemthem button:hover {
-  background: rgb(134, 98, 242); /* Nền chuyển sang tím */
-  transform: translateY(-3px); /* Nhô nhẹ lên trên 3px */
+  background: rgb(134, 98, 242);
+  transform: translateY(-3px);
 }
 
-/* Nút trôi quay lại đầu trang (Back to top) */
 .quaylai {
   position: fixed; /* Cố định vị trí so với khung hình màn hình */
-  bottom: 30px; /* Cách đáy màn hình 30px */
-  right: 30px; /* Cách lề phải màn hình 30px */
-  width: 55px; /* Rộng 55px */
-  height: 55px; /* Cao 55px */
-  border: none; /* Bỏ viền */
-  border-radius: 50px; /* Bo tròn hình cầu */
-  background: rgba(252, 236, 236, 0.2); /* Nền kính mờ */
-  color: white; /* Biểu tượng/Chữ màu trắng */
-  font-size: 24px; /* Kích thước biểu tượng 24px */
-  cursor: pointer; /* Đổi trỏ chuột bàn tay */
+  bottom: 30px;
+  right: 30px;
+  width: 55px;
+  height: 55px;
+  border: none;
+  border-radius: 50px;
+  background: rgba(252, 236, 236, 0.2);
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
   display: none; /* Ẩn mặc định (Dùng JS hiện lên khi cuộn xuống) */
   z-index: 9999; /* Luôn hiển thị ở lớp trên cùng */
 }
 
-/* Hiệu ứng rê chuột vào nút quay lại */
 .quaylai:hover {
-  background: rgb(134, 98, 242); /* Đổi sang màu nền tím */
+  background: rgb(134, 98, 242);
 }
-
-/* ==========================================================================
-   8. CHÂN TRANG (FOOTER)
-   ========================================================================== */
 
 footer {
-  margin-top: 80px; /* Cách phần nội dung chính phía trên 80px */
-  background: rgb(58, 58, 80); /* Nền xám tím đậm đồng bộ với header */
-  color: white; /* Chữ màu trắng */
-  border-top: 2px solid rgb(134, 98, 242); /* Viền màu tím sáng ở mép trên */
+  margin-top: 80px;
+  background: rgb(58, 58, 80);
+  color: white;
+  border-top: 2px solid rgb(134, 98, 242);
 }
 
-/* Bố cục bên trong Footer */
 .footer {
-  max-width: 1400px; /* Chiều rộng giới hạn tối đa 1400px */
+  max-width: 1400px;
   margin: 0 auto; /* Căn giữa khung footer ra giữa màn hình */
-  padding: 50px 6%; /* Đệm trên/dưới 50px, trái/phải 6% */
+  padding: 50px 6%;
   display: grid; /* Dùng bố cục Grid */
   grid-template-columns: 1fr 1fr 1fr; /* Chia footer thành 3 cột có độ rộng bằng nhau */
-  gap: 70px; /* Khoảng cách giữa các cột là 70px */
+  gap: 70px;
 }
 
-/* Định dạng đoạn văn trong footer */
 .footer_content p {
   display: flex; /* Căn chỉnh các icon/thẻ trong dòng dạng flex */
   align-items: center; /* Căn giữa theo chiều dọc */
-  gap: 6px; /* Khoảng cách 6px giữa các phần tử */
+  gap: 6px;
   flex-wrap: wrap; /* Tự động xuống dòng nếu thiếu chỗ */
 }
 
@@ -452,64 +408,53 @@ footer {
   align-items: baseline; /* Căn dòng theo đường chân chữ */
 }
 
-/* Định dạng liên kết bên trong đoạn văn footer */
 .footer_content p a {
   display: inline-block; /* Hiển thị dạng khối trên dòng */
-  margin-bottom: 0; /* Bỏ khoảng cách đáy */
-}
-
-/* Tiêu đề các cột trong footer */
-.footer_content h3 {
-  color: white; /* Chữ màu trắng */
-  margin-bottom: 20px; /* Cách dòng dưới 20px */
-  font-size: 32px; /* Cỡ chữ 32px */
-}
-
-/* Nội dung văn bản trong footer */
-.footer_content p {
-  color: #cbd5e1; /* Màu chữ xám nhạt dịu mắt */
-  margin-bottom: 12px; /* Cách đoạn dưới 12px */
-  line-height: 1.8; /* Khoảng cách các dòng thoáng 1.8 */
-  font-size: 18px; /* Cỡ chữ 18px */
-  text-align: justify; /* Căn đều chữ 2 bên lề */
-}
-
-/* Thẻ liên kết trong footer */
-.footer_content a {
-  text-decoration: none; /* Bỏ gạch chân */
-  display: block; /* Ép thành khối riêng */
-  color: #cbd5e1; /* Màu chữ xám nhạt */
-  margin-bottom: 12px; /* Cách mục dưới 12px */
-  font-size: 18px; /* Cỡ chữ 18px */
-  transition: 0.3s; /* Hiệu ứng đổi màu 0.3s */
-}
-
-/* Hiệu ứng rê chuột vào liên kết footer */
-.footer_content a:hover {
-  color: rgb(134, 98, 242); /* Đổi màu chữ sang màu tím sáng */
-}
-
-/* Khung chứa các biểu tượng mạng xã hội */
-.social {
-  margin-top: 20px; /* Cách phần trên 20px */
-  display: flex; /* Xếp các icon nằm ngang */
-  gap: 20px; /* Khoảng cách giữa các icon là 20px */
-}
-
-/* Bỏ khoảng cách đáy của liên kết mạng xã hội */
-.social a {
   margin-bottom: 0;
 }
 
-/* ==========================================================================
-   9. CLASS HỖ TRỢ HIỆU ỨNG CUỘN TRANG (ANIMATION CLASS)
-   ========================================================================== */
+.footer_content h3 {
+  color: white;
+  margin-bottom: 20px;
+  font-size: 32px;
+}
+
+.footer_content p {
+  color: #cbd5e1;
+  margin-bottom: 12px;
+  line-height: 1.8;
+  font-size: 18px;
+  text-align: justify; /* Căn đều chữ 2 bên lề */
+}
+
+.footer_content a {
+  text-decoration: none;
+  display: block; /* Ép thành khối riêng */
+  color: #cbd5e1;
+  margin-bottom: 12px;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+.footer_content a:hover {
+  color: rgb(134, 98, 242);
+}
+
+.social {
+  margin-top: 20px;
+  display: flex; /* Xếp các icon nằm ngang */
+  gap: 20px;
+}
+
+.social a {
+  margin-bottom: 0;
+}
 
 /* Trạng thái ẩn phần tử (chuẩn bị xuất hiện khi cuộn tới) */
 .hidden {
   opacity: 0; /* Trong suốt hoàn toàn */
   transform: translateY(50px); /* Dịch chuyển xuống dưới 50px */
-  transition: 0.8s; /* Thời gian thực hiện chuyển động là 0.8s */
+  transition: 0.8s;
 }
 
 /* Trạng thái hiện phần tử (khi kích hoạt qua JS) */
@@ -523,11 +468,7 @@ footer {
   display: none; /* Mặc định ẩn trên màn hình máy tính (PC) */
 }
 
-/* ==========================================================================
-   10. RESPONSIVE - THIẾT BỊ MÁY TÍNH BẢNG (TABLET <= 1024PX)
-   ========================================================================== */
-
-/* Tối ưu hóa giao diện cho màn hình nhỏ hơn 1024px */
+/* ESPONSIVE - THIẾT BỊ MÁY TÍNH BẢNG (TABLET <= 1024PX) */
 @media (max-width: 1024px) {
   /* Chuyển Footer sang dạng 2 cột thay vì 3 cột */
   .footer {
@@ -540,27 +481,21 @@ footer {
   }
 }
 
-/* ==========================================================================
-   11. RESPONSIVE - THIẾT BỊ DI ĐỘNG CHUẨN (MOBILE <= 1000PX)
-   ========================================================================== */
-
-/* Cấu hình lại toàn bộ giao diện cho điện thoại / máy tính bảng nhỏ */
+/* RESPONSIVE - THIẾT BỊ DI ĐỘNG CHUẨN (MOBILE <= 1000PX) */
 @media (max-width: 1000px) {
   /* Điều chỉnh lại Header để vừa màn hình hẹp */
   header {
-    align-items: center; /* Căn giữa vertical */
+    align-items: center;
     flex-wrap: wrap; /* Tự động xuống dòng nếu thiếu chỗ */
     justify-content: space-between; /* Phân bổ đều hai bên */
-    padding: 10px 18px; /* Thu hẹp padding trái/phải */
-    gap: 15px; /* Khoảng cách giữa các hàng/cột */
+    padding: 10px 18px;
+    gap: 15px;
   }
 
-  /* Thu nhỏ khoảng cách Logo */
   .logo {
     margin-right: 10px;
   }
 
-  /* Thu nhỏ kích thước ảnh Logo */
   .logo img {
     width: 55px;
     height: 55px;
@@ -570,10 +505,9 @@ footer {
   nav {
     flex-wrap: wrap; /* Tự xuống dòng */
     justify-content: center; /* Căn giữa các item */
-    gap: 10px; /* Thu hẹp khoảng cách gap */
+    gap: 10px;
   }
 
-  /* Giảm cỡ chữ thẻ nav */
   nav a {
     font-size: 15px;
   }
@@ -582,10 +516,10 @@ footer {
   .theloai_content {
     position: static; /* Bỏ định vị tuyệt đối */
     display: none; /* Ẩn */
-    width: 100%; /* Chiều rộng phủ hết */
+    width: 100%;
     padding: 10px;
     grid-template-columns: repeat(2, 1fr); /* Chia thành 2 cột */
-    box-shadow: none; /* Bỏ bóng đổ */
+    box-shadow: none;
     margin-top: 10px;
   }
 
@@ -608,16 +542,16 @@ footer {
     position: fixed; /* Cố định theo màn hình */
     top: 0;
     left: -270px; /* Giấu menu sang bên trái màn hình */
-    width: 150px; /* Chiều rộng sidebar */
+    width: 150px;
     height: 100vh; /* Phủ kín chiều cao màn hình */
     background: rgb(58, 58, 80);
     display: flex;
     flex-direction: column; /* Xếp các mục menu theo chiều dọc */
     justify-content: flex-start;
     align-items: flex-start;
-    padding: 80px 20px 20px; /* Tránh lẹm vào nút đóng hoặc đỉnh màn hình */
+    padding: 80px 20px 20px;
     gap: 20px;
-    transition: 0.3s; /* Hiệu ứng trượt mượt 0.3s */
+    transition: 0.3s;
     z-index: 9999; /* Nổi lên trên hết */
   }
 
@@ -626,31 +560,26 @@ footer {
     left: 0; /* Trượt ra sát mép trái */
   }
 
-  /* Co giãn ô tìm kiếm */
   .search {
     flex: 1; /* Giúp ô tìm kiếm tự động dãn chiếm hết chỗ trống */
   }
 
-  /* Tăng kích thước ô tìm kiếm trên mobile */
   #inputsearch {
     width: 80%;
     max-width: none; /* Bỏ giới hạn tối đa */
     padding: 12px 18px;
   }
 
-  /* Thu nhỏ chiều cao Banner */
   .background {
     height: 50vh;
     min-height: 350px;
   }
 
-  /* Thu nhỏ cỡ chữ tiêu đề Banner */
   .content_background h1 {
     font-size: 30px;
     line-height: 1.3;
   }
 
-  /* Thu nhỏ tiêu đề section */
   .section h2 {
     font-size: 30px;
   }
@@ -701,18 +630,12 @@ footer {
   }
 }
 
-/* ==========================================================================
-   12. RESPONSIVE - THIẾT BỊ MÀN HÌNH NHỎ (SMALL MOBILE <= 480PX)
-   ========================================================================== */
-
-/* Cấu hình tinh chỉnh riêng cho màn hình điện thoại rất nhỏ */
+/* RESPONSIVE - THIẾT BỊ MÀN HÌNH NHỎ (SMALL MOBILE <= 480PX) */
 @media (max-width: 480px) {
-  /* Giảm tiếp cỡ chữ tiêu đề banner */
   .content_background h1 {
     font-size: 28px;
   }
 
-  /* Thu nhỏ padding của nút CTA banner */
   .content_background button {
     padding: 12px 25px;
     font-size: 16px;
@@ -723,7 +646,6 @@ footer {
     grid-template-columns: 1fr;
   }
 
-  /* Giảm chiều cao logo */
   .logo img {
     height: 55px;
   }
@@ -733,7 +655,6 @@ footer {
     width: 100%;
   }
 
-  /* Thu gọn lề của section */
   .section {
     padding: 20px 4%;
   }
