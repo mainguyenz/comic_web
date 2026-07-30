@@ -404,21 +404,24 @@ function ganTimKiem() {
   });
 }
 // Đổi giao diện
-const nutDoiMau = document.querySelector(".btnToggleDark");
+const cacNutDoiMau = document.querySelectorAll(".btnToggleDark");
 
 function doiCheDoMau() {
   document.body.classList.toggle("dark-mode");
 
-  if (document.body.classList.contains("dark-mode")) {
-    nutDoiMau.textContent = "☀️ Chế độ sáng";
-  } else {
-    nutDoiMau.textContent = "🌙 Chế độ tối";
-  }
+  const dangToi = document.body.classList.contains("dark-mode");
+
+  cacNutDoiMau.forEach((nut) => {
+    nut.textContent = dangToi
+      ? "☀️ Chế độ sáng"
+      : "🌙 Chế độ tối";
+  });
 }
 
-if (nutDoiMau) {
-  nutDoiMau.addEventListener("click", doiCheDoMau);
-}
+cacNutDoiMau.forEach((nut) => {
+  nut.addEventListener("click", doiCheDoMau);
+});
+
 // ==================================================
 // THEO DÕI TRUYỆN TRONG TRANG ĐỌC
 // ==================================================

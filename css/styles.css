@@ -2,22 +2,15 @@
    NÚT CUỘN LÊN ĐẦU TRANG (#btnScrollTop)
    ========================================== */
 #btnScrollTop {
-  /* Cố định vị trí nút khi cuộn trang */
   position: fixed;
-  /* Cách đáy màn hình 30px */
   bottom: 30px;
-  /* Cách mép phải màn hình 30px */
   right: 30px;
   /* Hiển thị trên cùng, đè lên mọi phần tử khác (lớp phủ cao nhất) */
   z-index: 9999;
 
-  /* Chiều rộng nút 50px */
   width: 50px;
-  /* Chiều cao nút 50px */
   height: 50px;
-  /* Màu nền xanh dương (Tailwind blue-500) */
   background-color: #3b82f6;
-  /* Bỏ đường viền mặc định của nút */
   border: none;
   /* Bo tròn 50% để tạo thành hình tròn hoàn hảo */
   border-radius: 50%;
@@ -27,24 +20,21 @@
   /* Căn giữa nội dung bên trong theo trục dọc (Cần display: flex để hoạt động) */
   align-items: center;
 
-  /* Đổi con trỏ chuột thành hình bàn tay khi di chuột vào */
   cursor: pointer;
-  /* Tạo bóng đổ mềm quanh nút để nổi bật hơn */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-  /* Tạo hiệu ứng mượt mà (smooth) khi thay đổi vị trí, màu sắc, độ mờ */
   transition:
     transform 0.2s ease,
     background-color 0.2s,
     opacity 0.3s;
 }
 
-/* Ghi đè bắt buộc cho thẻ header */
+/* Ghi đè hàm bắt buộc cho thẻ header */
 header {
   /* Ép header dùng vị trí tĩnh mặc định, không cuộn dính hay cố định */
   position: static !important;
 }
 
-/* Ghi đè bắt buộc cho thẻ body */
+/* Ghi đè phần bắt buộc cho thẻ body */
 body {
   /* Ép bỏ toàn bộ khoảng đệm phía trên của trang */
   padding-top: 0 !important;
@@ -52,21 +42,16 @@ body {
 
 /* Icon (thẻ i) nằm bên trong nút Scroll Top */
 #btnScrollTop i {
-  /* Màu icon trắng */
   color: #ffffff;
-  /* Kích thước font icon 20px */
   font-size: 20px;
-  /* Chữ/icon in đậm */
   font-weight: bold;
   /* Hiển thị dưới dạng khối nội dòng để nhận các thuộc tính kích thước/transform */
   display: inline-block;
-  /* Hiệu ứng mượt cho các chuyển động transform của icon */
   transition: transform 0.2s;
 }
 
 /* Hiệu ứng khi rê chuột vào nút Scroll Top */
 #btnScrollTop:hover {
-  /* Đổi sang màu xanh dương đậm hơn */
   background-color: #2563eb;
   /* Nổi/bay nhẹ lên trên 5px */
   transform: translateY(-5px);
@@ -82,13 +67,9 @@ body {
    KHUNG CHÍNH (MAIN CONTENT)
    ========================================== */
 main {
-  /* Chiều rộng tối đa của khung chính là 950px */
   max-width: 950px;
-  /* Căn giữa khung main ra giữa màn hình (trên/dưới 20px, trái/phải tự động) */
   margin: 20px auto;
-  /* Khoảng đệm trái/phải 15px để tránh dính sát mép màn hình nhỏ */
   padding: 0 15px;
-  /* Màu nền xám đen/tối */
   background-color: #2b2b2b;
 }
 
@@ -96,7 +77,6 @@ main {
    THANH ĐIỀU HƯỚNG VÀ BỐ CỤC NAV
    ========================================== */
 .div_main {
-  /* Sử dụng Flexbox để xếp các phần tử con theo hàng/cột */
   display: flex;
   /* Căn giữa các item con theo trục ngang */
   justify-content: center;
@@ -107,28 +87,20 @@ main {
   /* Khoảng cách giữa các item con là 12px */
   gap: 12px;
 
-  /* Màu nền xám đen */
   background-color: #2b2b2b;
 
-  /* Khoảng đệm: trên/dưới 8px, trái/phải 20px */
   padding: 8px 20px;
 
-  /* Bo tròn góc thanh điều hướng 12px */
   border-radius: 12px;
-  /* Chiều rộng chiếm toàn bộ khung chứa */
   width: 100%;
-  /* Chiều rộng tối đa là 900px */
   max-width: 900px;
-  /* Căn giữa khối này ra ngoài */
   margin: auto;
 
-  /* Tạo bóng đổ xung quanh thanh điều hướng */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* NAV CHÍNH */
 .navigation--main {
-  /* Bố cụ Flexbox cho khối nav chính */
   display: flex;
   /* Căn giữa theo trục dọc */
   align-items: center;
@@ -147,26 +119,22 @@ main {
   /* Khoảng cách giữa các phần tử nhỏ là 8px */
   gap: 8px;
 
-  /* Màu nền xám sáng hơn tone nền chính chút */
   background-color: #3a3a3a;
 
-  /* Khoảng đệm trong: trên/dưới 6px, trái/phải 10px */
   padding: 6px 10px;
 
-  /* Bo tròn góc 10px */
   border-radius: 10px;
 }
 
 /* LINK CHUNG (THẺ A) */
 .a-main {
-  /* Bỏ gạch chân mặc định của liên kết */
   text-decoration: none;
   color: white;
 
   transition: 0.25s;
 }
 
-/* CÁC NÚT: HOME - MENU - CHỌN TRANG - YÊU THÍCH */
+/* CÁC NÚT: HOME - MENU - CHỌN TRANG - YÊU THÍCH - LÀM TỐI */
 .home,
 .menus,
 .check__line,
@@ -177,13 +145,11 @@ main {
   justify-content: center;
   align-items: center;
 
-  /* Chiều rộng tối thiểu của nút là 45px */
   min-width: 45px;
   height: 40px;
 
   padding: 0 15px;
 
-  /* Bo tròn góc nút 8px */
   border-radius: 8px;
 
   background-color: #3b3b3b;
@@ -302,10 +268,6 @@ main {
   /* Lớp hiển thị cao */
   z-index: 999;
 }
-
-
-
-
 
 
 
