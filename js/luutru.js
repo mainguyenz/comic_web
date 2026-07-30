@@ -104,3 +104,45 @@ function toggleTheoDoiId(idTruyen) {
   alert("Đã thêm truyện vào danh sách theo dõi!");
   return true;
 }
+// THÊM Nhiều truyện
+function themNhieuTheoDoi(danhSachId) {
+  if (!layTaiKhoanLuuTruHienTai()) {
+    alert("Bạn cần đăng nhập để theo dõi truyện!");
+    return false;
+  }
+
+  let danhSach = layDanhSachTheoDoi();
+  let soLuongThem = 0;
+
+  danhSachId.forEach((id) => {
+    const idNum = Number(id);
+    const daCo = danhSach.some((item) => Number(item.id) === idNum);
+
+    if (!daCo) {
+      const truyenChiTiet = typeof layTruyenTheoId === "function" ? layTruyenTheoId(idNum) : null;
+      
+      // Nếu không có hàm layTruyenTheoId, lấy trực tiếp từ duLieuTruyen/danhSachTruyen
+      const truyen = truyenChiTiet || (typeof duLieuTruyen !== "undefined" ? duLieuTruyen.find(t => Number(t.id) === idNum) : null);
+
+      if (truyen) {
+        danhSach.push({
+          id: truyen.id,
+          ten: truyen.ten || truyen.tenTruyen,
+          anhBia: truyen.anhBia || truyen.hinhAnh,
+          tacGia: truyen.tacGia || "Đang cập nhật",
+          tinhTrang: truyen.tinhTrang || "Đang ra",
+          moTa: truyen.moTa || "Chưa có mô tả.",
+          ngayTheoDoi: new Date().toLocaleString("vi-VN")
+        });
+        soLuongThem++;
+      }
+    }
+  });
+
+  if (soLuongThem > 0) {
+    luuDanhSachTheoDoi(danhSach);
+    alert(`Đã thêm ${soLuongThem} truyện vào danh sách theo dõi!`);
+    return true;
+  }
+  return false;
+}
