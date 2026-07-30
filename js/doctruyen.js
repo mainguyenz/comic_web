@@ -405,6 +405,38 @@ function ganTimKiem() {
   });
 }
 
+const KHOA_GIAO_DIEN = "darkMode";
+
+const nutDoiMau = document.querySelector(".btnToggleDark");
+
+// Đổi giao diện
+function doiCheDoMau() {
+  document.body.classList.toggle("dark-mode");
+
+  const dangToi = document.body.classList.contains("dark-mode");
+
+  localStorage.setItem(KHOA_GIAO_DIEN, dangToi);
+
+  nutDoiMau.textContent = dangToi
+    ? "☀️ Chế độ sáng"
+    : "🌙 Chế độ tối";
+}
+
+// Khởi tạo khi mở trang
+function khoiTaoCheDoMau() {
+  const dangToi = localStorage.getItem(KHOA_GIAO_DIEN) === "true";
+
+  if (dangToi) {
+    document.body.classList.add("dark-mode");
+    nutDoiMau.textContent = "☀️ Chế độ sáng";
+  } else {
+    nutDoiMau.textContent = "🌙 Chế độ tối";
+  }
+}
+
+nutDoiMau.addEventListener("click", doiCheDoMau);
+
+khoiTaoCheDoMau();
 // Hàm chính khởi tạo toàn bộ chức năng của trang đọc truyện. 
 //Tránh khởi tạo menu chapter, thanh điều hướng và chức năng khác khi truyện hoặc chapter không tồn tại.
 function khoiTaoTrangDocTruyen() {
