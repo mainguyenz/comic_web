@@ -1,3 +1,13 @@
+/*
+  Họ tên: Lê Khánh Băng
+  MSSV: B2404852
+  Email: bangb2404852@student.ctu.edu.vn
+  Tài liệu tham khảo: 
+  + BGR 
+  + TLTK3 (c5,c6)
+  + W3Schools (https://www.w3schools.com/)
+  + Bootstrap Icons (https://icons.getbootstrap.com/ & jsDelivr CDN)
+*/
 // KHỞI TẠO TIỆN ÍCH CHUNG 
 const layThamSoURL = (tenThamSo) => {
   const params = new URLSearchParams(window.location.search);
