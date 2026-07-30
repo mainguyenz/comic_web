@@ -223,7 +223,7 @@ main {
 .check__line:hover,
 .arrow-box:hover,
 .btnToggleDark:hover,
-.btn-theo-doi.btn-theo-doi:hover {
+.btn-theo-doi:hover {
   background-color: #3b82f6;
 
   /* Nổi nhẹ lên trên 5px */
@@ -411,12 +411,18 @@ body.dark-mode * {
   .menus,
   .check__line,
   .btnToggleDark,
-  .btn-theo-doi,
   .btn-theo-doi {
     min-width: 35px;
     height: 35px;
     padding: 0 10px;
     font-size: 14px;
+  }
+
+  .btnToggleDark {
+    min-width: 30;
+    height: 35px;
+    padding: 0 5px;
+    font-size: 12px;
   }
 
   .arrow-box {
