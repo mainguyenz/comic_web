@@ -96,7 +96,7 @@ function toggleTheoDoiId(idTruyen) {
     tinhTrang: truyenChiTiet.tinhTrang || "Đang ra",
     moTa: truyenChiTiet.moTa || "Chưa có mô tả cho truyện này.",
     // Lưu thẳng theo chuẩn ngày/giờ chuẩn Việt Nam (24h)
-    ngayTheoDoi: new Date().toLocaleString("sv-SE") 
+    ngayTheoDoi: new Date().toLocaleString("vi-VN") 
   };
 
   danhSach.push(thongTinLuu);
