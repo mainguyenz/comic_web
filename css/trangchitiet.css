@@ -11,7 +11,7 @@ body {
   padding: 0;
 }
 
-/* Thanh hướng dẫn (Breadcrumb) */
+/* Breadcrumb dùng để hiển thị đường dẫn điều hướng */
 .breadcrumb {
   display: flex;
   align-items: center;
@@ -109,6 +109,7 @@ body {
 }
 
 /* Nhóm nút thao tác */
+/* Nhóm nút thao tác */
 .chitiet-btns {
   display: flex;
   flex-direction: column;
@@ -117,15 +118,16 @@ body {
 
 .btn-doc {
   display: block;
+  width: 100%;              /* Thêm để các button đều chiều ngang */
   padding: 13px 20px;
   border: none;
   border-radius: 40px;
   font-size: 15px;
   font-weight: 600;
   text-align: center;
-  text-decoration: none;
   cursor: pointer;
   transition: all 0.3s ease;
+  font-family: inherit;     /* Button dùng cùng font với website */
 }
 
 .btn-doc-primary {
@@ -499,13 +501,11 @@ body {
   margin-top: 0;
   margin-bottom: 20px;
 }
-/* Mặc định tự động tính toán cột theo độ rộng màn hình */
-.lien-quan-grid {
-  display: grid;
-  /* Tự động tạo cột có độ rộng tối thiểu 160px, tối đa co giãn 1fr */
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 15px;
-  width: 100%;
+
+.lien-quan-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
 }
 
 .lien-quan-card {
@@ -526,11 +526,12 @@ body {
 }
 
 /* Áp dụng tỉ lệ 2:3 chuẩn cho thẻ truyện liên quan */
-.lien-quan-card img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 2 / 3;
-  object-fit: cover;
+.lien-quan-card img{
+    display:block;
+    width:100%;
+    height:auto;
+    aspect-ratio:2/3;
+    object-fit:cover;
 }
 
 .lien-quan-placeholder {
@@ -777,10 +778,10 @@ body {
   font-size: 14px;
   text-align: center;
 }
-   /*RESPONSIVE (3 MỐC KÍCH THƯỚC: 1024px, 768px, 480px)*/
 
-/* 1. Màn hình Laptop nhỏ / Tablet ngang (<= 1024px) */
+/* Laptop nhỏ / Tablet ngang */
 @media (max-width: 1024px) {
+
   .chitiet-container {
     grid-template-columns: 220px minmax(0, 1fr);
     gap: 25px;
@@ -790,28 +791,27 @@ body {
     font-size: 1.9rem;
   }
 
-  /* Truyện liên quan: 3 Cột */
+  /* Truyện liên quan: 3 cột */
   .lien-quan-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    gap: 18px;
   }
 }
 
-/* 2. Màn hình Tablet đứng (<= 768px) */
+/* Tablet */
 @media (max-width: 768px) {
+
   .chitiet-hero {
     padding-left: 4%;
     padding-right: 4%;
   }
 
-  /* Bố cục chính chuyển thành 1 cột */
   .chitiet-container {
     grid-template-columns: 1fr;
     gap: 25px;
   }
 
   .chitiet-cover-col {
-    width: 100%;
     max-width: 240px;
     margin: 0 auto;
   }
@@ -826,10 +826,10 @@ body {
     justify-content: center;
   }
 
-  /* Truyện liên quan: Duy trì 3 Cột */
+  /* Truyện liên quan: 2 cột */
   .lien-quan-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    gap: 15px;
   }
 
   .chapter-header {
@@ -838,11 +838,11 @@ body {
   }
 }
 
-/* 3. Màn hình Điện thoại / Mobile (<= 480px) */
+/* Mobile */
 @media (max-width: 480px) {
+
   .chitiet-hero {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding: 0 15px;
   }
 
   .chapter-section,
@@ -868,20 +868,15 @@ body {
     min-width: auto;
   }
 
-  .chitiet-btns {
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* Truyện liên quan: 1 Cột căn giữa */
+  /* Truyện liên quan: 1 cột */
   .lien-quan-grid {
-    grid-template-columns:  1fr;
+    grid-template-columns: 1fr;
     gap: 15px;
   }
 
   .lien-quan-card {
-    width: 100%;
     max-width: 280px;
+    width: 100%;
     margin: 0 auto;
   }
 
