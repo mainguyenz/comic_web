@@ -1,3 +1,10 @@
+//  Họ tên: Trần Gia Huy
+//  MSSV: B2408792
+//  Email: huyb2408792@student.ctu.edu.vn
+//  Tài liệu tham khảo:
+//  + BGR
+//  + TLTK3
+//  + w3school
 document.addEventListener("DOMContentLoaded", function () {
   const emailInput = document.getElementById("email");
   const passwordInput = document.getElementById("password");
@@ -8,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const loginForm = document.getElementById("loginForm");
   const togglePassword = document.getElementById("togglePassword");
 
-  // Lấy tài khoản đã đăng ký 
+  // Lấy tài khoản đã đăng ký
   function getAccount() {
     const data = localStorage.getItem("account");
     return data ? JSON.parse(data) : null;
@@ -83,7 +90,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   //Nút hiển thị/ẩn mật khẩu
   togglePassword.addEventListener("click", function () {
-    const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+    const type =
+      passwordInput.getAttribute("type") === "password" ? "text" : "password";
     passwordInput.setAttribute("type", type);
     const icon = this.querySelector("i");
     icon.classList.toggle("bi-eye");
@@ -124,11 +132,14 @@ document.addEventListener("DOMContentLoaded", function () {
     // So sánh email và mật khẩu với tài khoản
     if (account.email === email && account.password === password) {
       // Lưu thông tin người dùng hiện tại (để hiển thị trên header)
-      localStorage.setItem("currentUser", JSON.stringify({
-        fullname: account.fullname,
-        email: account.email,
-        createdAt: account.createdAt || new Date().toISOString()
-      }));
+      localStorage.setItem(
+        "currentUser",
+        JSON.stringify({
+          fullname: account.fullname,
+          email: account.email,
+          createdAt: account.createdAt || new Date().toISOString(),
+        }),
+      );
 
       alert("Đăng nhập thành công! Chuyển hướng đến trang chủ!");
       window.location.href = "trangchu.html";

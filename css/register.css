@@ -1,3 +1,10 @@
+/* Họ tên: Trần Gia Huy 
+ MSSV: B2408792
+ Email: huyb2408792@student.ctu.edu.vn
+ Tài liệu tham khảo: 
+ + BGR 
+ + TLTK3 
+ + w3school */
 .register-container {
   width: 100%;
   max-width: 480px;
@@ -131,7 +138,7 @@
 /* Ẩn nút hiện mật khẩu mặc định trên Microsoft Edge / IE */
 input[type="password"]::-ms-reveal,
 input[type="password"]::-ms-clear {
-    display: none;
+  display: none;
 }
 /* Password wrapper */
 .password-wrapper {

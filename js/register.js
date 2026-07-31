@@ -1,3 +1,10 @@
+//  Họ tên: Trần Gia Huy
+//  MSSV: B2408792
+//  Email: huyb2408792@student.ctu.edu.vn
+//  Tài liệu tham khảo:
+//  + BGR
+//  + TLTK3
+//  + w3school
 document.addEventListener("DOMContentLoaded", function () {
   const usernameInput = document.getElementById("username");
   const emailInput = document.getElementById("email");
@@ -63,7 +70,11 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
     if (val.length < 5) {
-      setError(usernameRow, "Tên người dùng phải có ít nhất 5 kí tự!", usernameMsg);
+      setError(
+        usernameRow,
+        "Tên người dùng phải có ít nhất 5 kí tự!",
+        usernameMsg,
+      );
       return;
     }
     setSuccess(usernameRow, usernameMsg);
@@ -138,7 +149,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Nút hiển thị/ẩn mật khẩu
   togglePassword.addEventListener("click", function () {
-    const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+    const type =
+      passwordInput.getAttribute("type") === "password" ? "text" : "password";
     passwordInput.setAttribute("type", type);
     const icon = this.querySelector("i");
     icon.classList.toggle("bi-eye");
@@ -147,7 +159,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Xử lý sự kiện submit form
   toggleConfirm.addEventListener("click", function () {
-    const type = confirmInput.getAttribute("type") === "password" ? "text" : "password";
+    const type =
+      confirmInput.getAttribute("type") === "password" ? "text" : "password";
     confirmInput.setAttribute("type", type);
     const icon = this.querySelector("i");
     icon.classList.toggle("bi-eye");
@@ -170,7 +183,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const isConfirmValid = confirmRow.classList.contains("success");
     const isAgreed = agreeCheck.checked;
 
-    if (!isUsernameValid || !isEmailValid || !isPasswordValid || !isConfirmValid || !isAgreed) {
+    if (
+      !isUsernameValid ||
+      !isEmailValid ||
+      !isPasswordValid ||
+      !isConfirmValid ||
+      !isAgreed
+    ) {
       alert("Form vẫn còn lỗi!");
       return;
     }
@@ -180,7 +199,7 @@ document.addEventListener("DOMContentLoaded", function () {
       fullname: usernameInput.value.trim(),
       email: emailInput.value.trim(),
       password: passwordInput.value,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
     };
 
     // Lưu tài khoản (ghi đè)

@@ -1,3 +1,10 @@
+//  Họ tên: Trần Gia Huy
+//  MSSV: B2408792
+//  Email: huyb2408792@student.ctu.edu.vn
+//  Tài liệu tham khảo:
+//  + BGR
+//  + TLTK3
+//  + w3school
 document.addEventListener("DOMContentLoaded", function () {
   // Lấy tham số thể loại từ URL
   const urlParams = new URLSearchParams(window.location.search);
