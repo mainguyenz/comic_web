@@ -1,3 +1,13 @@
+/*
+  Họ tên: Lê Khánh Băng
+  MSSV: B2404852
+  Email: bangb2404852@student.ctu.edu.vn
+  Tài liệu tham khảo: 
+  + BGR 
+  + TLTK3 (c5,c6)
+  + W3Schools (https://www.w3schools.com/)
+  + Bootstrap Icons (https://icons.getbootstrap.com/ & jsDelivr CDN)
+*/
 // 1. CẤU HÌNH TRANG THEO DÕI
 const CAU_HINH_THEO_DOI = Object.freeze({
   trangDangNhap: "login.html",
